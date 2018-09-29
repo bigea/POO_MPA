@@ -32,7 +32,7 @@ public class GUISimulator {
 		this.simulateur = simulateur;
 	}
 	
-	public void addGraphicalElement(GraphicalElement e) {
+	public void addGraphicalElement(Rectangle rec) {
 		// TODO
 	}
 	
