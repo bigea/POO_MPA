@@ -61,6 +61,7 @@ public class Carte {
 	/** Accéder au voisin */
 	public Case getVoisin(Case src, Direction dir) {
 		/*A COMPLETER */
+		/* Test git */
 		return null;
 	}
 }
