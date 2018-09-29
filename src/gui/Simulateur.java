@@ -1,12 +1,15 @@
 package gui;
 
 /**
- * Classe Simulable
+ * Classe Simulateur
  */
 
-public class Simulable {
+public class Simulateur implements Simulable {
 	
 	/**
-	 * Classe Simulable
+	 * Classe Simulateur
 	 */
+	
+	// TODO
+	
 }

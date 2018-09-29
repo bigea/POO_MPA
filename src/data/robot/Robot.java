@@ -1,5 +1,6 @@
-package data;
+package data.robot;
 
+import data.Case;
 import data.enumerate.NatureTerrain;
 
 /**
@@ -41,16 +42,16 @@ public abstract class Robot {
 	
 	/** Obtenir la vitesse */
 	public double getVitesse(NatureTerrain nt) {
-		/*A COMPLETER*/
+		// TODO
 	}
 	
 	/** Déverser l'eau */
 	public void deverserEau(int vol) {
-		/*A COMPLETER*/
+		// TODO
 	}
 	
 	/** Remplir réservoir */
 	public void remplirReservoir() {
-		/*A COMPLETER*/
+		// TODO
 	}
 }
