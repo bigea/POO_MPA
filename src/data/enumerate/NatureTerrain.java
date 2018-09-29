@@ -5,6 +5,12 @@ package data.enumerate;
  */
 
 public enum NatureTerrain {
+	
+	/**
+	 * NatureTerrain (type enum)
+	 * 		Enumère les 5 types de terrains
+	 */
+	
 	EAU,
 	FORET,
 	ROCHE,
@@ -13,12 +19,12 @@ public enum NatureTerrain {
 	
 	private String nom = "";
 	
-	/** Constructeur */
+	/* Constructeur */
 	public void Nature(String nom){
 		this.nom = nom;
 	}
 	
-	/** Accesseur */
+	/* Accesseur */
 	public String toString() {
 		return this.nom;
 	}

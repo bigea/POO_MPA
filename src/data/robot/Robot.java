@@ -13,12 +13,12 @@ public abstract class Robot {
      * Classe Robot
      */
 	
-	/** Attributs */
+	/* Attributs */
 	private Case position;
 	private int volume;
 	private NatureRobot nature;
 	
-	/** Accesseurs */
+	/* Accesseurs */
 	public Case getPosition() {
 		return this.position;
 	}
@@ -29,7 +29,7 @@ public abstract class Robot {
 		return this.nature;
 	}
 	
-	/** Mutateurs */
+	/* Mutateurs */
 	public void setPosition(Case pos) {
 		this.position = pos;
 	}
@@ -40,17 +40,17 @@ public abstract class Robot {
 		this.nature = nr;
 	}
 	
-	/** Obtenir la vitesse */
+	/* Obtenir la vitesse */
 	public double getVitesse(NatureTerrain nt) {
 		// TODO
 	}
 	
-	/** Déverser l'eau */
+	/* Déverser l'eau */
 	public void deverserEau(int vol) {
 		// TODO
 	}
 	
-	/** Remplir réservoir */
+	/* Remplir réservoir */
 	public void remplirReservoir() {
 		// TODO
 	}

@@ -12,11 +12,11 @@ public class Incendie {
      * Nombre de litres d'eau nécessaires pour l'éteindre
      */
 	
-	/** Attributs */
+	/* Attributs */
 	private Case position;
 	private int litre;
 	
-	/** Accesseurs */
+	/* Accesseurs */
 	public Case getPosition() {
 		return this.position;
 	}
@@ -24,7 +24,7 @@ public class Incendie {
 		return this.litre;
 	}
 	
-	/** Mutateurs */
+	/* Mutateurs */
 	public void setPosition(Case pos) {
 		this.position = pos;
 	}

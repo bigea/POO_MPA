@@ -5,6 +5,12 @@ package data.enumerate;
  */
 
 public enum Direction {
+	
+	/**
+	 * Direction (type enum)
+	 * 		Enumère les 4 directions
+	 */
+	
 	NORD,
 	SUD,
 	EST,
@@ -12,12 +18,12 @@ public enum Direction {
 	
 	private String nom = "";
 	
-	/** Constructeur */
+	/* Constructeur */
 	public void Nature(String nom){
 		this.nom = nom;
 	}
 	
-	/** Accesseur */
+	/* Accesseur */
 	public String toString() {
 		return this.nom;
 	}
