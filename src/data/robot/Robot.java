@@ -8,7 +8,7 @@ import data.enumerate.NatureTerrain;
  */
 
 public abstract class Robot {
-
+	
     /**
      * Classe Robot
      * 		Avec hérachie (sous-classes)
@@ -32,26 +32,18 @@ public abstract class Robot {
 		return this.volume;
 	}
 	
-	/* Mutateurs */
-	public void setPosition(Case pos) {
-		this.position = pos;
-	}
-	public void setVolume(int vol) {
-		this.volume = vol;
-	}
+	/* Méthodes abstraites */
+	
+	/* Mutateurs*/
+	public abstract void setPosition(Case pos);
+	public abstract void setVolume(int vol);
 	
 	/* Obtenir la vitesse */
-	public double getVitesse(NatureTerrain nt) {
-		// TODO
-	}
+	public abstract double getVitesse(NatureTerrain nt);
 	
 	/* Déverser l'eau */
-	public void deverserEau(int vol) {
-		// TODO
-	}
+	public abstract void deverserEau(int vol);
 	
 	/* Remplir réservoir */
-	public void remplirReservoir() {
-		// TODO
-	}
+	public abstract void remplirReservoir();
 }
