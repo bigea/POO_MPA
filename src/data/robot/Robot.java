@@ -11,12 +11,18 @@ public abstract class Robot {
 
     /**
      * Classe Robot
+     * 		Avec hérachie (sous-classes)
      */
 	
 	/* Attributs */
 	private Case position;
 	private int volume;
-	private NatureRobot nature;
+	
+	/* Constructeur */
+	public Robot(Case pos, int vol) {
+		this.position = pos;
+		this.volume = vol;
+	}
 	
 	/* Accesseurs */
 	public Case getPosition() {
@@ -25,9 +31,6 @@ public abstract class Robot {
 	public int getVolume() {
 		return this.volume;
 	}
-	public NatureRobot getNature() {
-		return this.nature;
-	}
 	
 	/* Mutateurs */
 	public void setPosition(Case pos) {
@@ -35,9 +38,6 @@ public abstract class Robot {
 	}
 	public void setVolume(int vol) {
 		this.volume = vol;
-	}
-	public void setNature(NatureRobot nr) {
-		this.nature = nr;
 	}
 	
 	/* Obtenir la vitesse */
