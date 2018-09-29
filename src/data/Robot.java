@@ -1,13 +1,12 @@
 package data;
 
-import data.enumerate.NatureRobot;
 import data.enumerate.NatureTerrain;
 
 /**
  * Classe Robot
  */
 
-public class Robot {
+public abstract class Robot {
 
     /**
      * Classe Robot

@@ -1,5 +1,6 @@
 package data;
 
+import data.Case;
 import data.enumerate.Direction;
 
 /**
@@ -24,6 +25,9 @@ public class Carte {
 	private int NbLignes;
 	private int NbColonnes;
 	
+	/** Matrice */
+	private Case[][] Matrice;
+	
 	/** Accesseurs */
 	public int getNbLignes() {
 		return this.NbLignes;
@@ -42,14 +46,18 @@ public class Carte {
 	public void setNbColonnes(int nbc) {
 		this.NbColonnes = nbc;
 	}
+	public void setMatrice(int nbl, int nbc) {
+		this.Matrice = new Case[nbl][nbc];
+	}
 	public void setTailleCases(int tc) {
 		this.tailleCases = tc;
 	}
 	
 	/** Accéder à une case */
 	public Case getCase(int lig, int col) {
-		/*A COMPLETER*/
-		return null;
+		if((lig <= this.NbLignes) && (col <= this.NbColonnes)) {
+			return this.Matrice[lig][col];
+		}
 	}
 	
 	/** Existence du voisin */
@@ -61,7 +69,6 @@ public class Carte {
 	/** Accéder au voisin */
 	public Case getVoisin(Case src, Direction dir) {
 		/*A COMPLETER */
-		/* Test git */
 		return null;
 	}
 }
