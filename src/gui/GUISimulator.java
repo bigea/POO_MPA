@@ -32,15 +32,15 @@ public class GUISimulator {
 		this.simulateur = simulateur;
 	}
 	
-	public void addGraphicalElement(Rectangle rec) {
+	public void addGraphicalElement(GraphicalElement e) {
 		// TODO
 	}
 	
 	/* Accesseur */
-	public int getHauteur() {
+	public int getHeight() {
 		return this.hau;
 	}
-	public int getLargeur() {
+	public int getWidth() {
 		return this.lar;
 	}
 	

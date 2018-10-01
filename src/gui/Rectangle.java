@@ -1,14 +1,18 @@
 package gui;
 
+import java.awt.Color;
+
 /**
  * Classe Rectangle
  */
 
-public class Rectangle {
+public class Rectangle extends GraphicalElement{
 	
 	/**
 	 * Classe Rectangle
 	 */
-	
-	// TODO
+
+	public Rectangle(int i, int y, Color invaderColor, Color invaderColor2, int j) {
+		// TODO Auto-generated constructor stub
+	}
 }
