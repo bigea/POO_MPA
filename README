@@ -35,15 +35,16 @@ Etapes du projet :
 		=> Carte
 		=> Case
 		=> Incendie
-		=> Robot : - terrestre
+		=> Robot : - terrestre (3 types)
 				   - aérien
+				 
 
 	(j'ai créé des enum pour NatureTerrain et Direction, il faudra peut-être leur ajouter des méthodes)
 
 !!!! A CE STADE : on aura un objet de classe DonneesSimulation avec toutes les données du fichier map
 
 2) Comprendre l'histoire du simulateur (dossier GUI) j'ai pas tout compris, j'ai juste créé les classes selon la doc qu'ils donnaient
-- compléter les classes GUISimulator, Simulable, Simulateur, Text
+- compléter les classes GUISimulator, Simulable, Simulateur, Text, Rectangle, GraphicalElement
 
 3) Simulation de scénarios
 - ajout d'un gestionnaire d'évènements au simulateur
