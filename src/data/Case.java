@@ -14,12 +14,12 @@ public class Case {
      *		Colonne
      * 		Nature du terrain
      */
-	
+
 	/* Attributs */
 	private int ligne;
 	private int colonne;
 	private NatureTerrain nature;
-	
+
 	/* Accesseurs */
 	public int getLigne() {
 		return this.ligne;
@@ -30,7 +30,7 @@ public class Case {
 	public NatureTerrain getNature() {
 		return this.nature;
 	}
-	
+
 	/* Mutateurs */
 	public void setLigne(int nl) {
 		this.ligne = nl;
