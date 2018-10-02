@@ -75,7 +75,7 @@ public class Carte {
     if (this.voisinExiste(src, dir)){
       int src_ligne = src.getLigne();
       int src_colonne = src.getColonne();
-      Case voisin;
+      Case voisin = src;
       switch(dir){
         case NORD:
           voisin = this.matrice[src_ligne - 1][src_colonne];
