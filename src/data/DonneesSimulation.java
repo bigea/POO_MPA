@@ -18,10 +18,10 @@ public class DonneesSimulation {
 	private Robot[] robots;
 
 	/* Constructeur */
-	public DonneesSimulation(Carte carte, Incendie[] incendies, Robot[] robots) {
+	public DonneesSimulation(Carte carte, int nbIncendies, int nbRobots) {
 		this.carte = carte;
-		this.incendies = incendies;
-		this.robots = robots;
+		this.incendies = new Incendie[nbIncendies];
+		this.robots = new Robot[nbRobots];
 	}
 	
 	/* Accesseurs */

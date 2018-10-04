@@ -2,6 +2,7 @@ package data;
 
 import data.Case;
 import data.enumerate.Direction;
+import data.enumerate.NatureTerrain;
 
 /**
  * Classe Carte
@@ -25,7 +26,8 @@ public class Carte {
 	private Case[][] matrice;
 
 	/* Constructeur */
-	public Carte(int nbl, int nbc) {
+	public Carte(int tc, int nbl, int nbc) {
+		this.tailleCases = tc;
 		this.nbLignes = nbl;
 		this.nbColonnes = nbc;
 		this.matrice = new Case[nbl][nbc];
@@ -45,6 +47,11 @@ public class Carte {
 	/* Accéder à une case */
 	public Case getCase(int lig, int col) {
 		return this.matrice[lig][col];
+	}
+	
+	/* Instancier une case dans la matrice */
+	public void setCase(Case cas) {
+		matrice[cas.getLigne()][cas.getColonne()] = cas;
 	}
 
 	/* Existence du voisin */

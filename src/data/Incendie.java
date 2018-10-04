@@ -16,6 +16,12 @@ public class Incendie {
 	private Case position;
 	private int litre;
 
+	/* Constructeur */
+	public Incendie(Case pos, int litre) {
+		this.position = pos;
+		this.litre = litre;
+	};
+	
 	/* Accesseurs */
 	public Case getPosition() {
 		return this.position;

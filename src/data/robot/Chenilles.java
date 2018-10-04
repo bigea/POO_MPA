@@ -1,5 +1,7 @@
 package data.robot;
 
+import java.util.zip.DataFormatException;
+
 import data.Case;
 import data.enumerate.NatureTerrain;
 
@@ -14,19 +16,14 @@ public class Chenilles extends Robot {
 	 * Classe Chenilles (Robot Terrestre)
 	 */
 
-	public Chenilles(Case pos, int vol) {
-		super(pos, vol);
-		// TODO Auto-generated constructor stub
+	public Chenilles(Case pos) {
+		super(pos);
+		this.setVolume(2000);
+		this.setVitesse(vitesse);
 	}
 
 	@Override
 	public void setPosition(Case pos) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setVolume(int vol) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -47,5 +44,16 @@ public class Chenilles extends Robot {
 	public void remplirReservoir() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void setVitesse(int vitesse) {
+		if(vitesse > 80) {
+			this.vitesse = 80;
+		}
+		if (this.getPosition().getNature() == NatureTerrain.FORET) {
+			this.vitesse = vitesse/2;
+		}
+		this.vitesse = vitesse;		
 	}
 }

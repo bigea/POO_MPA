@@ -13,9 +13,10 @@ public class Roues extends Robot {
 	 * Classe Roues (Robot Terrestre)
 	 */
 	
-	public Roues(Case pos, int vol) {
-		super(pos, vol);
-		// TODO Auto-generated constructor stub
+	public Roues(Case pos) {
+		super(pos);
+		this.setVolume(5000);
+		this.setVitesse(80);
 	}
 
 	@Override
@@ -45,6 +46,10 @@ public class Roues extends Robot {
 	@Override
 	public void remplirReservoir() {
 		// TODO Auto-generated method stub
-		
+	}
+
+	@Override
+	public void setVitesse(int vitesse) {
+		this.vitesse = vitesse;		
 	}
 }

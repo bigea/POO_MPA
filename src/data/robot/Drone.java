@@ -14,19 +14,14 @@ public class Drone extends Robot {
      * 		Hiérarchie des classes avec Drone => Robot
      */
 	
-	public Drone(Case pos, int vol) {
-		super(pos, vol);
-		// TODO Auto-generated constructor stub
+	public Drone(Case pos) {
+		super(pos);
+		this.setVolume(10000);
+		this.setVitesse(100);
 	}
 
 	@Override
 	public void setPosition(Case pos) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setVolume(int vol) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -47,5 +42,13 @@ public class Drone extends Robot {
 	public void remplirReservoir() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void setVitesse(int vitesse) {
+		if(vitesse > 150) {
+			this.vitesse = 150;
+		}
+		this.vitesse = vitesse;		
 	}
 }

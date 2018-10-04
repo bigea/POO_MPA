@@ -17,10 +17,15 @@ public abstract class Robot {
 	/* Attributs */
 	private Case position;
 	private int volume;
+	protected int vitesse;
 	
 	/* Constructeur */
-	public Robot(Case pos, int vol) {
-		this.position = pos;
+	public Robot(Case pos) {
+		this.setPosition(pos);
+	}
+	
+	
+	public void setVolume(int vol) {
 		this.volume = vol;
 	}
 	
@@ -34,9 +39,11 @@ public abstract class Robot {
 	
 	/* Méthodes abstraites */
 	
-	/* Mutateurs*/
+	/* Position */
 	public abstract void setPosition(Case pos);
-	public abstract void setVolume(int vol);
+
+	/* Instancer la vitesse*/
+	public abstract void setVitesse(int vitesse);
 	
 	/* Obtenir la vitesse */
 	public abstract double getVitesse(NatureTerrain nt);
@@ -46,4 +53,7 @@ public abstract class Robot {
 	
 	/* Remplir réservoir */
 	public abstract void remplirReservoir();
+
+	/* Insérer une vitesse */
+
 }

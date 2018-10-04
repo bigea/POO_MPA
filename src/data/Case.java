@@ -19,6 +19,13 @@ public class Case {
 	private int ligne;
 	private int colonne;
 	private NatureTerrain nature;
+	
+	/* Constructeur */
+	public Case(int ligne, int colonne, NatureTerrain nature) {
+		this.ligne = ligne;
+		this.colonne = colonne;
+		this.nature = nature;
+	}
 
 	/* Accesseurs */
 	public int getLigne() {
