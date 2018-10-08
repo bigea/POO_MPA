@@ -20,7 +20,7 @@ public class TestCreationDonnees {
 
         try {
         	DonneesSimulation donnees = LecteurDonnees.creeDonnees(args[0]);
-        	System.out.println(donnees);
+        	//System.out.println(donnees);
         } catch (FileNotFoundException e) {
             System.out.println("fichier " + args[0] + " inconnu ou illisible");
         } catch (DataFormatException e) {

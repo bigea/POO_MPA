@@ -1,7 +1,5 @@
 package data.robot;
 
-import java.util.zip.DataFormatException;
-
 import data.Case;
 import data.enumerate.NatureTerrain;
 
