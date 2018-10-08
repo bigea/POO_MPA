@@ -19,6 +19,11 @@ public abstract class Robot {
 	private int volume;
 	protected int vitesse;
 	
+	/* Affichage */
+	public String toString() {
+		return this.getPosition().getLigne()+" "+this.getPosition().getColonne()+" "+this.getVolume();
+	}
+	
 	/* Constructeur */
 	public Robot(Case pos) {
 		this.setPosition(pos);

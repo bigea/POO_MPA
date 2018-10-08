@@ -67,13 +67,28 @@ public class LecteurDonnees {
      */
     public static DonneesSimulation creeDonnees(String fichierDonnees)
     	throws FileNotFoundException, DataFormatException {
+    		// Nouveau objet LecteurDonnees
             LecteurDonnees lecteur = new LecteurDonnees(fichierDonnees);
+            // Nouvel objet carte à partir du fichier
             Carte carte = lecteur.creeCarte();
+            // On récupère le nombre d'incendies
             int nbIncendies = lecteur.nbIncendies();
+            // Création des objets incendie dans un tableau
             Incendie[] incendies = lecteur.creeIncendies(nbIncendies, carte);
+            // On récupère le nombre de robots
             int nbRobots = lecteur.nbRobots();
+            //Création des objets robots dans un tableau
             Robot[] robots = lecteur.creeRobots(nbRobots, carte);
+            // Nouvel objet DonneesSimulation (avec tableaux vides)
             DonneesSimulation donnees = new DonneesSimulation(carte, nbIncendies, nbRobots);
+            // On remplie le tableau des incendies de donnees
+            for(int i = 0; i <= nbIncendies; i++) {
+            	donnees.addIncendie(incendies[i], i);
+            }
+            //On remplie le tableau des robots de donnees
+            for(int i = 0; i <= nbRobots; i++) {
+            	donnees.addRobot(robots[i], i);
+            }
             scanner.close();
             return donnees;
     }
@@ -279,11 +294,10 @@ public class LecteurDonnees {
      */
     private Case creeCase(int lig, int col) throws DataFormatException {
         ignorerCommentaires();
-        NatureTerrain nature;
         try {
             String chaineNature = scanner.next();
-            nature = NatureTerrain.valueOf(chaineNature);
             verifieLigneTerminee();
+            NatureTerrain nature = NatureTerrain.valueOf(chaineNature);
             Case cas = new Case(lig, col, nature);
             return cas;
         } catch (NoSuchElementException e) {

@@ -24,15 +24,34 @@ public class Carte {
 	private int nbLignes;
 	private int nbColonnes;
 	private Case[][] matrice;
+	
+	/* Affichage */
+	public String toString() {
+		return this.getNbLignes()+" "+this.getNbColonnes()+" "+this.getTailleCases();
+	}
 
 	/* Constructeur */
 	public Carte(int tc, int nbl, int nbc) {
-		this.tailleCases = tc;
-		this.nbLignes = nbl;
-		this.nbColonnes = nbc;
-		this.matrice = new Case[nbl][nbc];
+		this.setTailleCases(tc);
+		this.setNbLignes(nbl);
+		this.setNbColonnes(nbc);
+		this.setMatrice();
 	}
 
+	/* Mutateurs */
+	public void setNbLignes(int nbl) {
+		this.nbLignes = nbl;
+	}
+	public void setNbColonnes(int nbc) {
+		this.nbColonnes = nbc;
+	}
+	public void setTailleCases(int tc) {
+		this.tailleCases = tc;
+	}
+	public void setMatrice() {
+		this.matrice = new Case[this.getNbLignes()][this.getNbColonnes()];
+	}
+	
 	/* Accesseurs */
 	public int getNbLignes() {
 		return this.nbLignes;
