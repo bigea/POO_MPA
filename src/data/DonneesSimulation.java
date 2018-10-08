@@ -22,31 +22,43 @@ public class DonneesSimulation {
 	/* Constructeur */
 	public DonneesSimulation(Carte carte, int nbIncendies, int nbRobots) {
 		this.carte = carte;
+		this.nbIncendies = nbIncendies;
+		this.nbRobots = nbRobots;
 		this.incendies = new Incendie[nbIncendies];
 		this.robots = new Robot[nbRobots];
 	}
 	
-	/* Affichage */
+	/* Affichage comme dans le fichier d'origine*/
 	public String toString() {
 		String chaine = this.getCarte().toString();
+		int nbLignes = this.getCarte().getNbLignes();
+		int nbColonnes = this.getCarte().getNbColonnes();
 		chaine += "\n";
-		for(int i = 0; i <= this.getCarte().getNbLignes(); i++) {
+		for(int i = 0; i < nbLignes; i++) {
 			chaine += "#l"+i;
-			for(int j = 0; j <= this.getCarte().getNbColonnes(); i++) {
+			chaine += "\n";
+			for(int j = 0; j < nbColonnes; j++) {
 				chaine += this.getCarte().getCase(i,j).toString();
 				chaine += "\n";
 			}
 			chaine += "\n";
 		}
 		chaine += "# Incendies";
-		for(int i = 0; i <= this.getNbIncendies(); i++) {
+		chaine += "\n";
+		int nbIncendies = this.getNbIncendies();
+		chaine += nbIncendies + "\n";
+		for(int i = 0; i < nbIncendies; i++) {
     		chaine += this.getIncendies()[i].toString();
     		chaine += "\n";
         }
 		chaine += "\n";
 		chaine += "# Robots";
-    	for(int i = 0; i <= this.getNbRobots(); i++) {
+		chaine += "\n";
+		int nbRobots = this.getNbRobots();
+		chaine += nbRobots + "\n";
+    	for(int i = 0; i < nbRobots; i++) {
     		chaine += this.getRobots()[i].toString();
+    		chaine += "\n";
         }
     	chaine += "\n";
     	return chaine;

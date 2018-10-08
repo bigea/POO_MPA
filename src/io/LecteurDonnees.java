@@ -82,11 +82,11 @@ public class LecteurDonnees {
             // Nouvel objet DonneesSimulation (avec tableaux vides)
             DonneesSimulation donnees = new DonneesSimulation(carte, nbIncendies, nbRobots);
             // On remplie le tableau des incendies de donnees
-            for(int i = 0; i <= nbIncendies; i++) {
+            for(int i = 0; i < nbIncendies; i++) {
             	donnees.addIncendie(incendies[i], i);
             }
             //On remplie le tableau des robots de donnees
-            for(int i = 0; i <= nbRobots; i++) {
+            for(int i = 0; i < nbRobots; i++) {
             	donnees.addRobot(robots[i], i);
             }
             scanner.close();

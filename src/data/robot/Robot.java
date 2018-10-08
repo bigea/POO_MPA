@@ -15,24 +15,17 @@ public abstract class Robot {
      */
 	
 	/* Attributs */
-	private Case position;
-	private int volume;
+	protected Case position;
+	protected int volume;
 	protected int vitesse;
-	
-	/* Affichage */
-	public String toString() {
-		return this.getPosition().getLigne()+" "+this.getPosition().getColonne()+" "+this.getVolume();
-	}
 	
 	/* Constructeur */
 	public Robot(Case pos) {
 		this.setPosition(pos);
 	}
 	
-	
-	public void setVolume(int vol) {
-		this.volume = vol;
-	}
+	/* Affichage */
+	public abstract String toString();
 	
 	/* Accesseurs */
 	public Case getPosition() {
@@ -41,13 +34,14 @@ public abstract class Robot {
 	public int getVolume() {
 		return this.volume;
 	}
-	
-	/* Méthodes abstraites */
-	
-	/* Position */
-	public abstract void setPosition(Case pos);
 
-	/* Instancer la vitesse*/
+	/* Mutateurs */
+	public void setPosition(Case cas) {
+		this.position = cas;
+	}
+	public void setVolume(int vol) {
+		this.volume = vol;
+	}
 	public abstract void setVitesse(int vitesse);
 	
 	/* Obtenir la vitesse */
@@ -58,7 +52,4 @@ public abstract class Robot {
 	
 	/* Remplir réservoir */
 	public abstract void remplirReservoir();
-
-	/* Insérer une vitesse */
-
 }

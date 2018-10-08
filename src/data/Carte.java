@@ -2,7 +2,6 @@ package data;
 
 import data.Case;
 import data.enumerate.Direction;
-import data.enumerate.NatureTerrain;
 
 /**
  * Classe Carte
@@ -97,7 +96,6 @@ public class Carte {
 
 	/* Accéder au voisin */
 	public Case getVoisin(Case src, Direction dir) {
-		// TODO
     if (this.voisinExiste(src, dir)){
       int src_ligne = src.getLigne();
       int src_colonne = src.getColonne();

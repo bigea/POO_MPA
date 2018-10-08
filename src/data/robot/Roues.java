@@ -18,23 +18,20 @@ public class Roues extends Robot {
 		this.setVolume(5000);
 		this.setVitesse(80);
 	}
-
+	
 	@Override
-	public void setPosition(Case pos) {
-		// TODO Auto-generated method stub
-		
+	public void setVitesse(int vitesse) {
+		if (this.getPosition().getNature() != NatureTerrain.TERRAIN_LIBRE && this.getPosition().getNature() != NatureTerrain.HABITAT) {
+			this.vitesse = 0;
+		} else {
+			this.vitesse = vitesse;
+		}
 	}
-
-	@Override
-	public void setVolume(int vol) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
 	@Override
 	public double getVitesse(NatureTerrain nt) {
 		// TODO Auto-generated method stub
-		return 0;
+		return this.vitesse;
 	}
 
 	@Override
@@ -48,8 +45,9 @@ public class Roues extends Robot {
 		// TODO Auto-generated method stub
 	}
 
+
 	@Override
-	public void setVitesse(int vitesse) {
-		this.vitesse = vitesse;		
+	public String toString() {
+		return this.getPosition().getLigne()+" "+this.getPosition().getColonne()+" ROUES "+this.getVitesse(this.getPosition().getNature());
 	}
 }

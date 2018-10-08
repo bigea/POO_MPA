@@ -19,17 +19,20 @@ public class Drone extends Robot {
 		this.setVolume(10000);
 		this.setVitesse(100);
 	}
-
+	
 	@Override
-	public void setPosition(Case pos) {
-		// TODO Auto-generated method stub
-		
+	public void setVitesse(int vitesse) {
+		if(vitesse > 150) {
+			this.vitesse = 150;
+		} else {
+			this.vitesse = vitesse;	
+		}
 	}
-
+		
 	@Override
 	public double getVitesse(NatureTerrain nt) {
 		// TODO Auto-generated method stub
-		return 0;
+		return this.vitesse;
 	}
 
 	@Override
@@ -45,10 +48,9 @@ public class Drone extends Robot {
 	}
 
 	@Override
-	public void setVitesse(int vitesse) {
-		if(vitesse > 150) {
-			this.vitesse = 150;
-		}
-		this.vitesse = vitesse;		
+	public String toString() {
+		return this.getPosition().getLigne()+" "+this.getPosition().getColonne()+" DRONE "+this.getVitesse(this.getPosition().getNature());
+
 	}
+
 }
