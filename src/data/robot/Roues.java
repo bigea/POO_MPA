@@ -42,7 +42,7 @@ public class Roues extends Robot {
 
 	@Override
 	public void remplirReservoir() {
-		// TODO Auto-generated method stub
+		this.setVolume(5000);
 	}
 
 

@@ -46,8 +46,7 @@ public class Chenilles extends Robot {
 
 	@Override
 	public void remplirReservoir() {
-		// TODO Auto-generated method stub
-		
+		this.setVolume(2000);	
 	}
 
 	@Override

@@ -31,6 +31,6 @@ public class EvenementMessage extends Evenement {
 	
 	/* Exécution de l'évènement */
 	public void execute() {
-		System.out.println(this.getDate() + this.getMessage());
+		System.out.println(this.getDate() +" "+ this.getMessage());
 	}
 }

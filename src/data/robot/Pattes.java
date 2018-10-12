@@ -15,7 +15,7 @@ public class Pattes extends Robot {
 	
 	public Pattes(Case pos) {
 		super(pos);
-		this.setVolume(20000);
+		this.setVolume(200000);
 		this.setVitesse(30);
 	}
 	
@@ -42,8 +42,7 @@ public class Pattes extends Robot {
 
 	@Override
 	public void remplirReservoir() {
-		// TODO Auto-generated method stub
-		
+		this.setVolume(200000);
 	}
 
 	@Override
