@@ -13,7 +13,7 @@ public class EvenementMessage extends Evenement {
 	private String message;
 	
 	/* Constructeur */
-	public EvenementMessage(Date date, String message) {
+	public EvenementMessage(int date, String message) {
 		super(date);
 		this.setMessage(message);
 	}

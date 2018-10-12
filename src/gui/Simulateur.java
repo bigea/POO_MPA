@@ -1,6 +1,5 @@
 package gui;
 
-import events.Date;
 import events.Evenement;
 
 /**
@@ -13,20 +12,22 @@ public class Simulateur implements Simulable {
 	 * Classe Simulateur
 	 */
 	
-	private Date dateSimulation;
+	private int dateSimulation;
+	private Evenement[][] events;
 	
 	/* Constructeur */
-	public Simulateur(Date date) {
+	public Simulateur(int date) {
 		this.setDateSimulation(date);
+		this.events = new Evenement[0][0];
 	}
 	
 	
 	/* Mutateur */
-	public void setDateSimulation(Date date) {
+	public void setDateSimulation(int date) {
 		this.dateSimulation = date;
 	}
 	/* Accesseur */
-	public Date getDateSimulation() {
+	public int getDateSimulation() {
 		return this.dateSimulation;
 	}
 	
@@ -37,13 +38,21 @@ public class Simulateur implements Simulable {
 	}
 	/* Incrémente date et exécute tous les évènements jusqu'à cette date */
 	public void incrementeDate() {
-		this.getDateSimulation().incremente();
-		//TODO
+		int avant = this.dateSimulation;
+		this.dateSimulation += 1;
+		
+		for(int dt = avant; dt < this.dateSimulation; dt++) {
+			for(int e = 0; e < this.events[dt].length; e++) {
+				this.events[dt][e].execute();
+			}
+		}
 	}
 	/* Simulation terminée */
 	public boolean simulationTerminee() {
-		boolean termine = false;
-		//TODO
-		return termine;
+		if(this.dateSimulation == this.events.length) {
+			return true;
+		}
+		return false;
 	}
+
 }

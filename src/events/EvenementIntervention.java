@@ -17,7 +17,7 @@ public class EvenementIntervention extends Evenement {
 	private Incendie incendie;
 	
 	/* Constructeur */
-	public EvenementIntervention(Date date, Robot rbt, Incendie inc) {
+	public EvenementIntervention(int date, Robot rbt, Incendie inc) {
 		super(date);
 		this.setRobot(rbt);
 		this.setIncendie(inc);

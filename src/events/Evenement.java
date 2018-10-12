@@ -10,20 +10,20 @@ public abstract class Evenement {
 	 * 		héritée de sous-classes qui représenteront des évènements réels avec leurs propres propriétés
 	 */
 	
-	private Date date;
+	private int date;
 	
 	/* Constructeur */
-	public Evenement(Date date) {
+	public Evenement(int date) {
 		this.setDate(date);
 	}
 	
 	/* Mutateurs */
-	public void setDate(Date date) {
+	public void setDate(int date) {
 		this.date = date;
 	}
 	
 	/* Accesseur */
-	public Date getDate() {
+	public int getDate() {
 		return this.date;
 	}
 	

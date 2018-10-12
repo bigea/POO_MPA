@@ -15,7 +15,7 @@ public class EvenementRemplissage extends Evenement {
 	private Robot robot;
 	
 	/* Constructeur */
-	public EvenementRemplissage(Date date, Robot rbt) {
+	public EvenementRemplissage(int date, Robot rbt) {
 		super(date);
 		this.setRobot(rbt);
 	}

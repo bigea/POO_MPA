@@ -17,7 +17,7 @@ public class EvenementDeplacement extends Evenement {
 	private Case destination;
 	
 	/* Constructeur */
-	public EvenementDeplacement(Date date, Robot rbt, Case dest) {
+	public EvenementDeplacement(int date, Robot rbt, Case dest) {
 		super(date);
 		this.setRobot(rbt);
 		this.setCase(dest);
