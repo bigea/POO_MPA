@@ -15,14 +15,17 @@ public abstract class Robot {
      */
 
 	/* Attributs */
-	private Case position;
-	private int volume;
+	protected Case position;
+	protected int volume;
+	protected int vitesse;
 
 	/* Constructeur */
-	public Robot(Case pos, int vol) {
-		this.position = pos;
-		this.volume = vol;
+	public Robot(Case pos) {
+		this.setPosition(pos);
 	}
+
+	/* Affichage */
+	public abstract String toString();
 
 	/* Accesseurs */
 	public Case getPosition() {
@@ -32,12 +35,16 @@ public abstract class Robot {
 		return this.volume;
 	}
 
-	/* Méthodes abstraites */
 
-	/* Mutateurs*/
-	public abstract void setPosition(Case pos);
-	public abstract void setVolume(int vol);
-
+	/* Mutateurs */
+	public void setPosition(Case cas) {
+		this.position = cas;
+	}
+	public void setVolume(int vol) {
+		this.volume = vol;
+	}
+	public abstract void setVitesse(int vitesse);
+	
 	/* Obtenir la vitesse */
 	public abstract double getVitesse(NatureTerrain nt);
 

@@ -1,7 +1,6 @@
-/Invader.class
-/TestInvader.class
-/TestLecteurDonnees.class
-/data/
+/TestCreationDonnees.class
+/script.sh
+/events/
 /gui/
-/io/
-/GrapicalElement/
+/TestSimulateur.class
+/data/

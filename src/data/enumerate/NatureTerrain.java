@@ -11,22 +11,22 @@ public enum NatureTerrain {
 	 * 		Enumère les 5 types de terrains
 	 */
 	
-	EAU,
-	FORET,
-	ROCHE,
-	TERRAIN_LIBRE,
-	HABITAT;
+	EAU ("EAU"),
+	FORET ("FORET"),
+	ROCHE ("ROCHE"),
+	TERRAIN_LIBRE ("TERRAIN LIBRE"),
+	HABITAT ("HABITAT");
 	
-	private String nom = "";
+	private final String value;
 	
 	/* Constructeur */
-	public void Nature(String nom){
-		this.nom = nom;
+	private NatureTerrain(String value){
+		this.value = value;
 	}
 	
 	/* Accesseur */
-	public String toString() {
-		return this.nom;
+	public String getNom(){
+		return value;
 	}
 }
 

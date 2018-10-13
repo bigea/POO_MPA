@@ -13,27 +13,25 @@ public class Roues extends Robot {
 	 * Classe Roues (Robot Terrestre)
 	 */
 	
-	public Roues(Case pos, int vol) {
-		super(pos, vol);
-		// TODO Auto-generated constructor stub
+	public Roues(Case pos) {
+		super(pos);
+		this.setVolume(5000);
+		this.setVitesse(80);
 	}
-
+	
 	@Override
-	public void setPosition(Case pos) {
-		// TODO Auto-generated method stub
-		
+	public void setVitesse(int vitesse) {
+		if (this.getPosition().getNature() != NatureTerrain.TERRAIN_LIBRE && this.getPosition().getNature() != NatureTerrain.HABITAT) {
+			this.vitesse = 0;
+		} else {
+			this.vitesse = vitesse;
+		}
 	}
-
-	@Override
-	public void setVolume(int vol) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
 	@Override
 	public double getVitesse(NatureTerrain nt) {
 		// TODO Auto-generated method stub
-		return 0;
+		return this.vitesse;
 	}
 
 	@Override
@@ -44,7 +42,12 @@ public class Roues extends Robot {
 
 	@Override
 	public void remplirReservoir() {
-		// TODO Auto-generated method stub
-		
+		this.setVolume(5000);
+	}
+
+
+	@Override
+	public String toString() {
+		return this.getPosition().getLigne()+" "+this.getPosition().getColonne()+" ROUES "+this.getVitesse(this.getPosition().getNature());
 	}
 }

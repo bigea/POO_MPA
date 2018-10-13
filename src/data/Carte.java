@@ -23,14 +23,34 @@ public class Carte {
 	private int nbLignes;
 	private int nbColonnes;
 	private Case[][] matrice;
-
-	/* Constructeur */
-	public Carte(int nbl, int nbc) {
-		this.nbLignes = nbl;
-		this.nbColonnes = nbc;
-		this.matrice = new Case[nbl][nbc];
+	
+	/* Affichage */
+	public String toString() {
+		return this.getNbLignes()+" "+this.getNbColonnes()+" "+this.getTailleCases();
 	}
 
+	/* Constructeur */
+	public Carte(int tc, int nbl, int nbc) {
+		this.setTailleCases(tc);
+		this.setNbLignes(nbl);
+		this.setNbColonnes(nbc);
+		this.setMatrice();
+	}
+
+	/* Mutateurs */
+	public void setNbLignes(int nbl) {
+		this.nbLignes = nbl;
+	}
+	public void setNbColonnes(int nbc) {
+		this.nbColonnes = nbc;
+	}
+	public void setTailleCases(int tc) {
+		this.tailleCases = tc;
+	}
+	public void setMatrice() {
+		this.matrice = new Case[this.getNbLignes()][this.getNbColonnes()];
+	}
+	
 	/* Accesseurs */
 	public int getNbLignes() {
 		return this.nbLignes;
@@ -45,6 +65,11 @@ public class Carte {
 	/* Accéder à une case */
 	public Case getCase(int lig, int col) {
 		return this.matrice[lig][col];
+	}
+	
+	/* Instancier une case dans la matrice */
+	public void setCase(Case cas) {
+		matrice[cas.getLigne()][cas.getColonne()] = cas;
 	}
 
 	/* Existence du voisin */
@@ -71,11 +96,10 @@ public class Carte {
 
 	/* Accéder au voisin */
 	public Case getVoisin(Case src, Direction dir) {
-		// TODO
     if (this.voisinExiste(src, dir)){
       int src_ligne = src.getLigne();
       int src_colonne = src.getColonne();
-      Case voisin;
+      Case voisin = src;
       switch(dir){
         case NORD:
           voisin = this.matrice[src_ligne - 1][src_colonne];

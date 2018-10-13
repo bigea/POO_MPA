@@ -13,27 +13,25 @@ public class Pattes extends Robot {
 	 * Classe Pattes (Robot Terrestre)
 	 */
 	
-	public Pattes(Case pos, int vol) {
-		super(pos, vol);
-		// TODO Auto-generated constructor stub
+	public Pattes(Case pos) {
+		super(pos);
+		this.setVolume(200000);
+		this.setVitesse(30);
 	}
-
+	
 	@Override
-	public void setPosition(Case pos) {
-		// TODO Auto-generated method stub
-		
+	public void setVitesse(int vitesse) {
+		if (this.getPosition().getNature() == NatureTerrain.ROCHE) {
+			this.vitesse = 10;
+		} else {
+			this.vitesse = vitesse;
+		}
 	}
-
-	@Override
-	public void setVolume(int vol) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
 	@Override
 	public double getVitesse(NatureTerrain nt) {
 		// TODO Auto-generated method stub
-		return 0;
+		return this.vitesse;
 	}
 
 	@Override
@@ -44,7 +42,11 @@ public class Pattes extends Robot {
 
 	@Override
 	public void remplirReservoir() {
-		// TODO Auto-generated method stub
-		
+		this.setVolume(200000);
+	}
+
+	@Override
+	public String toString() {
+		return this.getPosition().getLigne()+" "+this.getPosition().getColonne()+" PATTES "+this.getVitesse(this.getPosition().getNature());
 	}
 }

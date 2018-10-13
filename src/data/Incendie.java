@@ -15,7 +15,18 @@ public class Incendie {
 	/* Attributs */
 	private Case position;
 	private int litre;
+	
+	/* Affichage */
+	public String toString() {
+		return this.getPosition().getLigne()+" "+this.getPosition().getColonne()+" "+this.getLitre();
+	}
 
+	/* Constructeur */
+	public Incendie(Case pos, int litre) {
+		this.setPosition(pos);
+		this.setVolume(litre);
+	};
+	
 	/* Accesseurs */
 	public Case getPosition() {
 		return this.position;
@@ -28,7 +39,7 @@ public class Incendie {
 	public void setPosition(Case pos) {
 		this.position = pos;
 	}
-	public void setColonne(int ltr) {
+	public void setVolume(int ltr) {
 		this.litre = ltr;
 	}
 }

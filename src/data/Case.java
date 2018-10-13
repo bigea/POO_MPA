@@ -19,6 +19,18 @@ public class Case {
 	private int ligne;
 	private int colonne;
 	private NatureTerrain nature;
+	
+	/* Affichage */
+	public String toString() {
+		return this.getNature()+" ";
+	}
+	
+	/* Constructeur */
+	public Case(int ligne, int colonne, NatureTerrain nature) {
+		this.setLigne(ligne);
+		this.setColonne(colonne);
+		this.setNature(nature);
+	}
 
 	/* Accesseurs */
 	public int getLigne() {
