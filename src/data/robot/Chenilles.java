@@ -22,13 +22,13 @@ public class Chenilles extends Robot {
 	@Override
 	public void setPosition(Case pos) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setVolume(int vol) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -40,12 +40,12 @@ public class Chenilles extends Robot {
 	@Override
 	public void deverserEau(int vol) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void remplirReservoir() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
