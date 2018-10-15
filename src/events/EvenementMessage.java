@@ -1,5 +1,7 @@
 package events;
 
+import gui.Simulateur;
+
 /**
  * Classe EvenementMessage
  */
@@ -13,8 +15,8 @@ public class EvenementMessage extends Evenement {
 	private String message;
 	
 	/* Constructeur */
-	public EvenementMessage(int date, String message) {
-		super(date);
+	public EvenementMessage(int date, Simulateur sim, String message) {
+		super(date, sim);
 		this.setMessage(message);
 	}
 	

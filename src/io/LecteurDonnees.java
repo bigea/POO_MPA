@@ -415,7 +415,7 @@ public class LecteurDonnees {
             
             switch(type) {
             	case "DRONE":
-                    Robot drone = new Drone(carte.getCase(lig, col));
+                    Robot drone = new Drone(carte.getCase(lig, col),carte);
                     if (s != null) {
                         vitesse = Integer.parseInt(s);
                         drone.setVitesse(vitesse);
@@ -423,7 +423,7 @@ public class LecteurDonnees {
                     verifieLigneTerminee();
                     return drone;
             	case "ROUES":
-                    Robot roues = new Roues(carte.getCase(lig, col));
+                    Robot roues = new Roues(carte.getCase(lig, col),carte);
                     if (s != null) {
                         vitesse = Integer.parseInt(s);
                         roues.setVitesse(vitesse);
@@ -431,7 +431,7 @@ public class LecteurDonnees {
                     verifieLigneTerminee();
                     return roues;
             	case "PATTES":
-                    Robot pattes = new Pattes(carte.getCase(lig, col));
+                    Robot pattes = new Pattes(carte.getCase(lig, col),carte);
                     if (s != null) {
                         vitesse = Integer.parseInt(s);
                         pattes.setVitesse(vitesse);
@@ -439,7 +439,7 @@ public class LecteurDonnees {
                     verifieLigneTerminee();
                     return pattes;
             	case "CHENILLES":
-                    Robot che = new Chenilles(carte.getCase(lig, col));
+                    Robot che = new Chenilles(carte.getCase(lig, col),carte);
                     if (s != null) {
                         vitesse = Integer.parseInt(s);
                         che.setVitesse(vitesse);

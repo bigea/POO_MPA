@@ -9,7 +9,9 @@ import events.Evenement;
 public class Simulateur implements Simulable {
 	
 	/**
-	 * Classe Simulateur
+	 * Classe Simulateur :
+	 * 		- dateSimulation : date actuelle du simulateur, pour classer les évents
+	 * 		- évents : séquence continuellement ordonnée d'évènements
 	 */
 	
 	private int dateSimulation;
@@ -46,7 +48,7 @@ public class Simulateur implements Simulable {
 	}
 	
 	
-	/* Ajout d'évènements */
+	/* Ajout d'évènements (ordonné !) */
 	public void ajouteEvenement(Evenement event) {
 		int date = event.getDate();
 		int pos = 0;

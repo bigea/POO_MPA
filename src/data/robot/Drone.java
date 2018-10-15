@@ -1,7 +1,12 @@
 package data.robot;
 
+import chemin.CheminDrone;
+import data.Carte;
 import data.Case;
+import data.enumerate.Direction;
 import data.enumerate.NatureTerrain;
+import events.EvenementDeplacementUnitaire;
+import gui.Simulateur;
 
 /**
  * Classe Robot Drone
@@ -14,8 +19,8 @@ public class Drone extends Robot {
      * 		Hiérarchie des classes avec Drone => Robot
      */
 	
-	public Drone(Case pos) {
-		super(pos);
+	public Drone(Case pos, Carte carte) {
+		super(pos, carte);
 		this.setVolume(10000);
 		this.setVitesse(100);
 	}
@@ -31,7 +36,6 @@ public class Drone extends Robot {
 		
 	@Override
 	public double getVitesse(NatureTerrain nt) {
-		// TODO Auto-generated method stub
 		return this.vitesse;
 	}
 
@@ -49,7 +53,22 @@ public class Drone extends Robot {
 	@Override
 	public String toString() {
 		return this.getPosition().getLigne()+" "+this.getPosition().getColonne()+" DRONE "+this.getVitesse(this.getPosition().getNature());
-
 	}
 
+	@Override
+	/*
+	 * Déplacement du robot vers une Case :
+	 * 		crée la liste d'évènements à partir de la date actuelle du simulateur
+	 * 		et les ajoute dans le simulateur
+	 */
+	public void deplacementCase(Case dest, Simulateur sim) {
+		CheminDrone chemin = new CheminDrone(this, sim.getDateSimulation());
+		chemin.plusCourt(dest);
+		int nbCase = chemin.getNbCase();
+		Case[] cases = chemin.getChemin();
+		int[] dates = chemin.getDates();
+		for(int i = 0; i<nbCase; i++) {
+			sim.ajouteEvenement(new EvenementDeplacementUnitaire(dates[i], sim, this, cases[i]));		
+		}
+	}
 }

@@ -18,6 +18,90 @@ Ensimag 2A POO - TP 2018/19
 
 
 ============================
+
+MISE A JOUR 15 octobre
+
+il reste :
+
+- ajouter le makefile (il est passé où mdrrr)
+- bidouiller le gitignore
+
+- PARTIE 1 : 
+	quelques méthodes dans les robots
+	l'interface graphique
+	
+- PARTIE 2 :
+	tester si les évènements fonctionnent
+	en ajouter ?
+
+- PARTIE 3 :
+	calcul du plus court chemin pour les autres robots que le drone
+	prise en compte si besoin de remplissage ou pas selon le type d'incendie
+
+- PARTIE 4 :
+	comprendre le principe du scénario : faire une classe avec une liste d'évènements déjà préécrits et qui seront éxécutés dans le simulateur avec next ?
+	
+	
+//// PACKAGE DATA :
+
+	- classes Données principales : CARTE, CASE, DONNEESSIMULATION (classe des données lues dans le fichier d'entrée), INCENDIE
+	
+	- classes ROBOTS
+			- sous classes selon type de robots
+			- quelques méthodes encore à implémenter
+			- gèrent leurs déplacements
+			
+	- classes ENUMERATE :
+			- Direction
+			- NatureTerrain
+
+
+//// PACKAGE GUI
+
+	- classes GRAPHICAL ELEMENTS (TEXT, RECTANGLE)
+			- sous classes selon le type d'objets graphiques, on pourrait en rajouter (ARBRE...)
+			- à implémenter !
+			
+	- classes GUISIMULATOR - SIMULABLE : 
+			- gestion de l'interface graphique et de l'intéraction avec l'utilisateur (next...)
+			- à implémenter !
+			
+	- classe SIMULATEUR
+			- passerelle entre l'interface graphique et les évènements à simuler
+			- normalement déjà complète
+
+
+//// PACKAGE CHEMIN
+
+	- classes CHEMIN
+			- une classe pour chaque type de drone
+			- séquence de déplacements élémentaires (uniquement d'une case à son voisin, en supposant que le robot ne change pas de décision)
+			- calcul le plus court chemin à partir du temps de déplacement
+						!! Temps de déplacement dépend de la nature du terrain de la case avant et de la case après
+						d'où Temps total = temps case1 + temps case2
+						avec temps case1 = temps pour parcourir la moitié de la case1
+						avec temps case2 = temps pour parcourir la moitié de la case2
+			- uniquement fait sur le drone pour l'instant
+
+//// PACKAGE EVENTS
+
+	- classes EVENEMENTS
+			- sous-classes selon le type d'évènement, en particulier le déplacement
+			- PRINCIPE : 
+					le simulateur possède une liste d'évènements, ordonnés par date, et une date de simulation (seconde? minute ?)
+					A chaque next, le simulateur incrémente la date de simulation et exécute les évènements qui sont entre l'ancienne et la nouvelle date
+					
+					exemple:
+						on veut déplacer le robot de la case 2,2 à 5,8 = évènement DEPLACEMENTCASE
+						lors de execute, l'évènement va dire au robot de gérer direct son déplacement
+						celui-ci va faire appel à un chemin, pour calculer le plus court chemin
+						ce chemin va lui pondre une liste de déplacements unitaires avec une date (calculée selon le temps de déplacement)
+						ensuite il ajoute les déplacements unitaires dans le simulateur
+						le simulateur les exécutera petit à petit, sachant qu'ils sont classés par date et il peut y avoir d'autres évents au milieu
+
+=================================
+
+
 RMQ DE BIGE
 
 Etapes du projet :

@@ -1,6 +1,7 @@
 package events;
 
 import data.robot.Robot;
+import gui.Simulateur;
 
 /**
  * Classe EvenementRemplissage
@@ -15,8 +16,8 @@ public class EvenementRemplissage extends Evenement {
 	private Robot robot;
 	
 	/* Constructeur */
-	public EvenementRemplissage(int date, Robot rbt) {
-		super(date);
+	public EvenementRemplissage(int date, Simulateur sim, Robot rbt) {
+		super(date, sim);
 		this.setRobot(rbt);
 	}
 	
@@ -35,7 +36,7 @@ public class EvenementRemplissage extends Evenement {
 	public void execute() {
 		/* On remplie le robot */
 		this.getRobot().remplirReservoir();
-		EvenementMessage event = new EvenementMessage(this.getDate(), "Réservoir rempli");
+		EvenementMessage event = new EvenementMessage(this.getDate(), this.getSimulateur(), "Réservoir rempli");
 		event.execute();
 	}
 }

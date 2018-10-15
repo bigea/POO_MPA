@@ -1,7 +1,9 @@
 package data.robot;
 
+import data.Carte;
 import data.Case;
 import data.enumerate.NatureTerrain;
+import gui.Simulateur;
 
 /**
  * Classe Chenilles
@@ -14,8 +16,8 @@ public class Chenilles extends Robot {
 	 * Classe Chenilles (Robot Terrestre)
 	 */
 
-	public Chenilles(Case pos) {
-		super(pos);
+	public Chenilles(Case pos, Carte carte) {
+		super(pos, carte);
 		this.setVolume(2000);
 		this.setVitesse(60);
 	}
@@ -53,5 +55,15 @@ public class Chenilles extends Robot {
 	public String toString() {
 		return this.getPosition().getLigne()+" "+this.getPosition().getColonne()+" CHENILLES "+this.getVitesse(this.getPosition().getNature());
 
+	}
+
+	@Override
+	/* Déplacement du robot vers une case 
+	 * 		Calcul du plus court chemin en prenant en compte la nature du robot et du terrain
+	 * 		Ajout des évènements au simulateur
+	 */
+	public void deplacementCase(Case dest, Simulateur sim) {
+		//TODO
+		
 	}
 }

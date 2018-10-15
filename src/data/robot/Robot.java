@@ -1,7 +1,10 @@
 package data.robot;
 
+import data.Carte;
 import data.Case;
+import data.enumerate.Direction;
 import data.enumerate.NatureTerrain;
+import gui.Simulateur;
 
 /**
  * Classe Robot
@@ -18,10 +21,12 @@ public abstract class Robot {
 	protected Case position;
 	protected int volume;
 	protected int vitesse;
+	private Carte carte;
 
 	/* Constructeur */
-	public Robot(Case pos) {
+	public Robot(Case pos, Carte carte) {
 		this.setPosition(pos);
+		this.carte = carte;
 	}
 
 	/* Affichage */
@@ -34,6 +39,9 @@ public abstract class Robot {
 	public int getVolume() {
 		return this.volume;
 	}
+	public Carte getCarte() {
+		return this.carte;
+	}
 
 
 	/* Mutateurs */
@@ -45,6 +53,12 @@ public abstract class Robot {
 	}
 	public abstract void setVitesse(int vitesse);
 	
+	
+	/* Déplacement du robot vers une case
+	 * 		Spécifique pour chaque robot
+	 */
+	public abstract void deplacementCase(Case cas, Simulateur sim);
+	
 	/* Obtenir la vitesse */
 	public abstract double getVitesse(NatureTerrain nt);
 
@@ -53,4 +67,5 @@ public abstract class Robot {
 
 	/* Remplir réservoir */
 	public abstract void remplirReservoir();
+
 }
