@@ -34,9 +34,7 @@ public class EvenementRemplissage extends Evenement {
 	
 	/* Exécution de l'évènement */
 	public void execute() {
-		/* On remplie le robot */
+		/* Le robot gère le remplissage */
 		this.getRobot().remplirReservoir();
-		EvenementMessage event = new EvenementMessage(this.getDate(), this.getSimulateur(), "Réservoir rempli");
-		event.execute();
 	}
 }

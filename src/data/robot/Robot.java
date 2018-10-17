@@ -1,5 +1,6 @@
 package data.robot;
 
+import chemin.Chemin;
 import data.Carte;
 import data.Case;
 import data.enumerate.NatureTerrain;
@@ -57,6 +58,12 @@ public abstract class Robot {
 	 * 		Spécifique pour chaque robot
 	 */
 	public abstract void deplacementCase(Case cas, Simulateur sim);
+	
+	/* Déplacement possible selon la nature du drone */
+	public abstract boolean possibleDeplacement(Case voisin);
+	
+	/* Calcul du plus court chemin */
+	public abstract Chemin plusCourt(Case dest, int date);
 	
 	/* Obtenir la vitesse */
 	public abstract double getVitesse(NatureTerrain nt);

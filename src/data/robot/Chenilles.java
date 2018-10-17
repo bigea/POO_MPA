@@ -1,5 +1,6 @@
 package data.robot;
 
+import chemin.Chemin;
 import data.Carte;
 import data.Case;
 import data.enumerate.NatureTerrain;
@@ -65,5 +66,24 @@ public class Chenilles extends Robot {
 	public void deplacementCase(Case dest, Simulateur sim) {
 		//TODO
 		
+	}
+
+	@Override
+	public Chemin plusCourt(Case dest, int date) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean possibleDeplacement(Case voisin) {
+		NatureTerrain nature = voisin.getNature();
+		switch(nature) {
+			case EAU:
+				return false;
+			case ROCHE:
+				return false;
+			default:
+				return true;
+		}
 	}
 }

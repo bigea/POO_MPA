@@ -1,31 +1,32 @@
 package chemin;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import data.Case;
 import data.robot.Robot;
 
 /**
  * Classe Chemin
  */
-public abstract class Chemin {
+public class Chemin {
 	/**
 	* Classe Chemin :
-	* 		Séquence de cases et de date qui définissent
-	* 		le plus court chemin pour aller à une case
-	* 		pour un robot donné
+	* 		Séquence de cases et de dates
 	*/
 	
 	private Robot rbt;
 	private int dateSimulation;
 	private int nbCase;
-	private Case[] chemin;
-	private int[] dates;
+	private List<Case> chemin;
+	private List<Integer> dates;
 	
 	public Chemin(Robot rbt, int dateSimulation) {
 		this.setRobot(rbt);
 		this.setDateSimulation(dateSimulation);
 		this.setNbCase(0);
-		this.setChemin(0);
-		this.setDates(0);
+		this.setChemin();
+		this.setDates();
 	}
 	
 	/* Mutateurs - Accesseurs */
@@ -35,17 +36,17 @@ public abstract class Chemin {
 	public void setRobot(Robot rbt) {
 		this.rbt = rbt;
 	}
-	public Case[] getChemin() {
+	public List<Case> getChemin() {
 		return chemin;
 	}
-	public void setChemin(int nbCase) {
-		this.chemin = new Case[nbCase];
+	public void setChemin() {
+		this.chemin = new ArrayList<Case>();
 	}
-	public int[] getDates() {
+	public List<Integer> getDates() {
 		return dates;
 	}
-	public void setDates(int nbCase) {
-		this.dates = new int[nbCase];
+	public void setDates() {
+		this.dates = new ArrayList<Integer>();
 	}
 	public int getNbCase() {
 		return nbCase;
@@ -59,9 +60,6 @@ public abstract class Chemin {
 	public void setDateSimulation(int dateSimulaion) {
 		this.dateSimulation = dateSimulaion;
 	}
-
-	/* Calcul du plus court chemin : héritage */
-	public abstract void plusCourt(Case dest);
 	
 	/* Calcul du temps de déplacement
 	 * 		Dépend de la vitesse du robot et de la nature du terrain,
@@ -85,17 +83,8 @@ public abstract class Chemin {
 	
 	/* Ajout d'une case au chemin */
 	public void ajoutCase(Case cas, int date) {
-		int nbCase = this.getNbCase();
-		Case[] ancienChemin = this.chemin;
-		int[] ancienDates = this.dates;
-		this.setChemin(nbCase+1);
-		this.setDates(nbCase+1); 
-		this.setNbCase(nbCase+1);
-		for(int i = 0; i<nbCase; i++) {
-			this.chemin[i] = ancienChemin[i];
-			this.dates[i] = ancienDates[i];
-		}
-		this.chemin[nbCase] = cas;
-		this.dates[nbCase] = date;
-	}	
+		this.chemin.add(cas);
+		this.dates.add(date);
+		this.nbCase += 1;
+	}
 }

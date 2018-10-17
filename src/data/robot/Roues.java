@@ -1,5 +1,6 @@
 package data.robot;
 
+import chemin.Chemin;
 import data.Carte;
 import data.Case;
 import data.enumerate.NatureTerrain;
@@ -57,5 +58,24 @@ public class Roues extends Robot {
 	public void deplacementCase(Case cas, Simulateur sim) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Chemin plusCourt(Case dest, int date) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean possibleDeplacement(Case voisin) {
+		NatureTerrain nature = voisin.getNature();
+		switch(nature) {
+			case HABITAT:
+				return true;
+			case TERRAIN_LIBRE:
+				return true;
+			default:
+				return false;
+		}
 	}
 }
