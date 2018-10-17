@@ -77,9 +77,10 @@ public class Simulateur implements Simulable {
 	}
 	
 	/* Incrémente date et exécute tous les évènements jusqu'à cette date */
-	public void incrementeDate() {
+	public void incrementeDate() throws Exception {
 		int avant = this.dateSimulation;
-		this.dateSimulation += 1;
+		/* On incrémente de 60 secondes */
+		this.dateSimulation += 60;
 		/* On cherche le premier évènement à exécuter */
 		int pos = 0;
 		while(this.events[pos].getDate() != avant) {
@@ -87,11 +88,15 @@ public class Simulateur implements Simulable {
 		}
 		/* On éxécute tous les évènements jusqu'au dernier avant la date */
 		while(this.events[pos].getDate() < this.dateSimulation) {
-			this.events[pos].execute();
-			pos += 1;
+			try {
+				this.events[pos].execute();
+				pos += 1;
+	        } catch (Exception e) {
+	            System.out.println("Déplacement impossible");
+	        }
 		}
-		
 	}
+	
 	/* Simulation terminée */
 	public boolean simulationTerminee() {
 		if(this.dateSimulation == this.events.length) {

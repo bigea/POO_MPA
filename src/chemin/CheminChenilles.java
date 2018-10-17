@@ -6,18 +6,18 @@ import data.enumerate.Direction;
 import data.robot.Robot;
 
 /**
- * Classe CheminDrone
+ * Classe CheminChenilles
  */
-public class CheminDrone extends Chemin {
+public class CheminChenilles extends Chemin {
 
 	/**
-	* Classe CheminDrone : pour le drone
+	* Classe CheminRoues : pour le robot à chenilles
 	* 		Séquence de cases et de date qui définissent
 	* 		le plus court chemin pour aller à une case
 	* 		pour un robot donné
 	*/
 
-	public CheminDrone(Robot rbt, int dateSimulation) {
+	public CheminChenilles(Robot rbt, int dateSimulation) {
 		super(rbt, dateSimulation);
 	}
 	
@@ -39,17 +39,7 @@ public class CheminDrone extends Chemin {
 			 * 		qui nous rapproche le plus de la dest
 			 * 		en "ligne droite" sans se soucier de la nature du terrain
 			 */
-			if(y_src < y_dest) {
-				direction = Direction.SUD;
-			} else if (y_src > y_dest) {
-				direction = Direction.NORD;
-			} else {
-				if(x_src < x_dest) {
-					direction = Direction.EST;
-				} else if (x_src < x_dest) {
-					direction = Direction.OUEST;
-				}
-			}
+			//TODO
 			/* On ajoute le déplacement élémentaire dans le simulateur
 			 * 		La date dépend de la durée du déplacement donc de la vitesse du robot
 			 * 		Temps calculé dans calculTemps()

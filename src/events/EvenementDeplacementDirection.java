@@ -34,9 +34,12 @@ public class EvenementDeplacementDirection extends EvenementDeplacement {
 	}
 
 	@Override
-	public void execute() {
+	public void execute() throws Exception {
 		/* On récupère la case voisine dans la direction donnée */
 		Case voisin = this.getRobot().getCarte().getVoisin(this.getRobot().getPosition(), this.getDirection());
+		if(voisin == null) {
+			throw new Exception("Déplacement impossible");
+		}
 		/* Le robot gère le déplacement vers cette case */
 		this.getRobot().deplacementCase(voisin, this.getSimulateur());
 	}

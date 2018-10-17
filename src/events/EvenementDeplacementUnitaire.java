@@ -5,13 +5,13 @@ import data.robot.Robot;
 import gui.Simulateur;
 
 /**
- * Classe EvenementDeplacement
+ * Classe EvenementDeplacementUnitaire
  */
 
 public class EvenementDeplacementUnitaire extends Evenement {
 	/**
-	 * Classe EvenementDeplacement :
-	 * 		hérite du modèle Evenement et effectue le déplacement du robot
+	 * Classe EvenementDeplacementUnitaire :
+	 * 		hérite du modèle Evenement et effectue le déplacement du robot d'un case
 	 */
 	
 	private Robot robot;

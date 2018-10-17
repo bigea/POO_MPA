@@ -1,6 +1,5 @@
 package chemin;
 
-import data.Carte;
 import data.Case;
 import data.robot.Robot;
 
@@ -62,7 +61,7 @@ public abstract class Chemin {
 	}
 
 	/* Calcul du plus court chemin : héritage */
-	public abstract void plusCourt();
+	public abstract void plusCourt(Case dest);
 	
 	/* Calcul du temps de déplacement
 	 * 		Dépend de la vitesse du robot et de la nature du terrain,
@@ -98,6 +97,5 @@ public abstract class Chemin {
 		}
 		this.chemin[nbCase] = cas;
 		this.dates[nbCase] = date;
-	}
-	
+	}	
 }

@@ -2,7 +2,6 @@ package data.robot;
 
 import data.Carte;
 import data.Case;
-import data.enumerate.Direction;
 import data.enumerate.NatureTerrain;
 import gui.Simulateur;
 

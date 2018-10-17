@@ -35,5 +35,5 @@ public abstract class Evenement {
 	}
 	
 	/* Exécution de l'évènement */
-	public abstract void execute();
+	public abstract void execute() throws Exception;
 }
