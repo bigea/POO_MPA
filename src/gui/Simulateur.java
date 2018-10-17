@@ -7,30 +7,31 @@ import events.Evenement;
  */
 
 public class Simulateur implements Simulable {
-	
+
 	/**
 	 * Classe Simulateur
 	 */
-	
+
 	private int dateSimulation;
 	private Evenement[] events;
-	
+
 	/* Constructeur */
 	public Simulateur(int date) {
 		this.dateSimulation = date;
 		this.events = new Evenement[0];
 	}
-	
-	
+
+
 	/* Mutateur */
 	public void setDateSimulation(int date) {
 		this.dateSimulation = date;
 	}
-	
+
 	/* Accesseur */
 	public int getDateSimulation() {
 		return this.dateSimulation;
 	}
+
 	public Evenement getEvenement(int date) throws Exception  {
 		int pos = 0;
 		/* On cherche l'évènement dont la date correspond */
@@ -44,8 +45,8 @@ public class Simulateur implements Simulable {
 			return this.events[pos];
 		}
 	}
-	
-	
+
+
 	/* Ajout d'évènements */
 	public void ajouteEvenement(Evenement event) {
 		int date = event.getDate();
@@ -73,7 +74,7 @@ public class Simulateur implements Simulable {
 		/* On a un nouveau tableau avec les évènements ordonnés par date */
 		this.events = newEvents;
 	}
-	
+
 	/* Incrémente date et exécute tous les évènements jusqu'à cette date */
 	public void incrementeDate() {
 		int avant = this.dateSimulation;
@@ -88,7 +89,7 @@ public class Simulateur implements Simulable {
 			this.events[pos].execute();
 			pos += 1;
 		}
-		
+
 	}
 	/* Simulation terminée */
 	public boolean simulationTerminee() {

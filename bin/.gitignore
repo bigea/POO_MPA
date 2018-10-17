@@ -1,6 +1,10 @@
+/Invader.class
 /TestCreationDonnees.class
-/script.sh
-/events/
-/gui/
+/TestInvader.class
+/TestLecteurDonnees.class
 /TestSimulateur.class
 /data/
+/events/
+/gui/
+/io/
+/script.sh
