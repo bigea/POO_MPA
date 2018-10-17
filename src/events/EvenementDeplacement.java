@@ -1,51 +1,45 @@
 package events;
 
-import data.Case;
 import data.robot.Robot;
+import gui.Simulateur;
 
 /**
- * Classe EvenementDeplacement
+ * Classe EvenementDeplacement (héritage de plusieurs types de déplacement)
  */
 
-public class EvenementDeplacement extends Evenement {
+public abstract class EvenementDeplacement extends Evenement {
 	/**
 	 * Classe EvenementDeplacement :
 	 * 		hérite du modèle Evenement et effectue le déplacement du robot
+	 * 		plusieurs types de paramètres : un déplacement unitaire (voisin ou direction) et un déplacement jusqu'à une case quelconque
 	 */
 	
 	private Robot robot;
-	private Case destination;
+	
+	/*********************************************
+	 * 
+	 * METHODES DE BASE
+	 */
 	
 	/* Constructeur */
-	public EvenementDeplacement(int date, Robot rbt, Case dest) {
-		super(date);
+	public EvenementDeplacement(int date, Simulateur sim, Robot rbt) {
+		super(date, sim);
 		this.setRobot(rbt);
-		this.setCase(dest);
 	}
-	
 	/* Mutateurs */
 	public void setRobot(Robot rbt) {
 		this.robot = rbt;
 	}
-	public void setCase(Case dest) {
-		this.destination = dest;
-	}
-	
 	/* Accesseur */
 	public Robot getRobot() {
 		return this.robot;
 	}
-	public Case getCase() {
-		return this.destination;
-	}
 	
+	/*********************************************
+	 * 
+	 * EXECUTION
+	 */
 	
 	/* Exécution de l'évènement */
-	public void execute() {
-		/* On modifie la position du robot */
-		this.getRobot().setPosition(this.getCase());
-		/* On prévient que le robot est bien arrivé */
-		EvenementMessage event = new EvenementMessage(this.getDate(), "Robot bien arrivé");;
-		event.execute();
-	}
+	public abstract void execute() throws Exception;
 }

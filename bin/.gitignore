@@ -4,7 +4,5 @@
 /TestLecteurDonnees.class
 /TestSimulateur.class
 /data/
-/events/
-/gui/
 /io/
-/script.sh
+/chemin/

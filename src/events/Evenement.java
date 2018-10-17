@@ -1,5 +1,7 @@
 package events;
 
+import gui.Simulateur;
+
 /**
  * Classe abstraite Evenement
  */
@@ -11,10 +13,17 @@ public abstract class Evenement {
 	 */
 	
 	private int date;
+	private Simulateur sim;
+	
+	/*********************************************
+	 * 
+	 * METHODES DE BASE
+	 */
 	
 	/* Constructeur */
-	public Evenement(int date) {
+	public Evenement(int date, Simulateur sim) {
 		this.setDate(date);
+		this.sim = sim;
 	}
 	
 	/* Mutateurs */
@@ -26,7 +35,15 @@ public abstract class Evenement {
 	public int getDate() {
 		return this.date;
 	}
+	public Simulateur getSimulateur() {
+		return this.sim;
+	}
+	
+	/*********************************************
+	 * 
+	 * EXECUTION
+	 */
 	
 	/* Exécution de l'évènement */
-	public abstract void execute();
+	public abstract void execute() throws Exception;
 }

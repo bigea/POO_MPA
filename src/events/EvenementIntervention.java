@@ -2,6 +2,7 @@ package events;
 
 import data.Incendie;
 import data.robot.Robot;
+import gui.Simulateur;
 
 /**
  * Classe EvenementIntervention
@@ -16,9 +17,14 @@ public class EvenementIntervention extends Evenement {
 	private Robot robot;
 	private Incendie incendie;
 	
+	/*********************************************
+	 * 
+	 * METHODES DE BASE
+	 */
+	
 	/* Constructeur */
-	public EvenementIntervention(int date, Robot rbt, Incendie inc) {
-		super(date);
+	public EvenementIntervention(int date, Simulateur sim, Robot rbt, Incendie inc) {
+		super(date, sim);
 		this.setRobot(rbt);
 		this.setIncendie(inc);
 	}
@@ -40,6 +46,11 @@ public class EvenementIntervention extends Evenement {
 	}
 	
 	
+	/*********************************************
+	 * 
+	 * EXECUTION
+	 */
+	
 	/* Exécution de l'évènement */
 	public void execute() {
 		/* On déverse l'eau selon la taille de l'incendie et du réservoir */
@@ -51,14 +62,16 @@ public class EvenementIntervention extends Evenement {
 		if(vol_restant > 0) {
 			this.getRobot().deverserEau(vol_rbt);
 			this.getIncendie().setVolume(vol_restant);
-			EvenementMessage event = new EvenementMessage(this.getDate(), "Intervention terminée - Incendie non éteint");
+			
+			EvenementMessage event = new EvenementMessage(this.getDate(), this.getSimulateur(), "Intervention terminée - Incendie non éteint");
 			event.execute();
 		} 
 		/* Si robot suffisant */
 		else {
 			this.getRobot().deverserEau(vol_inc);
 			this.getIncendie().setVolume(0);
-			EvenementMessage event = new EvenementMessage(this.getDate(), "Intervention terminée - Incendie éteint");
+			
+			EvenementMessage event = new EvenementMessage(this.getDate(), this.getSimulateur(), "Intervention terminée - Incendie éteint");
 			event.execute();
 		}
 	}

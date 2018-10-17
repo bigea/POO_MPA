@@ -9,11 +9,18 @@ import events.Evenement;
 public class Simulateur implements Simulable {
 
 	/**
-	 * Classe Simulateur
+	 * Classe Simulateur :
+	 * 		- dateSimulation : date actuelle du simulateur, pour classer les évents
+	 * 		- évents : séquence continuellement ordonnée d'évènements
 	 */
 
 	private int dateSimulation;
 	private Evenement[] events;
+
+	/*********************************************
+	 *
+	 * METHODES DE BASE
+	 */
 
 	/* Constructeur */
 	public Simulateur(int date) {
@@ -47,7 +54,12 @@ public class Simulateur implements Simulable {
 	}
 
 
-	/* Ajout d'évènements */
+	/*********************************************
+	 *
+	 * METHODES GESTION DES EVENEMENTS
+	 */
+
+	/* Ajout d'évènements (ordonné !) */
 	public void ajouteEvenement(Evenement event) {
 		int date = event.getDate();
 		int pos = 0;
@@ -76,9 +88,10 @@ public class Simulateur implements Simulable {
 	}
 
 	/* Incrémente date et exécute tous les évènements jusqu'à cette date */
-	public void incrementeDate() {
+	public void incrementeDate() throws Exception {
 		int avant = this.dateSimulation;
-		this.dateSimulation += 1;
+		/* On incrémente de 60 secondes */
+		this.dateSimulation += 60;
 		/* On cherche le premier évènement à exécuter */
 		int pos = 0;
 		while(this.events[pos].getDate() != avant) {
@@ -86,11 +99,16 @@ public class Simulateur implements Simulable {
 		}
 		/* On éxécute tous les évènements jusqu'au dernier avant la date */
 		while(this.events[pos].getDate() < this.dateSimulation) {
-			this.events[pos].execute();
-			pos += 1;
+			try {
+				this.events[pos].execute();
+				pos += 1;
+	        } catch (Exception e) {
+	            System.out.println("Déplacement impossible");
+	        }
 		}
 
 	}
+
 	/* Simulation terminée */
 	public boolean simulationTerminee() {
 		if(this.dateSimulation == this.events.length) {
