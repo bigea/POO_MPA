@@ -6,7 +6,7 @@ import events.Evenement;
  * Classe Simulateur
  */
 
-public class Simulateur implements Simulable {
+public class Simulateur { //implements Simulable {
 
 	/**
 	 * Classe Simulateur :
@@ -14,6 +14,8 @@ public class Simulateur implements Simulable {
 	 * 		- évents : séquence continuellement ordonnée d'évènements
 	 */
 
+	
+	//private GUISimulator gui;
 	private int dateSimulation;
 	private Evenement[] events;
 
@@ -24,6 +26,7 @@ public class Simulateur implements Simulable {
 
 	/* Constructeur */
 	public Simulateur(int date) {
+		//this.gui = new GUISimulator(800, 600, Color.BLACK);
 		this.dateSimulation = date;
 		this.events = new Evenement[0];
 	}
