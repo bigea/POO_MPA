@@ -23,6 +23,11 @@ public abstract class Robot {
 	protected int vitesse;
 	private Carte carte;
 
+	/*********************************************
+	 * 
+	 * METHODES DE BASE
+	 */
+	
 	/* Constructeur */
 	public Robot(Case pos, Carte carte) {
 		this.setPosition(pos);
@@ -43,7 +48,6 @@ public abstract class Robot {
 		return this.carte;
 	}
 
-
 	/* Mutateurs */
 	public void setPosition(Case cas) {
 		this.position = cas;
@@ -53,6 +57,11 @@ public abstract class Robot {
 	}
 	public abstract void setVitesse(int vitesse);
 	
+	
+	/*********************************************
+	 * 
+	 * METHODES D'ACTION
+	 */
 	
 	/* Déplacement du robot vers une case
 	 * 		Spécifique pour chaque robot

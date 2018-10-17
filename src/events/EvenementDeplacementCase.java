@@ -17,6 +17,11 @@ public class EvenementDeplacementCase extends EvenementDeplacement {
 	
 	private Case destination;
 	
+	/*********************************************
+	 * 
+	 * METHODES DE BASE
+	 */
+	
 	/* Constructeur */
 	public EvenementDeplacementCase(int date, Simulateur sim, Robot rbt, Case dest) {
 		super(date, sim, rbt);
@@ -33,6 +38,10 @@ public class EvenementDeplacementCase extends EvenementDeplacement {
 		return this.destination;
 	}
 	
+	/*********************************************
+	 * 
+	 * EXECUTION
+	 */
 	
 	/* Exécution de l'évènement */
 	public void execute() {

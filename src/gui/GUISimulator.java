@@ -12,11 +12,15 @@ public class GUISimulator {
 	 * Classe GUISimulator
 	 */
 	
-	/* Attributs */
 	private int lar;
 	private int hau;
 	private java.awt.Color bgColor;
 	private Simulable simulateur;
+	
+	/*********************************************
+	 * 
+	 * METHODES DE BASE
+	 */
 	
 	/* Constructeur */
 	public GUISimulator(int lar, int hau, java.awt.Color bgColor) {

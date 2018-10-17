@@ -17,6 +17,11 @@ public class EvenementDeplacementUnitaire extends Evenement {
 	private Robot robot;
 	private Case destination;
 	
+	/*********************************************
+	 * 
+	 * METHODES DE BASE
+	 */
+	
 	/* Constructeur */
 	public EvenementDeplacementUnitaire(int date, Simulateur sim, Robot rbt, Case dest) {
 		super(date, sim);
@@ -40,6 +45,10 @@ public class EvenementDeplacementUnitaire extends Evenement {
 		return this.destination;
 	}
 	
+	/*********************************************
+	 * 
+	 * EXECUTION
+	 */
 	
 	/* Exécution de l'évènement
 	 * 		Evènement unitaire, c'est le seul qui modifie effectivement la position du robot

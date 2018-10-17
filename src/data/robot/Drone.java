@@ -21,12 +21,15 @@ public class Drone extends Robot {
      * 		Hiérarchie des classes avec Drone => Robot
      */
 	
+	/*********************************************
+	 * 
+	 * METHODES DE BASE
+	 */
 	public Drone(Case pos, Carte carte) {
 		super(pos, carte);
 		this.setVolume(10000);
 		this.setVitesse(100);
 	}
-	
 	@Override
 	public void setVitesse(int vitesse) {
 		if(vitesse > 150) {
@@ -35,12 +38,21 @@ public class Drone extends Robot {
 			this.vitesse = vitesse;	
 		}
 	}
-		
 	@Override
 	public double getVitesse(NatureTerrain nt) {
 		return this.vitesse;
 	}
+	@Override
+	public String toString() {
+		return this.getPosition().getLigne()+" "+this.getPosition().getColonne()+" DRONE "+this.getVitesse(this.getPosition().getNature());
+	}
 
+	
+	/*********************************************
+	 * 
+	 * METHODES D'ACTION
+	 */
+	
 	@Override
 	public void deverserEau(int vol) {
 		// TODO Auto-generated method stub
@@ -50,12 +62,6 @@ public class Drone extends Robot {
 	@Override
 	public void remplirReservoir() {
 		//TODO: gérer le déplacement jusqu'à un réservoir d'eau
-		this.setVolume(10000);
-	}
-
-	@Override
-	public String toString() {
-		return this.getPosition().getLigne()+" "+this.getPosition().getColonne()+" DRONE "+this.getVitesse(this.getPosition().getNature());
 	}
 
 	@Override

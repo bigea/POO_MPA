@@ -19,6 +19,11 @@ public enum NatureTerrain {
 	
 	private final String value;
 	
+	/*********************************************
+	 * 
+	 * METHODES DE BASE
+	 */
+	
 	/* Constructeur */
 	private NatureTerrain(String value){
 		this.value = value;

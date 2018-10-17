@@ -17,6 +17,11 @@ public class Simulateur implements Simulable {
 	private int dateSimulation;
 	private Evenement[] events;
 	
+	/*********************************************
+	 * 
+	 * METHODES DE BASE
+	 */
+	
 	/* Constructeur */
 	public Simulateur(int date) {
 		this.dateSimulation = date;
@@ -47,6 +52,10 @@ public class Simulateur implements Simulable {
 		}
 	}
 	
+	/*********************************************
+	 * 
+	 * METHODES GESTION DES EVENEMENTS
+	 */
 	
 	/* Ajout d'évènements (ordonné !) */
 	public void ajouteEvenement(Evenement event) {

@@ -15,6 +15,11 @@ public class EvenementRemplissage extends Evenement {
 	
 	private Robot robot;
 	
+	/*********************************************
+	 * 
+	 * METHODES DE BASE
+	 */
+	
 	/* Constructeur */
 	public EvenementRemplissage(int date, Simulateur sim, Robot rbt) {
 		super(date, sim);
@@ -31,6 +36,10 @@ public class EvenementRemplissage extends Evenement {
 		return this.robot;
 	}
 	
+	/*********************************************
+	 * 
+	 * EXECUTION
+	 */
 	
 	/* Exécution de l'évènement */
 	public void execute() {

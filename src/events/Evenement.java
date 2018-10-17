@@ -15,6 +15,11 @@ public abstract class Evenement {
 	private int date;
 	private Simulateur sim;
 	
+	/*********************************************
+	 * 
+	 * METHODES DE BASE
+	 */
+	
 	/* Constructeur */
 	public Evenement(int date, Simulateur sim) {
 		this.setDate(date);
@@ -33,6 +38,11 @@ public abstract class Evenement {
 	public Simulateur getSimulateur() {
 		return this.sim;
 	}
+	
+	/*********************************************
+	 * 
+	 * EXECUTION
+	 */
 	
 	/* Exécution de l'évènement */
 	public abstract void execute() throws Exception;

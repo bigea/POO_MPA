@@ -17,6 +17,11 @@ public class EvenementDeplacementDirection extends EvenementDeplacement {
 	
 	private Direction direct;
 	
+	/*********************************************
+	 * 
+	 * METHODES DE BASE
+	 */
+	
 	/* Constructeur */
 	public EvenementDeplacementDirection(int date, Simulateur sim, Robot rbt, Direction direct) {
 		super(date, sim, rbt);
@@ -33,6 +38,11 @@ public class EvenementDeplacementDirection extends EvenementDeplacement {
 		return this.direct;
 	}
 
+	/*********************************************
+	 * 
+	 * EXECUTION
+	 */
+	
 	@Override
 	public void execute() throws Exception {
 		/* On récupère la case voisine dans la direction donnée */

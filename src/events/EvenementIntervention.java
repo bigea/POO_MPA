@@ -17,6 +17,11 @@ public class EvenementIntervention extends Evenement {
 	private Robot robot;
 	private Incendie incendie;
 	
+	/*********************************************
+	 * 
+	 * METHODES DE BASE
+	 */
+	
 	/* Constructeur */
 	public EvenementIntervention(int date, Simulateur sim, Robot rbt, Incendie inc) {
 		super(date, sim);
@@ -40,6 +45,11 @@ public class EvenementIntervention extends Evenement {
 		return this.incendie;
 	}
 	
+	
+	/*********************************************
+	 * 
+	 * EXECUTION
+	 */
 	
 	/* Exécution de l'évènement */
 	public void execute() {

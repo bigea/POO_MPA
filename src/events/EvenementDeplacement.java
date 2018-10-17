@@ -16,21 +16,29 @@ public abstract class EvenementDeplacement extends Evenement {
 	
 	private Robot robot;
 	
+	/*********************************************
+	 * 
+	 * METHODES DE BASE
+	 */
+	
 	/* Constructeur */
 	public EvenementDeplacement(int date, Simulateur sim, Robot rbt) {
 		super(date, sim);
 		this.setRobot(rbt);
 	}
-	
 	/* Mutateurs */
 	public void setRobot(Robot rbt) {
 		this.robot = rbt;
 	}
-
 	/* Accesseur */
 	public Robot getRobot() {
 		return this.robot;
 	}
+	
+	/*********************************************
+	 * 
+	 * EXECUTION
+	 */
 	
 	/* Exécution de l'évènement */
 	public abstract void execute() throws Exception;

@@ -19,12 +19,16 @@ public class Pattes extends Robot {
 	 * Classe Pattes (Robot Terrestre)
 	 */
 	
+	/*********************************************
+	 * 
+	 * METHODES DE BASE
+	 */
+	
 	public Pattes(Case pos, Carte carte) {
 		super(pos, carte);
 		this.setVolume(200000);
 		this.setVitesse(30);
 	}
-	
 	@Override
 	public void setVitesse(int vitesse) {
 		if (this.getPosition().getNature() == NatureTerrain.ROCHE) {
@@ -33,13 +37,18 @@ public class Pattes extends Robot {
 			this.vitesse = vitesse;
 		}
 	}
-	
 	@Override
 	public double getVitesse(NatureTerrain nt) {
 		// TODO Auto-generated method stub
 		return this.vitesse;
 	}
 
+	
+	/*********************************************
+	 * 
+	 * METHODES D'ACTION
+	 */
+	
 	@Override
 	public void deverserEau(int vol) {
 		// TODO Auto-generated method stub
@@ -48,7 +57,7 @@ public class Pattes extends Robot {
 
 	@Override
 	public void remplirReservoir() {
-		this.setVolume(200000);
+		//TODO : gérer le déplacement vers une case eau
 	}
 
 	@Override
@@ -64,7 +73,7 @@ public class Pattes extends Robot {
 	 */
 	public void deplacementCase(Case dest, Simulateur sim) {
 		/* Calcul du plus court dans chemin */
-		Chemin chemin = this.plusCourt(dest, sim.getDateSimulation());
+		Chemin chemin = plusCourt(dest, sim.getDateSimulation());
 		/* On récupère les caractéristiques du plus court chemin */
 		int nbCase = chemin.getNbCase();
 		List<Case> cases = chemin.getChemin();
@@ -75,15 +84,7 @@ public class Pattes extends Robot {
 			Case deplacement = cases.get(i);
 			sim.ajouteEvenement(new EvenementDeplacementUnitaire(date, sim, this, deplacement));		
 		}
-	}
-	
-
-	/* Calcul du plus court chemin */
-	public Chemin plusCourt(Case dest, int date, Chemin chemin) {
-		//TODO
-		return chemin;
-	}
-	
+	}	
 
 	/* Déplacement possible partout sauf eau */
 	@Override
@@ -97,9 +98,11 @@ public class Pattes extends Robot {
 		}
 	}
 
+	/* Calcul du plus court chemin */
 	@Override
 	public Chemin plusCourt(Case dest, int date) {
-		// TODO Auto-generated method stub
-		return null;
+		Chemin chemin = new Chemin(this, date);
+		chemin.plusCourt(dest);
+		return chemin;
 	}
 }
