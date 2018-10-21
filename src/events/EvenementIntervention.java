@@ -14,7 +14,6 @@ public class EvenementIntervention extends Evenement {
 	 * 		hérite du modèle Evenement et effectue l'extinction d'un incendie par un robot
 	 */
 	
-	private Robot robot;
 	private Incendie incendie;
 	
 	/*********************************************
@@ -24,23 +23,16 @@ public class EvenementIntervention extends Evenement {
 	
 	/* Constructeur */
 	public EvenementIntervention(int date, Simulateur sim, Robot rbt, Incendie inc) {
-		super(date, sim);
-		this.setRobot(rbt);
+		super(date, sim, rbt);
 		this.setIncendie(inc);
 	}
 	
 	/* Mutateurs */
-	public void setRobot(Robot rbt) {
-		this.robot = rbt;
-	}
 	public void setIncendie(Incendie inc) {
 		this.incendie = inc;
 	}
 	
 	/* Accesseur */
-	public Robot getRobot() {
-		return this.robot;
-	}
 	public Incendie getIncendie() {
 		return this.incendie;
 	}
@@ -62,17 +54,11 @@ public class EvenementIntervention extends Evenement {
 		if(vol_restant > 0) {
 			this.getRobot().deverserEau(vol_rbt);
 			this.getIncendie().setVolume(vol_restant);
-			
-			EvenementMessage event = new EvenementMessage(this.getDate(), this.getSimulateur(), "Intervention terminée - Incendie non éteint");
-			event.execute();
 		} 
 		/* Si robot suffisant */
 		else {
 			this.getRobot().deverserEau(vol_inc);
 			this.getIncendie().setVolume(0);
-			
-			EvenementMessage event = new EvenementMessage(this.getDate(), this.getSimulateur(), "Intervention terminée - Incendie éteint");
-			event.execute();
 		}
 	}
 }

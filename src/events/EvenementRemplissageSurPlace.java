@@ -4,13 +4,13 @@ import data.robot.Robot;
 import gui.Simulateur;
 
 /**
- * Classe EvenementRemplissage
+ * Classe EvenementRemplissageSurPlace
  */
 
-public class EvenementRemplissage extends Evenement {
+public class EvenementRemplissageSurPlace extends Evenement {
 	/**
-	 * Classe EvenementRemplissage :
-	 * 		hérite du modèle Evenement et effectue le remplissage du robot (nécessite déplacement peut-être)
+	 * Classe EvenementRemplissageSurPlace :
+	 * 		hérite du modèle Evenement et effectue le remplissage effectif du robot (pas besoin de déplacement)
 	 */
 		
 	/*********************************************
@@ -19,8 +19,9 @@ public class EvenementRemplissage extends Evenement {
 	 */
 	
 	/* Constructeur */
-	public EvenementRemplissage(int date, Simulateur sim, Robot rbt) {
+	public EvenementRemplissageSurPlace(int date, Simulateur sim, Robot rbt) {
 		super(date, sim, rbt);
+		this.setRobot(rbt);
 	}
 	
 	/*********************************************
@@ -31,6 +32,6 @@ public class EvenementRemplissage extends Evenement {
 	/* Exécution de l'évènement */
 	public void execute() {
 		/* Le robot gère le remplissage */
-		this.getRobot().remplirReservoir();
+		this.getRobot().remplirEffectif();
 	}
 }

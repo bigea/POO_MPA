@@ -82,5 +82,8 @@ public abstract class Robot {
 
 	/* Remplir réservoir */
 	public abstract void remplirReservoir();
+	
+	/* Remplissage effectif */
+	public abstract void remplirEffectif();
 
 }

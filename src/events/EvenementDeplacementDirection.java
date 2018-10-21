@@ -9,7 +9,7 @@ import gui.Simulateur;
  * Classe EvenementDeplacementDirection
  */
 
-public class EvenementDeplacementDirection extends EvenementDeplacement {
+public class EvenementDeplacementDirection extends Evenement {
 	/**
 	 * Classe EvenementDeplacementDirection :
 	 * 		hérite du modèle Evenement et effectue le déplacement du robot d'une case vers une direction

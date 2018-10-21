@@ -18,15 +18,17 @@ public class Pattes extends Robot {
 	/**
 	 * Classe Pattes (Robot Terrestre)
 	 */
-	
+
 	/*********************************************
 	 * 
 	 * METHODES DE BASE
 	 */
+	/* réservoir infini */
+	private static final int INFINI = 300000;
 	
 	public Pattes(Case pos, Carte carte) {
 		super(pos, carte);
-		this.setVolume(200000);
+		this.setVolume(INFINI);
 		this.setVitesse(30);
 	}
 	@Override
@@ -55,9 +57,16 @@ public class Pattes extends Robot {
 		
 	}
 
+	/* Remplissage mais instanciation d'évènements pour ce faire (déplacement puis sur place) */
 	@Override
 	public void remplirReservoir() {
-		//TODO : gérer le déplacement vers une case eau
+		//TODO
+	}
+	
+	/* Remplissage effectif */
+	@Override
+	public void remplirEffectif() {
+		this.setVolume(INFINI);
 	}
 
 	@Override

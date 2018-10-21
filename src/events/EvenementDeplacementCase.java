@@ -8,7 +8,7 @@ import gui.Simulateur;
  * Classe EvenementDeplacementCase
  */
 
-public class EvenementDeplacementCase extends EvenementDeplacement {
+public class EvenementDeplacementCase extends Evenement{
 	/**
 	 * Classe EvenementDeplacementCase :
 	 * 		hérite du modèle Evenement et effectue le déplacement du robot

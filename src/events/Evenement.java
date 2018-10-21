@@ -1,5 +1,6 @@
 package events;
 
+import data.robot.Robot;
 import gui.Simulateur;
 
 /**
@@ -14,6 +15,7 @@ public abstract class Evenement {
 	
 	private int date;
 	private Simulateur sim;
+	private Robot robot;
 	
 	/*********************************************
 	 * 
@@ -21,8 +23,9 @@ public abstract class Evenement {
 	 */
 	
 	/* Constructeur */
-	public Evenement(int date, Simulateur sim) {
+	public Evenement(int date, Simulateur sim, Robot robot) {
 		this.setDate(date);
+		this.setRobot(robot);
 		this.sim = sim;
 	}
 	
@@ -30,10 +33,16 @@ public abstract class Evenement {
 	public void setDate(int date) {
 		this.date = date;
 	}
+	public void setRobot(Robot robot) {
+		this.robot = robot;
+	}
 	
 	/* Accesseur */
 	public int getDate() {
 		return this.date;
+	}
+	public Robot getRobot() {
+		return robot;
 	}
 	public Simulateur getSimulateur() {
 		return this.sim;

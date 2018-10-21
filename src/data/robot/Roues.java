@@ -29,6 +29,7 @@ public class Roues extends Robot {
 		this.setVolume(5000);
 		this.setVitesse(80);
 	}
+
 	@Override
 	public void setVitesse(int vitesse) {
 		if (this.getPosition().getNature() != NatureTerrain.TERRAIN_LIBRE && this.getPosition().getNature() != NatureTerrain.HABITAT) {
@@ -58,9 +59,16 @@ public class Roues extends Robot {
 		// TODO Auto-generated method stub
 	}
 	
+	/* Remplissage mais instanciation d'évènements pour ce faire (déplacement puis sur place) */
 	@Override
 	public void remplirReservoir() {
 		//TODO
+	}
+	
+	/* Remplissage effectif */
+	@Override
+	public void remplirEffectif() {
+		this.setVolume(5000);
 	}
 
 	@Override

@@ -8,13 +8,12 @@ import gui.Simulateur;
  * Classe EvenementDeplacementUnitaire
  */
 
-public class EvenementDeplacementUnitaire extends Evenement {
+public class EvenementDeplacementUnitaire extends Evenement{
 	/**
 	 * Classe EvenementDeplacementUnitaire :
-	 * 		hérite du modèle Evenement et effectue le déplacement du robot d'un case
+	 * 		hérite du modèle EvenementDeplacement et effectue le déplacement unitaire du robot d'un case
 	 */
 	
-	private Robot robot;
 	private Case destination;
 	
 	/*********************************************
@@ -24,22 +23,12 @@ public class EvenementDeplacementUnitaire extends Evenement {
 	
 	/* Constructeur */
 	public EvenementDeplacementUnitaire(int date, Simulateur sim, Robot rbt, Case dest) {
-		super(date, sim);
-		this.setRobot(rbt);
+		super(date, sim, rbt);
 		this.setCase(dest);
 	}
 	
-	/* Mutateurs */
-	public void setRobot(Robot rbt) {
-		this.robot = rbt;
-	}
 	public void setCase(Case dest) {
 		this.destination = dest;
-	}
-	
-	/* Accesseur */
-	public Robot getRobot() {
-		return this.robot;
 	}
 	public Case getCase() {
 		return this.destination;
@@ -56,7 +45,5 @@ public class EvenementDeplacementUnitaire extends Evenement {
 	 */
 	public void execute() {
 		this.getRobot().setPosition(this.getCase());
-		EvenementMessage event = new EvenementMessage(this.getDate(), this.getSimulateur(), "Le robot est bien arrivé");
-		event.execute();
 	}
 }

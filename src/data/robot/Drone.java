@@ -59,9 +59,16 @@ public class Drone extends Robot {
 		
 	}
 
+	/* Remplissage mais instanciation d'évènements pour ce faire (déplacement puis sur place) */
 	@Override
 	public void remplirReservoir() {
-		//TODO: gérer le déplacement jusqu'à un réservoir d'eau
+		//TODO
+	}
+	
+	/* Remplissage effectif */
+	@Override
+	public void remplirEffectif() {
+		this.setVolume(10000);
 	}
 
 	@Override

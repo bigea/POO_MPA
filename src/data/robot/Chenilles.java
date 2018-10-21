@@ -61,9 +61,16 @@ public class Chenilles extends Robot {
 		// TODO Auto-generated method stub
 	}
 
+	/* Remplissage mais instanciation d'évènements pour ce faire (déplacement puis sur place) */
 	@Override
 	public void remplirReservoir() {
-		// TODO
+		//TODO
+	}
+	
+	/* Remplissage effectif */
+	@Override
+	public void remplirEffectif() {
+		this.setVolume(2000);
 	}
 
 	@Override
