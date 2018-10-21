@@ -1,5 +1,14 @@
+import data.Carte;
+import data.Case;
+import data.enumerate.Direction;
+import data.enumerate.NatureTerrain;
+import data.robot.Drone;
+import data.robot.Robot;
 import events.Evenement;
+import events.EvenementDeplacementDirection;
+import events.EvenementDeplacementUnitaire;
 import events.EvenementMessage;
+import gui.Simulateur;
 
 
 /**
@@ -19,40 +28,58 @@ public class TestSimulateur {
     		System.out.println("Evènement impossible");
     	}
     	
-//    	
-//    	System.out.println("---- Test EvenementDeplacement : drone 2 3 ROCHE => 5 6 FORET");
-//    	Carte carte = new Carte(8,8,2);
-//    	Case pos = new Case(2,3,NatureTerrain.ROCHE);
-//    	carte.setCase(pos);
-//    	Robot rbt = new Drone(pos, carte);
-//    	Case dest = new Case(5,6,NatureTerrain.FORET);
-//    	carte.setCase(dest);
-//    	Evenement dpltc = new EvenementDeplacement(3, null, rbt, dest);
-//    	dpltc.execute();
-//    	System.out.println(rbt);
-//    	
-//    	System.out.println("---- Test EvenementIntervention et EvenementRemplissage");
-//    	Incendie inc = new Incendie(pos, 10500);
-//    	Evenement inter = new EvenementIntervention(5, null, rbt, inc);
-//    	inter.execute();
-//    	Evenement remplir = new EvenementRemplissage(6, null, rbt);
-//    	remplir.execute();
-//    	Evenement inter2 = new EvenementIntervention(7, null, rbt, inc);
-//    	inter2.execute();
-//    	
+    	 	
     	/* TEST SIMULATEUR */
-//    	/* Création d'un simulateur et ajout des évènements */
-//        Simulateur simulateur1 = new Simulateur(2);
-//        for(int i = 2 ; i <= 10 ; i += 2) {
-//        	simulateur1.ajouteEvenement(new EvenementMessage(i , " [ PING ] " ));
-//        }
-//        for(int i = 3 ; i <= 9 ; i += 3) {
-//        	simulateur1.ajouteEvenement(new EvenementMessage(i , " [ PONG ] " ));
-//        }
-//        /* on exécute le simulateur */
-//        for(int i = 2 ; i <= 10 ; i ++) {
-//        	simulateur1.incrementeDate();
-//        }
+    	System.out.println("------ TEST SIMULATEUR -------");
+    	System.out.println("------ Test EvenementMessage -------");
+    	/* Création d'un simulateur et ajout des évènements */
+        Simulateur simulateur1 = new Simulateur(2);
+        for(int i = 2 ; i <= 10 ; i += 2) {
+        	simulateur1.ajouteEvenement(new EvenementMessage(i , simulateur1, " [ PING ] " ));
+        }
+        for(int i = 3 ; i <= 9 ; i += 3) {
+        	simulateur1.ajouteEvenement(new EvenementMessage(i , simulateur1, " [ PONG ] " ));
+        }
+        /* on exécute le simulateur (sur 60 secondes)*/
+        try{
+        	simulateur1.incrementeDate();
+        } catch (Exception e) {
+    		System.out.println("Evènement impossible");
+        }
+        
+        /* Création d'une carte et de ses attributs */
+        Carte carte = new Carte(3,3,10);
+        Case cas11 = new Case(0,0,NatureTerrain.FORET);
+        Case cas12 = new Case(0,1,NatureTerrain.FORET);
+        Case cas13 = new Case(0,2,NatureTerrain.EAU);
+        Case cas21 = new Case(1,0,NatureTerrain.ROCHE);
+        Case cas22 = new Case(1,1,NatureTerrain.EAU);
+        Case cas23 = new Case(1,2,NatureTerrain.HABITAT);
+        Case cas31 = new Case(2,0,NatureTerrain.HABITAT);
+        Case cas32 = new Case(2,1,NatureTerrain.FORET);
+        Case cas33 = new Case(2,2,NatureTerrain.HABITAT);
+        carte.setCase(cas11);
+        carte.setCase(cas12);
+        carte.setCase(cas13);
+        carte.setCase(cas21);
+        carte.setCase(cas22);
+        carte.setCase(cas23);
+        carte.setCase(cas31);
+        carte.setCase(cas32);
+        carte.setCase(cas33);
+        Robot drone = new Drone(cas11,carte);
+        System.out.println(drone);
+        /* Création d'un simulateur et ajout des évènements */
+        Simulateur simulateur2 = new Simulateur(2);
+        Evenement event = new EvenementDeplacementUnitaire(3,simulateur2,drone,cas21);
+        simulateur2.ajouteEvenement(event);
+        event = new EvenementDeplacementUnitaire(5,simulateur2,drone,cas22);
+        simulateur2.ajouteEvenement(event);
+        event = new EvenementDeplacementDirection(7,simulateur2,drone,Direction.SUD);
+        simulateur2.ajouteEvenement(event);
+        simulateur2.incrementeDate();
+        System.out.println(drone);
+        
     }
 }
 

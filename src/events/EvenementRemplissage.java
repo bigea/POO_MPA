@@ -30,7 +30,7 @@ public class EvenementRemplissage extends Evenement {
 	
 	/* Exécution de l'évènement */
 	public void execute() {
-		/* Le robot gère le remplissage */
-		this.getRobot().remplirReservoir();
+		/* Le robot gère le remplissage (déplacement) */
+		this.getRobot().remplirReservoir(this.getSimulateur());
 	}
 }

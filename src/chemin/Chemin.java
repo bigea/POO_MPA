@@ -180,10 +180,10 @@ public class Chemin {
 	 * 		case et la moitié de la seconde case
 	 */
 	public int calculTemps(Case src, Case dest) {
-		/* Vitesse sur la case src */
-		double vitesse_src = this.getRobot().getVitesse(src.getNature());
-		/* Vitesse sur la case dest */
-		double vitesse_dest = this.getRobot().getVitesse(dest.getNature());
+		/* Vitesse sur la case src en m/s*/
+		double vitesse_src = (this.getRobot().getVitesse(src.getNature()))/3.6;
+		/* Vitesse sur la case dest en m/s */
+		double vitesse_dest = (this.getRobot().getVitesse(dest.getNature()))/3.6;
 		/* Taille de la case, on prend comme distance la moitié */
 		int taille_case = this.getRobot().getCarte().getTailleCases();
 		int distance = taille_case/2;
@@ -192,5 +192,18 @@ public class Chemin {
 		double temps_dest = distance/vitesse_dest;
 		/* On renvoie le temps, arrondi au supérieur */
 		return (int) Math.round(temps_src+temps_dest);
+	}
+	
+	
+	/*********************************************
+	 * 
+	 * REMPLISSAGE
+	 * 		- gérer le déplacement vers la case eau la plus proche
+	 * 		- selon le type du robot
+	 * 		- génère le chemin correspondant
+	 */
+	
+	public void getEau() {
+		//TODO
 	}
 }

@@ -31,7 +31,7 @@ public class EvenementRemplissageSurPlace extends Evenement {
 	
 	/* Exécution de l'évènement */
 	public void execute() {
-		/* Le robot gère le remplissage */
+		/* Le robot se remplit */
 		this.getRobot().remplirEffectif();
 	}
 }

@@ -1,13 +1,9 @@
 package data.robot;
 
-import java.util.List;
-
 import chemin.Chemin;
 import data.Carte;
 import data.Case;
 import data.enumerate.NatureTerrain;
-import events.EvenementDeplacementUnitaire;
-import gui.Simulateur;
 
 /**
  * Classe Pattes
@@ -41,14 +37,27 @@ public class Pattes extends Robot {
 	}
 	@Override
 	public double getVitesse(NatureTerrain nt) {
-		// TODO Auto-generated method stub
-		return this.vitesse;
+		switch(nt) {
+			case ROCHE:
+				return 10;
+			default:
+				return this.vitesse;
+		}
 	}
+	@Override
+	protected int getTempsRemplissage() {
+		return 0;
+	}
+	@Override
+	public String toString() {
+		return this.getPosition().getLigne()+" "+this.getPosition().getColonne()+" PATTES "+this.getVitesse(this.getPosition().getNature());
+	}
+
 
 	
 	/*********************************************
 	 * 
-	 * METHODES D'ACTION
+	 * METHODES D'INTERVENTION
 	 */
 	
 	@Override
@@ -56,45 +65,35 @@ public class Pattes extends Robot {
 		// TODO Auto-generated method stub
 		
 	}
-
-	/* Remplissage mais instanciation d'évènements pour ce faire (déplacement puis sur place) */
-	@Override
-	public void remplirReservoir() {
-		//TODO
-	}
 	
-	/* Remplissage effectif */
+	
+	/*********************************************
+	 * 
+	 * METHODES DE REMPLISSAGE : ne se remplit jamais
+	 */
+	
 	@Override
 	public void remplirEffectif() {
 		this.setVolume(INFINI);
 	}
-
 	@Override
-	public String toString() {
-		return this.getPosition().getLigne()+" "+this.getPosition().getColonne()+" PATTES "+this.getVitesse(this.getPosition().getNature());
+	public boolean possibleRemplissage(Case cas) {
+		return false;
 	}
 
-	@Override
-	/*
-	 * Déplacement du robot vers une Case :
-	 * 		crée la liste d'évènements à partir de la date actuelle du simulateur (=CheminDrone)
-	 * 		et les ajoute dans le simulateur
+	
+	/*********************************************
+	 * 
+	 * METHODES DE DEPLACEMENT
 	 */
-	public void deplacementCase(Case dest, Simulateur sim) {
-		/* Calcul du plus court dans chemin */
-		Chemin chemin = plusCourt(dest, sim.getDateSimulation());
-		/* On récupère les caractéristiques du plus court chemin */
-		int nbCase = chemin.getNbCase();
-		List<Case> cases = chemin.getChemin();
-		List<Integer> dates = chemin.getDates();
-		/* Ajout des évènements au simulateur */
-		for(int i = 0; i<nbCase; i++) {
-			int date = dates.get(i);
-			Case deplacement = cases.get(i);
-			sim.ajouteEvenement(new EvenementDeplacementUnitaire(date, sim, this, deplacement));		
-		}
-	}	
-
+	/* Calcul du plus court chemin */
+	@Override
+	public Chemin plusCourt(Case dest, int date) {
+		Chemin chemin = new Chemin(this, date);
+		chemin.plusCourt(dest);
+		return chemin;
+	}
+	
 	/* Déplacement possible partout sauf eau */
 	@Override
 	public boolean possibleDeplacement(Case voisin) {
@@ -105,13 +104,5 @@ public class Pattes extends Robot {
 			default:
 				return true;
 		}
-	}
-
-	/* Calcul du plus court chemin */
-	@Override
-	public Chemin plusCourt(Case dest, int date) {
-		Chemin chemin = new Chemin(this, date);
-		chemin.plusCourt(dest);
-		return chemin;
 	}
 }

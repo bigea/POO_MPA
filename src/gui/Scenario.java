@@ -79,7 +79,7 @@ public class Scenario {
 			this.sequence.add(event);
 		} else {
 			ArrayList<Evenement> newEvents = new ArrayList<Evenement>();
-			while(date >= this.sequence.get(pos).getDate() && pos < nbEvents) {
+			while(pos < nbEvents && date >= this.sequence.get(pos).getDate()) {
 				newEvents.add(this.sequence.get(pos));
 				pos += 1;
 			}
@@ -89,7 +89,7 @@ public class Scenario {
 			if(pos != nbEvents) {
 				// on les ajoute
 				for(int i=pos;i<nbEvents;i++) {
-					newEvents.add(this.sequence.get(pos));
+					newEvents.add(this.sequence.get(i));
 				}
 			}
 			// s'il n'en reste plus : le nouvel évents est à la fin
@@ -101,11 +101,11 @@ public class Scenario {
 	/* Exécution entre deux dates */
 	public void execute(int avant, int apres) {
 		// Tant qu'on a pas dépassé la date
-		while(this.sequence.get(0)!=null && this.sequence.get(0).getDate() < apres) {
+		while(this.sequence.size() != 0 && this.sequence.get(0)!=null && this.sequence.get(0).getDate() < apres) {
 			try {
 				// on exécute l'évènement
 				this.sequence.get(0).execute();
-				// on supprime de la séquence
+				// on le supprime de la séquence
 				this.sequence.remove(0);
 				// on adapte la taille de la séquence
 				this.sequence.trimToSize();

@@ -1,13 +1,10 @@
 package data.robot;
 
-import java.util.List;
-
 import chemin.Chemin;
 import data.Carte;
 import data.Case;
+import data.enumerate.Direction;
 import data.enumerate.NatureTerrain;
-import events.EvenementDeplacementUnitaire;
-import gui.Simulateur;
 
 /**
  * Classe Chenilles
@@ -42,8 +39,16 @@ public class Chenilles extends Robot {
 	}
 	@Override
 	public double getVitesse(NatureTerrain nt) {
-		// TODO Auto-generated method stub
-		return this.vitesse;
+		switch(nt) {
+			case FORET:
+				return this.vitesse/2;
+			default:
+				return this.vitesse;
+		}
+	}
+	@Override
+	protected int getTempsRemplissage() {
+		return 300;
 	}
 	@Override
 	public String toString() {
@@ -53,7 +58,7 @@ public class Chenilles extends Robot {
 	
 	/*********************************************
 	 * 
-	 * METHODES D'ACTION
+	 * METHODES D'INTERVENTION
 	 */
 	
 	@Override
@@ -61,10 +66,35 @@ public class Chenilles extends Robot {
 		// TODO Auto-generated method stub
 	}
 
-	/* Remplissage mais instanciation d'évènements pour ce faire (déplacement puis sur place) */
+	/*********************************************
+	 * 
+	 * METHODES DE REMPLISSAGE
+	 */
+	
+	/* Possibilité de remplir sur la case donnée */
 	@Override
-	public void remplirReservoir() {
-		//TODO
+	public boolean possibleRemplissage(Case cas) {
+		Direction direction = Direction.SUD;
+		Case voisin = this.getCarte().getVoisin(cas, direction);
+		if(voisin.getNature() == NatureTerrain.EAU) {
+			return true;
+		}
+		direction = Direction.NORD;
+		voisin = this.getCarte().getVoisin(cas, direction);
+		if(voisin.getNature() == NatureTerrain.EAU) {
+			return true;
+		}
+		direction = Direction.EST;
+		voisin = this.getCarte().getVoisin(cas, direction);
+		if(voisin.getNature() == NatureTerrain.EAU) {
+			return true;
+		}
+		direction = Direction.OUEST;
+		voisin = this.getCarte().getVoisin(cas, direction);
+		if(voisin.getNature() == NatureTerrain.EAU) {
+			return true;
+		}
+		return false;
 	}
 	
 	/* Remplissage effectif */
@@ -73,26 +103,11 @@ public class Chenilles extends Robot {
 		this.setVolume(2000);
 	}
 
-	@Override
-	/*
-	 * Déplacement du robot vers une Case :
-	 * 		crée la liste d'évènements à partir de la date actuelle du simulateur (=CheminDrone)
-	 * 		et les ajoute dans le simulateur
+	
+	/*********************************************
+	 * 
+	 * METHODES DE DEPLACEMENT
 	 */
-	public void deplacementCase(Case dest, Simulateur sim) {
-		/* Calcul du plus court dans chemin */
-		Chemin chemin = plusCourt(dest, sim.getDateSimulation());
-		/* On récupère les caractéristiques du plus court chemin */
-		int nbCase = chemin.getNbCase();
-		List<Case> cases = chemin.getChemin();
-		List<Integer> dates = chemin.getDates();
-		/* Ajout des évènements au simulateur */
-		for(int i = 0; i<nbCase; i++) {
-			int date = dates.get(i);
-			Case deplacement = cases.get(i);
-			sim.ajouteEvenement(new EvenementDeplacementUnitaire(date, sim, this, deplacement));		
-		}
-	}	
 
 	/* Calcul du plus court chemin */
 	@Override
@@ -115,4 +130,5 @@ public class Chenilles extends Robot {
 				return true;
 		}
 	}
+
 }

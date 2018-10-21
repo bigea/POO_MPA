@@ -21,6 +21,7 @@ public class Simulateur { //implements Simulable {
 	//private GUISimulator gui;
 	private int dateSimulation;
 	private Scenario scenario;
+	
 	/* On incrément de INCRE secondes à chaque fois */
 	private static final int INCRE = 60;
 
@@ -64,7 +65,7 @@ public class Simulateur { //implements Simulable {
 	}
 
 	/* Incrémente date et exécute tous les évènements jusqu'à cette date */
-	public void incrementeDate() throws Exception {
+	public void incrementeDate() {
 		int avant = this.dateSimulation;
 		int apres = this.dateSimulation+INCRE;
 		this.scenario.execute(avant,apres);
