@@ -58,7 +58,7 @@ public class Simulateur { //implements Simulable {
 	 * METHODES GESTION DES EVENEMENTS
 	 */
 	
-	/* Ajout d'un évènement */
+	/* Ajout d'un évènement au simulateur */
 	public void ajouteEvenement(Evenement event) {
 		this.scenario.ajouteEvenement(event);
 	}

@@ -105,7 +105,7 @@ public class Scenario {
 			try {
 				// on exécute l'évènement
 				this.sequence.get(0).execute();
-				// on le supprime de la séquence
+				// on supprime de la séquence
 				this.sequence.remove(0);
 				// on adapte la taille de la séquence
 				this.sequence.trimToSize();
