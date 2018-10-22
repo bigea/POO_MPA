@@ -23,16 +23,16 @@ public class TestInvader {
  * Un mini-invader...
  * cet objet est associé à une fenêtre graphique GUISimulator, dans laquelle
  * il peut se dessiner.
- * De plus il hérite de Simulable, donc il définit deux méthodes next() et 
+ * De plus il hérite de Simulable, donc il définit deux méthodes next() et
  * restart() invoquées par la fenêtre graphique de simulation selon les
  * commandes entrées par l'utilisateur.
  */
 class Invader implements Simulable {
     /** L'interface graphique associée */
-    private GUISimulator gui;	
+    private GUISimulator gui;
 
     /** La couleur de dessin de l'invader */
-    private Color invaderColor;	
+    private Color invaderColor;
 
     /** Abcisse courante de l'invader (bord gauche) */
     private int x;
@@ -63,7 +63,7 @@ class Invader implements Simulable {
     }
 
     /**
-     * Programme les déplacements de l'invader. 
+     * Programme les déplacements de l'invader.
      */
     private void planCoordinates() {
         // panel must be large enough... unchecked here!
@@ -98,15 +98,15 @@ class Invader implements Simulable {
         this.yIterator = yCoords.iterator();
         // current position
         this.x = xMin;
-        this.y = yMin;		
+        this.y = yMin;
     }
 
     @Override
     public void next() {
         if (this.xIterator.hasNext())
-            this.x = this.xIterator.next();		
+            this.x = this.xIterator.next();
         if (this.yIterator.hasNext())
-            this.y = this.yIterator.next();		
+            this.y = this.yIterator.next();
         draw();
     }
 

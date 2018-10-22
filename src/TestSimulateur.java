@@ -8,7 +8,7 @@ import events.Evenement;
 import events.EvenementDeplacementDirection;
 import events.EvenementDeplacementUnitaire;
 import events.EvenementMessage;
-import gui.Simulateur;
+import gui2.Simulateur;
 
 
 /**
@@ -27,13 +27,13 @@ public class TestSimulateur {
     	} catch (Exception e) {
     		System.out.println("Evènement impossible");
     	}
-    	
-    	 	
+
+
     	/* TEST SIMULATEUR */
     	System.out.println("------ TEST SIMULATEUR -------");
     	System.out.println("------ Test EvenementMessage -------");
     	/* Création d'un simulateur et ajout des évènements */
-        Simulateur simulateur1 = new Simulateur(2);
+        Simulateur simulateur1 = new Simulateur(2, 800, 600, 20);
         for(int i = 2 ; i <= 10 ; i += 2) {
         	simulateur1.ajouteEvenement(new EvenementMessage(i , simulateur1, " [ PING ] " ));
         }
@@ -46,7 +46,7 @@ public class TestSimulateur {
         } catch (Exception e) {
     		System.out.println("Evènement impossible");
         }
-        
+
         /* Création d'une carte et de ses attributs */
         Carte carte = new Carte(3,3,10);
         Case cas11 = new Case(0,0,NatureTerrain.FORET);
@@ -70,7 +70,7 @@ public class TestSimulateur {
         Robot drone = new Drone(cas11,carte);
         System.out.println(drone);
         /* Création d'un simulateur et ajout des évènements */
-        Simulateur simulateur2 = new Simulateur(2);
+        Simulateur simulateur2 = new Simulateur(2, 800, 600, 20);
         Evenement event = new EvenementDeplacementUnitaire(3,simulateur2,drone,cas21);
         simulateur2.ajouteEvenement(event);
         event = new EvenementDeplacementUnitaire(5,simulateur2,drone,cas22);
@@ -79,7 +79,6 @@ public class TestSimulateur {
         simulateur2.ajouteEvenement(event);
         simulateur2.incrementeDate();
         System.out.println(drone);
-        
+
     }
 }
-

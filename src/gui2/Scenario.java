@@ -1,8 +1,13 @@
-package gui;
+package gui2;
 
 import java.util.ArrayList;
 
 import events.Evenement;
+// import gui2.Simulateur;
+import gui.GUISimulator;
+import gui.Rectangle;
+import gui.Simulable;
+import gui.Text;
 
 /**
  * Classe Scenario
@@ -15,26 +20,26 @@ public class Scenario {
 	 * Classe Scenario :
 	 * 		- contient une séquence ordonnée d'évènements
 	 */
-	
+
 	private ArrayList<Evenement> sequence;
-	
+
 	/*********************************************
 	 *
 	 * METHODES DE BASE
 	 */
-	
+
 	public Scenario() {
 		this.sequence = new ArrayList<Evenement>();
 	}
-	
+
 	public ArrayList<Evenement> getScenario(){
 		return this.sequence;
 	}
-	
+
 	public int getNbEvents() {
 		return this.sequence.size();
 	}
-	
+
 	/* Renvoi la position du premier évènement de cette date */
 	private int getPosition(int date) throws Exception {
 		int pos = 0;
@@ -63,13 +68,13 @@ public class Scenario {
 		}
 		return null;
 	}
-	
-	
+
+
 	/*********************************************
 	 *
 	 * METHODES DE GESTION D'EVENEMENTS
 	 */
-	
+
 	/* Ajout d'évènements (ordonné !) */
 	public void ajouteEvenement(Evenement event) {
 		int date = event.getDate();
@@ -97,7 +102,7 @@ public class Scenario {
 			this.sequence = newEvents;
 		}
 	}
-	
+
 	/* Exécution entre deux dates */
 	public void execute(int avant, int apres) {
 		// Tant qu'on a pas dépassé la date

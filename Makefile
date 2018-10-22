@@ -26,6 +26,12 @@ all: testInvader testLecture
 testInvader:
 	javac -d bin -classpath bin/gui.jar -sourcepath src src/TestInvader.java
 
+simulateur:
+	javac -d bin -classpath bin/gui.jar -sourcepath src src/gui2/Simulateur.java
+
+testSimulateur:
+	javac -d bin -classpath bin/gui.jar -sourcepath src src/TestSimulateur.java
+
 testLecture:
 	javac -d bin -sourcepath src src/TestLecteurDonnees.java
 
@@ -34,10 +40,13 @@ testLecture:
 #   > java -classpath bin:bin/gui.jar TestInvader
 # ou bien lancer l'execution en passant par ce Makefile:
 #   > make exeInvader
-exeInvader: 
+exeInvader:
 	java -classpath bin:bin/gui.jar TestInvader
 
-exeLecture: 
+exeSimulateur:
+	java -classpath bin:bin/gui.jar TestSimulateur
+
+exeLecture:
 	java -classpath bin TestLecteurDonnees cartes/carteSujet.map
 
 clean:
