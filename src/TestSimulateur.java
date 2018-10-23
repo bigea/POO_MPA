@@ -33,7 +33,7 @@ public class TestSimulateur {
     	System.out.println("------ TEST SIMULATEUR -------");
     	System.out.println("------ Test EvenementMessage -------");
     	/* Création d'un simulateur et ajout des évènements */
-        Simulateur simulateur1 = new Simulateur(2, 800, 600, 20);
+        Simulateur simulateur1 = new Simulateur(2, 8, 6, 20);
         for(int i = 2 ; i <= 10 ; i += 2) {
         	simulateur1.ajouteEvenement(new EvenementMessage(i , simulateur1, " [ PING ] " ));
         }

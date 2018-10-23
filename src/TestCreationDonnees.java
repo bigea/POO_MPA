@@ -1,5 +1,6 @@
 
 import io.LecteurDonnees;
+import gui2.*;
 
 import java.io.FileNotFoundException;
 import java.util.zip.DataFormatException;
@@ -20,7 +21,12 @@ public class TestCreationDonnees {
 
         try {
         	DonneesSimulation donnees = LecteurDonnees.creeDonnees(args[0]);
+        	
+        	//System.out.println("coucou");
+        	//sim.gererDonnees(donnees);
         	System.out.println(donnees);
+        	Simulateur simulateur1 = new Simulateur(2, 8, 6, 20);
+        	simulateur1.gererDonnees(donnees);;
         } catch (FileNotFoundException e) {
             System.out.println("fichier " + args[0] + " inconnu ou illisible");
         } catch (DataFormatException e) {
