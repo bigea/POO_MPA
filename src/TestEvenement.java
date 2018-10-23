@@ -1,14 +1,14 @@
-import data.Carte;
+import java.io.FileNotFoundException;
+import java.util.zip.DataFormatException;
+
 import data.Case;
-import data.enumerate.Direction;
-import data.enumerate.NatureTerrain;
-import data.robot.Drone;
+import data.DonneesSimulation;
 import data.robot.Robot;
 import events.Evenement;
-import events.EvenementDeplacementDirection;
 import events.EvenementDeplacementUnitaire;
 import events.EvenementMessage;
 import gui2.Simulateur;
+import io.LecteurDonnees;
 
 
 /**
@@ -30,54 +30,42 @@ public class TestEvenement {
 
     	/* TEST SIMULATEUR */
     	System.out.println("------ TEST SIMULATEUR -------");
-    	System.out.println("------ Test EvenementMessage -------");
-    	/* Création d'un simulateur et ajout des évènements */
-        Simulateur simulateur1 = new Simulateur(2, 800, 600, 20);
-        for(int i = 2 ; i <= 10 ; i += 2) {
-        	simulateur1.ajouteEvenement(new EvenementMessage(i , simulateur1, " [ PING ] " ));
-        }
-        for(int i = 3 ; i <= 9 ; i += 3) {
-        	simulateur1.ajouteEvenement(new EvenementMessage(i , simulateur1, " [ PONG ] " ));
-        }
-        /* on exécute le simulateur (sur 60 secondes)*/
-        try{
-        	simulateur1.incrementeDate();
-        } catch (Exception e) {
-    		System.out.println("Evènement impossible");
-        }
 
+        /* TESTS SUR UNE CARTE */
         /* Création d'une carte et de ses attributs */
-        Carte carte = new Carte(3,3,10);
-        Case cas11 = new Case(0,0,NatureTerrain.FORET);
-        Case cas12 = new Case(0,1,NatureTerrain.FORET);
-        Case cas13 = new Case(0,2,NatureTerrain.EAU);
-        Case cas21 = new Case(1,0,NatureTerrain.ROCHE);
-        Case cas22 = new Case(1,1,NatureTerrain.EAU);
-        Case cas23 = new Case(1,2,NatureTerrain.HABITAT);
-        Case cas31 = new Case(2,0,NatureTerrain.HABITAT);
-        Case cas32 = new Case(2,1,NatureTerrain.FORET);
-        Case cas33 = new Case(2,2,NatureTerrain.HABITAT);
-        carte.setCase(cas11);
-        carte.setCase(cas12);
-        carte.setCase(cas13);
-        carte.setCase(cas21);
-        carte.setCase(cas22);
-        carte.setCase(cas23);
-        carte.setCase(cas31);
-        carte.setCase(cas32);
-        carte.setCase(cas33);
-        Robot drone = new Drone(cas11,carte);
-        System.out.println(drone);
-        /* Création d'un simulateur et ajout des évènements */
-        Simulateur simulateur2 = new Simulateur(2, 800, 600, 20);
-        Evenement event = new EvenementDeplacementUnitaire(3,simulateur2,drone,cas21);
-        simulateur2.ajouteEvenement(event);
-        event = new EvenementDeplacementUnitaire(5,simulateur2,drone,cas22);
-        simulateur2.ajouteEvenement(event);
-        event = new EvenementDeplacementDirection(7,simulateur2,drone,Direction.SUD);
-        simulateur2.ajouteEvenement(event);
-        simulateur2.incrementeDate();
-        System.out.println(drone);
+        if (args.length < 1) {
+            System.out.println("Syntaxe: java TestCreationDonnees <nomDeFichier>");
+            System.exit(1);
+        }
 
+        try {
+        	/* On récupère la carte et les données */
+            DonneesSimulation donnees = LecteurDonnees.creeDonnees(args[0]);
+            Robot drone = donnees.getRobots()[0];
+            Robot roues = donnees.getRobots()[1];
+            Robot pattes = donnees.getRobots()[2];
+            int nbLignes = donnees.getCarte().getNbLignes();
+            int nbColonnes = donnees.getCarte().getNbLignes();
+            int tailleCases = donnees.getCarte().getTailleCases();
+            /* Création d'un simulateur et ajout des évènements */
+            Simulateur simulateur2 = new Simulateur(1, nbLignes, nbColonnes, tailleCases);
+//            Case dest = donnees.getCarte().getCase(3, 4);
+//            Evenement event = new EvenementDeplacementUnitaire(62,simulateur2,drone,dest);
+//            simulateur2.ajouteEvenement(event);
+//            dest = donnees.getCarte().getCase(6, 6);
+//            event = new EvenementDeplacementUnitaire(20,simulateur2,roues,dest);
+//            simulateur2.ajouteEvenement(event);
+//            dest = donnees.getCarte().getCase(5, 7);
+//            event = new EvenementDeplacementUnitaire(45,simulateur2,pattes,dest);
+//            simulateur2.ajouteEvenement(event);
+//            simulateur2.incrementeDate();
+//            System.out.println(donnees);
+//            simulateur2.incrementeDate();
+//            System.out.println(donnees);
+        } catch (FileNotFoundException e) {
+            System.out.println("fichier " + args[0] + " inconnu ou illisible");
+        } catch (DataFormatException e) {
+            System.out.println("\n\t**format du fichier " + args[0] + " invalide: " + e.getMessage());
+        }
     }
 }
