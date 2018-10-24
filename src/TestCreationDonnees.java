@@ -21,12 +21,14 @@ public class TestCreationDonnees {
 
         try {
         	DonneesSimulation donnees = LecteurDonnees.creeDonnees(args[0]);
-        	
-        	//System.out.println("coucou");
-        	//sim.gererDonnees(donnees);
+        	//Affichage des données
         	System.out.println(donnees);
-        	Simulateur simulateur1 = new Simulateur(2, 8, 6, 20);
-        	simulateur1.gererDonnees(donnees);;
+        	//On récupère les données pour le simulateur
+            int nbLignes = donnees.getCarte().getNbLignes();
+            int nbColonnes = donnees.getCarte().getNbLignes();
+            int tailleCases = donnees.getCarte().getTailleCases();
+        	Simulateur simulateur1 = new Simulateur(2, nbLignes, nbColonnes, 50);
+        	simulateur1.gererDonnees(donnees);
         } catch (FileNotFoundException e) {
             System.out.println("fichier " + args[0] + " inconnu ou illisible");
         } catch (DataFormatException e) {

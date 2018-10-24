@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import events.Evenement;
 import data.*;
+import data.enumerate.NatureRobot;
 import data.enumerate.NatureTerrain;
 import data.robot.Robot;
 /*
@@ -151,29 +152,29 @@ public class Simulateur implements Simulable {
 						break;
 				
 				}
-				int iReel = 100 + i*this.tailleCase;
-				int jReel = 100 + j*this.tailleCase;
+				int iReel = i*this.tailleCase;
+				int jReel = j*this.tailleCase;
 				this.gui.addGraphicalElement(new Rectangle(iReel, jReel, Color.BLACK, couleur_case, this.tailleCase));
 				
 			}
 		}
 	}
 
-	public void dessinerRobot(int lig, int col, String robotType) {
+	public void dessinerRobot(int lig, int col, NatureRobot robotType) {
 		int x = lig*this.tailleCase;
 		int y = col*this.tailleCase;
 		switch (robotType) {
-			case "Chenilles":
+			case CHENILLES:
 				// ImageObserver obs = new Imageobserver();
 				this.gui.addGraphicalElement(new Oval(x, y, Color.GREEN, Color.GREEN, this.tailleCase/2, this.tailleCase/2));
 				break;
-			case "Drone":
+			case DRONE:
 				this.gui.addGraphicalElement(new Oval(x, y, Color.BLACK, Color.BLACK, this.tailleCase/2, this.tailleCase/2));
 				break;
-			case "Pattes":
+			case PATTES:
 				this.gui.addGraphicalElement(new Oval(x, y, Color.MAGENTA, Color.MAGENTA, this.tailleCase/2, this.tailleCase/2));
 				break;
-			case "Roues":
+			case ROUES:
 				this.gui.addGraphicalElement(new Oval(x, y, Color.YELLOW, Color.YELLOW, this.tailleCase/2, this.tailleCase/2));
 				break;
 			default:
@@ -203,7 +204,8 @@ public class Simulateur implements Simulable {
 			Case position = robots[i].getPosition();
 			int lig = position.getLigne();
 			int col = position.getColonne();
-			this.dessinerRobot(lig, col, "Pattes");
+			NatureRobot nature = robots[i].getNature();
+			this.dessinerRobot(lig, col, nature);
 		}
 	}
 	

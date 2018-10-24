@@ -4,6 +4,7 @@ import chemin.Chemin;
 import data.Carte;
 import data.Case;
 import data.enumerate.Direction;
+import data.enumerate.NatureRobot;
 import data.enumerate.NatureTerrain;
 
 /**
@@ -22,7 +23,7 @@ public class Roues extends Robot {
 	 */
 	
 	public Roues(Case pos, Carte carte) {
-		super(pos, carte);
+		super(pos, carte, NatureRobot.ROUES);
 		this.setVolume(5000);
 		this.setVitesse(80);
 	}

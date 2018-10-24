@@ -4,6 +4,7 @@ import chemin.Chemin;
 import data.Carte;
 import data.Case;
 import data.enumerate.Direction;
+import data.enumerate.NatureRobot;
 import data.enumerate.NatureTerrain;
 
 /**
@@ -22,7 +23,7 @@ public class Drone extends Robot {
 	 * METHODES DE BASE
 	 */
 	public Drone(Case pos, Carte carte) {
-		super(pos, carte);
+		super(pos, carte, NatureRobot.DRONE);
 		this.setVolume(10000);
 		this.setVitesse(100);
 	}

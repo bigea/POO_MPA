@@ -5,6 +5,7 @@ import java.util.List;
 import chemin.Chemin;
 import data.Carte;
 import data.Case;
+import data.enumerate.NatureRobot;
 import data.enumerate.NatureTerrain;
 import events.EvenementDeplacementUnitaire;
 import events.EvenementRemplissageSurPlace;
@@ -22,6 +23,7 @@ public abstract class Robot {
      */
 
 	/* Attributs */
+	private NatureRobot nature;
 	protected Case position;
 	protected int volume;
 	protected int vitesse;
@@ -33,9 +35,10 @@ public abstract class Robot {
 	 */
 
 	/* Constructeur */
-	public Robot(Case pos, Carte carte) {
+	public Robot(Case pos, Carte carte, NatureRobot nature) {
 		this.setPosition(pos);
 		this.carte = carte;
+		this.nature = nature;
 	}
 
 	/* Affichage */
@@ -44,6 +47,9 @@ public abstract class Robot {
 	/* Accesseurs */
 	public Case getPosition() {
 		return this.position;
+	}
+	public NatureRobot getNature() {
+		return this.nature;
 	}
 	public int getVolume() {
 		return this.volume;

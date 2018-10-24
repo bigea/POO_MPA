@@ -296,6 +296,7 @@ public class LecteurDonnees {
         ignorerCommentaires();
         try {
             String chaineNature = scanner.next();
+            System.out.println(chaineNature);
             verifieLigneTerminee();
             NatureTerrain nature = NatureTerrain.valueOf(chaineNature);
             Case cas = new Case(lig, col, nature);

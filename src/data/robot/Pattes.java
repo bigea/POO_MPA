@@ -3,6 +3,7 @@ package data.robot;
 import chemin.Chemin;
 import data.Carte;
 import data.Case;
+import data.enumerate.NatureRobot;
 import data.enumerate.NatureTerrain;
 
 /**
@@ -23,7 +24,7 @@ public class Pattes extends Robot {
 	private static final int INFINI = 300000;
 	
 	public Pattes(Case pos, Carte carte) {
-		super(pos, carte);
+		super(pos, carte, NatureRobot.PATTES);
 		this.setVolume(INFINI);
 		this.setVitesse(30);
 	}

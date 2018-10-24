@@ -4,6 +4,7 @@ import chemin.Chemin;
 import data.Carte;
 import data.Case;
 import data.enumerate.Direction;
+import data.enumerate.NatureRobot;
 import data.enumerate.NatureTerrain;
 
 /**
@@ -23,7 +24,7 @@ public class Chenilles extends Robot {
 	 */
 	
 	public Chenilles(Case pos, Carte carte) {
-		super(pos, carte);
+		super(pos, carte, NatureRobot.CHENILLES);
 		this.setVolume(2000);
 		this.setVitesse(60);
 	}
