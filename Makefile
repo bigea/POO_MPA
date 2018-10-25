@@ -38,9 +38,6 @@ testLecture:
 testCreationDonnees:
 	javac -d bin -classpath bin/gui.jar -sourcepath src src/TestCreationDonnees.java
 
-testEvenement:
-	javac -d bin -classpath bin/gui.jar -sourcepath src src/TestEvenement.java
-
 # Execution:
 # on peut taper directement la ligne de commande :
 #   > java -classpath bin:bin/gui.jar TestInvader
@@ -57,9 +54,6 @@ exeLecture:
 
 exeCreation:
 	java -classpath bin:bin/gui.jar TestCreationDonnees cartes/carteSujet.map
-
-exeEvenement:
-	java -classpath bin:bin/gui.jar TestEvenement cartes/carteSujet.map
 
 clean:
 	rm -rf bin/*.class
