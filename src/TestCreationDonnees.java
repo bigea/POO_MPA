@@ -27,8 +27,8 @@ public class TestCreationDonnees {
             int nbLignes = donnees.getCarte().getNbLignes();
             int nbColonnes = donnees.getCarte().getNbLignes();
             int tailleCases = donnees.getCarte().getTailleCases();
-        	Simulateur simulateur1 = new Simulateur(2, nbLignes, nbColonnes, 50);
-        	simulateur1.gererDonnees(donnees);
+        	Simulateur simulateur1 = new Simulateur(2, donnees);
+        	//simulateur1.gererDonnees(donnees);
         } catch (FileNotFoundException e) {
             System.out.println("fichier " + args[0] + " inconnu ou illisible");
         } catch (DataFormatException e) {

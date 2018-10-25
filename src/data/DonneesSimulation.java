@@ -34,6 +34,8 @@ public class DonneesSimulation {
 		int nbLignes = this.getCarte().getNbLignes();
 		int nbColonnes = this.getCarte().getNbColonnes();
 		chaine += "\n";
+		chaine += this.getCarte().getTailleCases();
+		chaine += "\n";
 		for(int i = 0; i < nbLignes; i++) {
 			chaine += "#l"+i;
 			chaine += "\n";
