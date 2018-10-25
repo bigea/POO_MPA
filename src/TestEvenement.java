@@ -110,8 +110,6 @@ public class TestEvenement {
             System.out.println("------ DATE SIMULATION : "+simulateur3.getDateSimulation());
             System.out.println("    drone : "+drone.getPosition().getLigne()+"-"+drone.getPosition().getColonne());
             
-            
-            
         } catch (FileNotFoundException e) {
             System.out.println("fichier " + args[0] + " inconnu ou illisible");
         } catch (DataFormatException e) {
