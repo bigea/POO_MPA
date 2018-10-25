@@ -48,20 +48,33 @@ public class TestEvenement {
             int nbColonnes = donnees.getCarte().getNbLignes();
             int tailleCases = donnees.getCarte().getTailleCases();
             /* Création d'un simulateur et ajout des évènements */
-            Simulateur simulateur2 = new Simulateur(1, nbLignes, nbColonnes, tailleCases);
-//            Case dest = donnees.getCarte().getCase(3, 4);
-//            Evenement event = new EvenementDeplacementUnitaire(62,simulateur2,drone,dest);
-//            simulateur2.ajouteEvenement(event);
-//            dest = donnees.getCarte().getCase(6, 6);
-//            event = new EvenementDeplacementUnitaire(20,simulateur2,roues,dest);
-//            simulateur2.ajouteEvenement(event);
-//            dest = donnees.getCarte().getCase(5, 7);
-//            event = new EvenementDeplacementUnitaire(45,simulateur2,pattes,dest);
-//            simulateur2.ajouteEvenement(event);
-//            simulateur2.incrementeDate();
-//            System.out.println(donnees);
-//            simulateur2.incrementeDate();
-//            System.out.println(donnees);
+            Simulateur simulateur2 = new Simulateur(0, nbLignes, nbColonnes, tailleCases);
+            simulateur2.gererDonnees(donnees);
+            
+            /* TEST EVENEMENT DEPLACEMENT UNITAIRE */
+            System.out.println("------ DATE SIMULATION : "+simulateur2.getDateSimulation());
+            System.out.println("    drone : "+drone.getPosition().getLigne()+"-"+drone.getPosition().getColonne());
+            System.out.println("    roues : "+roues.getPosition().getLigne()+"-"+roues.getPosition().getColonne());
+            System.out.println("    pattes : "+pattes.getPosition().getLigne()+"-"+pattes.getPosition().getColonne());
+            Case dest = donnees.getCarte().getCase(3, 4);
+            Evenement event = new EvenementDeplacementUnitaire(62,simulateur2,drone,dest);
+            simulateur2.ajouteEvenement(event);
+            dest = donnees.getCarte().getCase(6, 6);
+            event = new EvenementDeplacementUnitaire(20,simulateur2,roues,dest);
+            simulateur2.ajouteEvenement(event);
+            dest = donnees.getCarte().getCase(5, 7);
+            event = new EvenementDeplacementUnitaire(45,simulateur2,pattes,dest);
+            simulateur2.ajouteEvenement(event);
+            simulateur2.incrementeDate();
+            System.out.println("------ DATE SIMULATION : "+simulateur2.getDateSimulation());
+            System.out.println("    drone : "+drone.getPosition().getLigne()+"-"+drone.getPosition().getColonne());
+            System.out.println("    roues : "+roues.getPosition().getLigne()+"-"+roues.getPosition().getColonne());
+            System.out.println("    pattes : "+pattes.getPosition().getLigne()+"-"+pattes.getPosition().getColonne());
+            simulateur2.incrementeDate();
+            System.out.println("------ DATE SIMULATION : "+simulateur2.getDateSimulation());
+            System.out.println("    drone : "+drone.getPosition().getLigne()+"-"+drone.getPosition().getColonne());
+            System.out.println("    roues : "+roues.getPosition().getLigne()+"-"+roues.getPosition().getColonne());
+            System.out.println("    pattes : "+pattes.getPosition().getLigne()+"-"+pattes.getPosition().getColonne());
         } catch (FileNotFoundException e) {
             System.out.println("fichier " + args[0] + " inconnu ou illisible");
         } catch (DataFormatException e) {
