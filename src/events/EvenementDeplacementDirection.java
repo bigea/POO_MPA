@@ -51,6 +51,6 @@ public class EvenementDeplacementDirection extends Evenement {
 			throw new Exception("Déplacement impossible");
 		}
 		/* Le robot gère le déplacement vers cette case */
-		this.getRobot().deplacementCase(voisin, this.getSimulateur());
+		this.getRobot().deplacementVoisin(voisin, this.getSimulateur());
 	}
 }
