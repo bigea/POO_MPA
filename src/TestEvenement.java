@@ -14,6 +14,7 @@ import gui2.Simulateur;
 import io.LecteurDonnees;
 
 
+
 /**
  * Test des évènements (organisation des évènements)
  */
@@ -51,8 +52,8 @@ public class TestEvenement {
             int nbColonnes = donnees.getCarte().getNbLignes();
             int tailleCases = donnees.getCarte().getTailleCases();
             /* Création d'un simulateur et ajout des évènements */
-            Simulateur simulateur2 = new Simulateur(0, nbLignes, nbColonnes, tailleCases);
-            
+            Simulateur simulateur2 = new Simulateur(0, donnees);
+
             /* TEST EVENEMENT DEPLACEMENT UNITAIRE */
             System.out.println("------ DATE SIMULATION : "+simulateur2.getDateSimulation());
             System.out.println("    drone : "+drone.getPosition().getLigne()+"-"+drone.getPosition().getColonne());
@@ -67,25 +68,37 @@ public class TestEvenement {
             dest = donnees.getCarte().getCase(5, 7);
             event = new EvenementDeplacementUnitaire(45,simulateur2,pattes,dest);
             simulateur2.ajouteEvenement(event);
+            // System.out.println("ATTEEEEEEEEEEEEEEEEEENNNNNNNDS !!!!!!!!!!!!!!!!!");
+            // try {
+            //   Thread.sleep(5000);
+            // } catch(InterruptedException ex) {
+            //   Thread.currentThread().interrupt();
+            // }
             simulateur2.incrementeDate();
             System.out.println("------ DATE SIMULATION : "+simulateur2.getDateSimulation());
             System.out.println("    drone : "+drone.getPosition().getLigne()+"-"+drone.getPosition().getColonne());
             System.out.println("    roues : "+roues.getPosition().getLigne()+"-"+roues.getPosition().getColonne());
             System.out.println("    pattes : "+pattes.getPosition().getLigne()+"-"+pattes.getPosition().getColonne());
+            // System.out.println("2 ATTEEEEEEEEEEEEEEEEEENNNNNNNDS !!!!!!!!!!!!!!!!!");
+            // try {
+            //   Thread.sleep(5000);
+            // } catch(InterruptedException ex) {
+            //   Thread.currentThread().interrupt();
+            // }
             simulateur2.incrementeDate();
             System.out.println("------ DATE SIMULATION : "+simulateur2.getDateSimulation());
             System.out.println("    drone : "+drone.getPosition().getLigne()+"-"+drone.getPosition().getColonne());
             System.out.println("    roues : "+roues.getPosition().getLigne()+"-"+roues.getPosition().getColonne());
             System.out.println("    pattes : "+pattes.getPosition().getLigne()+"-"+pattes.getPosition().getColonne());
-            
+
             /* TEST DEPLACEMENT CASE
              * 		OK pour les déplacements case quand le chemin est fixé et donné par l'utilisateur
              * 		Testé quand on ne fait pas appel au plus cours chemin, qui lui marche pas
              * 		26/10
              */
-            
+
             /* TEST DEPLACEMENT DIRECTION */
-            Simulateur simulateur3 = new Simulateur(0, nbLignes, nbColonnes, tailleCases);
+            Simulateur simulateur3 = new Simulateur(0, donnees);
             event = new EvenementDeplacementDirection(simulateur3.getDateSimulation(),simulateur3,drone,Direction.NORD);
             simulateur3.ajouteEvenement(event);
             System.out.println("------ TEST EVENEMENT DEPLACEMENT DIRECTION ------");
@@ -109,7 +122,7 @@ public class TestEvenement {
             simulateur3.incrementeDate();
             System.out.println("------ DATE SIMULATION : "+simulateur3.getDateSimulation());
             System.out.println("    drone : "+drone.getPosition().getLigne()+"-"+drone.getPosition().getColonne());
-            
+
         } catch (FileNotFoundException e) {
             System.out.println("fichier " + args[0] + " inconnu ou illisible");
         } catch (DataFormatException e) {

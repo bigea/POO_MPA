@@ -60,6 +60,7 @@ public class Scenario {
 			return pos;
 		}
 	}
+	
 	/* Renvoie le premier évènement de cette date */
 	public Evenement getEvenement(int date){
 		try{

@@ -11,7 +11,7 @@ public class DonneesSimulation {
     /**
      * Classe DonneesSimulation : classe principale regroupant toutes les données du problème
      */
-	
+
 	/* Attributs */
 	private Carte carte;
 	private Incendie[] incendies;
@@ -27,7 +27,7 @@ public class DonneesSimulation {
 		this.incendies = new Incendie[nbIncendies];
 		this.robots = new Robot[nbRobots];
 	}
-	
+
 	/* Affichage comme dans le fichier d'origine*/
 	public String toString() {
 		String chaine = this.getCarte().toString();
@@ -82,12 +82,12 @@ public class DonneesSimulation {
 	public int getNbRobots() {
 		return this.nbRobots;
 	}
-	
+
 	/* Ajout d'un incendie */
 	public void addIncendie(Incendie inc, int n) {
 		this.incendies[n] = inc;
 	}
-	
+
 	/* Ajout d'un robot */
 	public void addRobot(Robot rob, int n) {
 		this.robots[n] = rob;

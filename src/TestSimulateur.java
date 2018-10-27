@@ -1,5 +1,6 @@
 import data.Carte;
 import data.Case;
+import data.DonneesSimulation;
 import data.enumerate.Direction;
 import data.enumerate.NatureTerrain;
 import data.robot.Drone;
@@ -8,7 +9,9 @@ import events.Evenement;
 import events.EvenementDeplacementDirection;
 import events.EvenementDeplacementUnitaire;
 import events.EvenementMessage;
-import gui2.Simulateur;
+//import gui2.Simulateur;
+import io.LecteurDonnees;
+import gui2.*;
 
 
 /**
@@ -33,7 +36,8 @@ public class TestSimulateur {
     	System.out.println("------ TEST SIMULATEUR -------");
     	System.out.println("------ Test EvenementMessage -------");
     	/* Création d'un simulateur et ajout des évènements */
-        Simulateur simulateur1 = new Simulateur(2, 8, 6, 20);
+    	DonneesSimulation donnees = LecteurDonnees.creeDonnees(args[0]);
+        Simulateur simulateur1 = new Simulateur(2, donnees);
         for(int i = 2 ; i <= 10 ; i += 2) {
         	simulateur1.ajouteEvenement(new EvenementMessage(i , simulateur1, " [ PING ] " ));
         }

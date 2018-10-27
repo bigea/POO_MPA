@@ -50,6 +50,7 @@ public class Simulateur implements Simulable {
 	private int nbLignes;
 	private int nbColonnes;
 	private int tailleCase;
+	private DonneesSimulation donnees;
 
 	/* On incrément de INCRE secondes à chaque fois */
 	private static final int INCRE = 60;
@@ -60,12 +61,12 @@ public class Simulateur implements Simulable {
 	 */
 
 	/* Constructeur */
-	
+
 	/*
 	public Simulateur(int date, int nbLignes, int nbColonnes, int tailleCase) {
 		this.nbLignes = nbLignes;
 		this.nbColonnes = nbColonnes;
-		this.tailleCase = tailleCase;
+		this.tailleCase = 50;
 		this.gui = new GUISimulator(this.nbLignes*this.tailleCase, this.nbColonnes*this.tailleCase, Color.WHITE);
 		this.dateSimulation = date;
 		this.scenario = new Scenario();
@@ -73,28 +74,27 @@ public class Simulateur implements Simulable {
 		this.dessinerBase();
 	}
 	*/
-	
-	public Simulateur(int date, DonneesSimulation donnees) {
-		Carte carte = donnees.getCarte();
+
+
+	public Simulateur(int date, DonneesSimulation donneesSim) {
+		this.donnees = donneesSim;
+		Carte carte = this.donnees.getCarte();
 		int nbLignes = carte.getNbLignes();
 		int nbColonnes = carte.getNbColonnes();
 		int tailleCase = carte.getTailleCases();
 		this.nbLignes = nbLignes;
 		this.nbColonnes = nbColonnes;
 		//this.tailleCase = tailleCase;
-		/*
-		while (this.tailleCase > 50) {
-			this.tailleCase = this.tailleCase/2;
-		}
-		*/
-		this.tailleCase = 50;
-		this.gui = new GUISimulator((this.nbLignes*this.tailleCase) +100, (this.nbColonnes*this.tailleCase) + 100, Color.WHITE);
+		//this.tailleCase = 50;
+		this.gui = new GUISimulator(1000, 800, Color.WHITE);
+		//this.tailleCase = min(1500, 1200) / max(nbLignes, nbColonnes);
+		this.tailleCase = 800/nbLignes;
 		this.dateSimulation = date;
 		this.scenario = new Scenario();
 		this.gui.setSimulable(this);
-		this.gererDonnees(donnees);
+		this.dessinerDonnees();
 	}
-	
+
 
 
 	/* Mutateur */
@@ -113,7 +113,7 @@ public class Simulateur implements Simulable {
 	}
 
 	public void next() {
-
+		this.incrementeDate();
 	}
 
 	public void restart() {
@@ -125,7 +125,7 @@ public class Simulateur implements Simulable {
 	* METHODES DE DESSIN DE BASE (AVEC GUI)
 	*/
 
-	
+
 	public void dessinerBase() {
 		this.gui.reset();
 		for (int i=100; i<(this.nbLignes*this.tailleCase)+100; i+=this.tailleCase) {
@@ -134,8 +134,8 @@ public class Simulateur implements Simulable {
 			}
 		}
 	}
-	
-	
+
+
 	public void dessinerCarte(Carte carte) {
 		this.gui.reset();
 		for (int i=0; i<this.nbLignes; i+=1) {
@@ -145,7 +145,7 @@ public class Simulateur implements Simulable {
 			}
 		}
 	}
-	
+
 	public void dessinerCase(Case currentCase) {
 		NatureTerrain nature_case = currentCase.getNature();
 		int i = currentCase.getLigne();
@@ -160,12 +160,12 @@ public class Simulateur implements Simulable {
 			case EAU:
 				couleur_case = Color.BLUE;
 				this.gui.addGraphicalElement(new Rectangle(iReel, jReel, Color.BLACK, couleur_case, this.tailleCase));
-				this.gui.addGraphicalElement(new ImageElement(iImage, jImage, "/home/ensimag/unison_ensimag/S3/POO/TPL/eclipse_POO_MPA/Ressources/wave.png", this.tailleCase-4, this.tailleCase-4, obs));
+				this.gui.addGraphicalElement(new ImageElement(iImage, jImage, "/home/ensimag/unison_ensimag/S3/POO/TPL/POO_MPA/Ressources/wave.png", this.tailleCase-4, this.tailleCase-4, obs));
 				break;
 			case FORET:
 				couleur_case = Color.GREEN;
 				this.gui.addGraphicalElement(new Rectangle(iReel, jReel, Color.BLACK, couleur_case, this.tailleCase));
-				this.gui.addGraphicalElement(new ImageElement(iImage, jImage, "/home/ensimag/unison_ensimag/S3/POO/TPL/eclipse_POO_MPA/Ressources/tree.png", this.tailleCase-4, this.tailleCase-4, obs));
+				this.gui.addGraphicalElement(new ImageElement(iImage, jImage, "/home/ensimag/unison_ensimag/S3/POO/TPL/POO_MPA/Ressources/tree.png", this.tailleCase-4, this.tailleCase-4, obs));
 				break;
 			case ROCHE:
 				couleur_case = Color.GRAY;
@@ -181,7 +181,7 @@ public class Simulateur implements Simulable {
 				break;
 			default:
 				break;
-		
+
 		}
 	}
 
@@ -189,13 +189,17 @@ public class Simulateur implements Simulable {
 		NatureRobot robotType = robot.getNature();
 		int x = this.tailleCase + lig*this.tailleCase;
 		int y = this.tailleCase + col*this.tailleCase;
+		ImageObserver obs = new Panel();
+		int xImage = x - this.tailleCase/2;
+		int yImage = y - this.tailleCase/2;
 		switch (robotType) {
 			case CHENILLES:
-				// ImageObserver obs = new Imageobserver();
-				this.gui.addGraphicalElement(new Oval(x, y, Color.GREEN, Color.GREEN, this.tailleCase/2, this.tailleCase/2));
+				//this.gui.addGraphicalElement(new Oval(x, y, Color.GREEN, Color.GREEN, this.tailleCase/2, this.tailleCase/2));
+				this.gui.addGraphicalElement(new ImageElement(xImage, yImage, "/home/ensimag/unison_ensimag/S3/POO/TPL/POO_MPA/Ressources/chenilles.png", this.tailleCase-4, this.tailleCase-4, obs));
 				break;
 			case DRONE:
-				this.gui.addGraphicalElement(new Oval(x, y, Color.BLACK, Color.BLACK, this.tailleCase/2, this.tailleCase/2));
+				//this.gui.addGraphicalElement(new Oval(x, y, Color.BLACK, Color.BLACK, this.tailleCase/2, this.tailleCase/2));
+				this.gui.addGraphicalElement(new ImageElement(xImage, yImage, "/home/ensimag/unison_ensimag/S3/POO/TPL/POO_MPA/Ressources/drone.png", this.tailleCase-4, this.tailleCase-4, obs));
 				break;
 			case PATTES:
 				this.gui.addGraphicalElement(new Oval(x, y, Color.MAGENTA, Color.MAGENTA, this.tailleCase/2, this.tailleCase/2));
@@ -212,10 +216,10 @@ public class Simulateur implements Simulable {
 		int x = this.tailleCase + lig*this.tailleCase - this.tailleCase/2;
 		int y = this.tailleCase + col*this.tailleCase - this.tailleCase/2;
 		ImageObserver obs = new Panel();
-		this.gui.addGraphicalElement(new ImageElement(x, y, "/home/ensimag/unison_ensimag/S3/POO/TPL/eclipse_POO_MPA/Ressources/fire.png", this.tailleCase-4, this.tailleCase-4, obs));
+		this.gui.addGraphicalElement(new ImageElement(x, y, "/home/ensimag/unison_ensimag/S3/POO/TPL/POO_MPA/Ressources/fire.png", this.tailleCase, this.tailleCase, obs));
 		//this.gui.addGraphicalElement(new Rectangle(x, y, Color.BLACK, Color.RED, this.tailleCase));
 	}
-	
+
 	public void dessinerTousLesIncendies(int nbIncendies, Incendie[] incendies) {
 		for (int i=0; i<nbIncendies; i++){
 			Case position = incendies[i].getPosition();
@@ -224,7 +228,7 @@ public class Simulateur implements Simulable {
 			this.dessinerIncendie(lig, col);
 		}
 	}
-	
+
 	public void dessinerTousLesRobots(int nbRobots, Robot[] robots) {
 		for (int i=0; i<nbRobots; i++){
 			Case position = robots[i].getPosition();
@@ -234,16 +238,16 @@ public class Simulateur implements Simulable {
 			this.dessinerRobot(lig, col, robots[i]);
 		}
 	}
-	
-	public void gererDonnees(DonneesSimulation donnees) {
-		Carte carte = donnees.getCarte();
-		Incendie[] incendies = donnees.getIncendies();
-		Robot[] robots = donnees.getRobots();
+
+	public void dessinerDonnees() {
+		Carte carte = this.donnees.getCarte();
+		Incendie[] incendies = this.donnees.getIncendies();
+		Robot[] robots = this.donnees.getRobots();
 		//int nbLignes = carte.getNbLignes();
 		//int nbColonnes = carte.getNbColonnes();
 		//int tailleCase = carte.getTailleCases();
-		int nbIncendies = donnees.getNbIncendies();
-		int nbRobots = donnees.getNbRobots();
+		int nbIncendies = this.donnees.getNbIncendies();
+		int nbRobots = this.donnees.getNbRobots();
 		//this.nbLignes = nbLignes;
 		//this.nbColonnes = nbColonnes;
 		//this.tailleCase = tailleCase;
@@ -252,12 +256,12 @@ public class Simulateur implements Simulable {
 		this.dessinerTousLesIncendies(nbIncendies, incendies);
 		this.dessinerTousLesRobots(nbRobots, robots);
 	}
-	
+
 	/*********************************************
-	 * 
+	 *
 	 * METHODES DE REDESSIN (MOUVEMENT)
 	 */
-	
+
 	public void bougerRobot(Robot robot, int newLig, int newCol) {
 		Case actualPosition = robot.getPosition();
 		int actualLig = actualPosition.getLigne();
@@ -267,7 +271,6 @@ public class Simulateur implements Simulable {
 		int y = this.tailleCase + actualCol*this.tailleCase;
 		this.dessinerCase(actualPosition);
 		this.dessinerRobot(newLig, newCol, robot);
-		
 	}
 
 	/*********************************************
@@ -285,6 +288,7 @@ public class Simulateur implements Simulable {
 		int avant = this.dateSimulation;
 		int apres = this.dateSimulation+INCRE;
 		this.scenario.execute(avant,apres);
+		this.dessinerDonnees();
 		// On incrémente de 60 secondes
 		this.dateSimulation += INCRE;
 	}
