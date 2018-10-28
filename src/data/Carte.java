@@ -23,11 +23,25 @@ public class Carte {
 	private int nbLignes;
 	private int nbColonnes;
 	private Case[][] matrice;
-	
+
 	/* Affichage */
 	public String toString() {
 		return this.getNbLignes()+" "+this.getNbColonnes()+" "+this.getTailleCases();
 	}
+
+  // @Override
+  // public String toString() {
+  //   String chaine = new String();
+  //   chaine = chaine + "\nAffichage de la carte : \n";
+  //   for (int i=0; i<this.nbLignes; i++) {
+  //     for (int j=0; j<this.nbColonnes; j++) {
+  //       Case cas = this.matrice[i][j];
+  //       chaine = chaine + "(" + i + "," + j + ") : " + cas.getNature() + "\n";
+  //     }
+  //   }
+  //   chaine = chaine + "\nFin de la carte\n";
+  //   return chaine;
+  // }
 
 	/* Constructeur */
 	public Carte(int tc, int nbl, int nbc) {
@@ -50,7 +64,7 @@ public class Carte {
 	public void setMatrice() {
 		this.matrice = new Case[this.getNbLignes()][this.getNbColonnes()];
 	}
-	
+
 	/* Accesseurs */
 	public int getNbLignes() {
 		return this.nbLignes;
@@ -66,7 +80,7 @@ public class Carte {
 	public Case getCase(int lig, int col) {
 		return this.matrice[lig][col];
 	}
-	
+
 	/* Instancier une case dans la matrice */
 	public void setCase(Case cas) {
 		matrice[cas.getLigne()][cas.getColonne()] = cas;
