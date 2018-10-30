@@ -82,12 +82,11 @@ public class Simulateur implements Simulable {
 		this.nbLignes = carte.getNbLignes();
 		this.nbColonnes = carte.getNbColonnes();
 		this.tailleCase = 800/this.nbLignes;
-		this.tailleCase = 50;
+		this.tailleCase = 100;
 		this.gui = new GUISimulator(1000, 800, Color.WHITE);
 		this.dateSimulation = date;
 		this.scenario = new Scenario();
 		this.gui.setSimulable(this);
-		this.gui.addGraphicalElement(new Rectangle(this.tailleCase,0,Color.BLACK, Color.BLACK, 100));
 		this.dessinerDonnees();
 	}
 
@@ -151,6 +150,8 @@ public class Simulateur implements Simulable {
 		int jImage = jReel - this.tailleCase/2 + 2;
 		Color couleur_case = Color.WHITE;
 		ImageObserver obs = new Panel();
+		String path = System.getProperty("user.dir" );
+		path = path + "/Ressources/";
 		switch(nature_case){
 			case EAU:
 				couleur_case = Color.BLUE;
@@ -160,7 +161,7 @@ public class Simulateur implements Simulable {
 			case FORET:
 				couleur_case = Color.GREEN;
 				this.gui.addGraphicalElement(new Rectangle(jReel, iReel, Color.BLACK, couleur_case, this.tailleCase));
-				this.gui.addGraphicalElement(new ImageElement(jImage, iImage, "/home/matthias/Bureau/Dropbox/ENSIMAG/2A/POO/POO_MPA/Ressources/tree.png", this.tailleCase-4, this.tailleCase-4, obs));
+				this.gui.addGraphicalElement(new ImageElement(jImage, iImage, path + "tree.png", this.tailleCase-4, this.tailleCase-4, obs));
 				break;
 			case ROCHE:
 				couleur_case = Color.GRAY;
@@ -187,7 +188,9 @@ public class Simulateur implements Simulable {
 		int x = this.tailleCase + col*this.tailleCase - this.tailleCase/2 + 2;
 		int y = this.tailleCase + lig*this.tailleCase - this.tailleCase/2 + 2;
 		ImageObserver obs = new Panel();
-		this.gui.addGraphicalElement(new ImageElement(x, y, "/home/matthias/Bureau/Dropbox/ENSIMAG/2A/POO/POO_MPA/Ressources/fire.png", this.tailleCase, this.tailleCase, obs));
+		String path = System.getProperty("user.dir" );
+		path = path + "/Ressources/";
+		this.gui.addGraphicalElement(new ImageElement(x, y, path + "fire.png", this.tailleCase, this.tailleCase, obs));
 		//this.gui.addGraphicalElement(new Rectangle(x, y, Color.BLACK, Color.RED, this.tailleCase));
 	}
 
@@ -204,18 +207,20 @@ public class Simulateur implements Simulable {
 		NatureRobot robotType = robot.getNature();
 		int x = this.tailleCase + col*this.tailleCase;
 		int y = this.tailleCase + lig*this.tailleCase;
-		ImageObserver obs = new Panel();
 		int xImage = x - this.tailleCase/2 + 2;
 		int yImage = y - this.tailleCase/2 + 2;
+		ImageObserver obs = new Panel();
+		String path = System.getProperty("user.dir" );
+		path = path + "/Ressources/";
 		switch (robotType) {
 			case CHENILLES:
 				//this.gui.addGraphicalElement(new Oval(x, y, Color.GREEN, Color.GREEN, this.tailleCase/2, this.tailleCase/2));
-				this.gui.addGraphicalElement(new ImageElement(xImage, yImage, "/home/matthias/Bureau/Dropbox/ENSIMAG/2A/POO/POO_MPA/Ressources/chenilles.png", this.tailleCase-4, this.tailleCase-4, obs));
+				this.gui.addGraphicalElement(new ImageElement(xImage, yImage, path + "chenilles.png", this.tailleCase-4, this.tailleCase-4, obs));
 				this.gui.addGraphicalElement(new Text(x, y, Color.BLACK, "CHENILLES"));
 				break;
 			case DRONE:
 				//this.gui.addGraphicalElement(new Oval(x, y, Color.BLACK, Color.BLACK, this.tailleCase/2, this.tailleCase/2));
-				this.gui.addGraphicalElement(new ImageElement(xImage, yImage, "/home/matthias/Bureau/Dropbox/ENSIMAG/2A/POO/POO_MPA/Ressources/drone.png", this.tailleCase-4, this.tailleCase-4, obs));
+				this.gui.addGraphicalElement(new ImageElement(xImage, yImage, path + "drone.png", this.tailleCase-4, this.tailleCase-4, obs));
 				this.gui.addGraphicalElement(new Text(x, y, Color.WHITE, "DRONE"));
 				break;
 			case PATTES:

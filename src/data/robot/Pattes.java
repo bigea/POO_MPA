@@ -11,18 +11,18 @@ import data.enumerate.NatureTerrain;
  */
 
 public class Pattes extends Robot {
-	
+
 	/**
 	 * Classe Pattes (Robot Terrestre)
 	 */
 
 	/*********************************************
-	 * 
+	 *
 	 * METHODES DE BASE
 	 */
 	/* réservoir infini */
 	private static final int INFINI = 300000;
-	
+
 	public Pattes(Case pos, Carte carte) {
 		super(pos, carte, NatureRobot.PATTES);
 		this.setVolume(INFINI);
@@ -55,24 +55,24 @@ public class Pattes extends Robot {
 	}
 
 
-	
+
 	/*********************************************
-	 * 
+	 *
 	 * METHODES D'INTERVENTION
 	 */
-	
+
 	@Override
 	public void deverserEau(int vol) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
-	
+
+
 	/*********************************************
-	 * 
+	 *
 	 * METHODES DE REMPLISSAGE : ne se remplit jamais
 	 */
-	
+
 	@Override
 	public void remplirEffectif() {
 		this.setVolume(INFINI);
@@ -82,9 +82,9 @@ public class Pattes extends Robot {
 		return false;
 	}
 
-	
+
 	/*********************************************
-	 * 
+	 *
 	 * METHODES DE DEPLACEMENT
 	 */
 	/* Calcul du plus court chemin */
@@ -94,7 +94,7 @@ public class Pattes extends Robot {
 		chemin.plusCourt(dest);
 		return chemin;
 	}
-	
+
 	/* Déplacement possible partout sauf eau */
 	@Override
 	public boolean possibleDeplacement(Case voisin) {
