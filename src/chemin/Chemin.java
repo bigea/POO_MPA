@@ -16,7 +16,7 @@ public class Chemin {
 	* Classe Chemin :
 	* 		Séquence de cases et de dates
 	*/
-	
+
 
 	/* Valeur infini */
 	private static final int INFINI = 10000;
@@ -26,12 +26,12 @@ public class Chemin {
 	private int nbCase;
 	private List<Case> chemin;
 	private List<Integer> dates;
-	
+
 	/*********************************************
-	 * 
+	 *
 	 * METHODES DE BASE
 	 */
-	
+
 	public Chemin(Robot rbt, int dateSimulation) {
 		this.setRobot(rbt);
 		this.setDateSimulation(dateSimulation);
@@ -39,7 +39,7 @@ public class Chemin {
 		this.setChemin();
 		this.setDates();
 	}
-	
+
 	/* Mutateurs - Accesseurs */
 	public Robot getRobot() {
 		return rbt;
@@ -77,13 +77,13 @@ public class Chemin {
 		this.dates.add(date);
 		this.nbCase += 1;
 	}
-	
+
 
 	/*********************************************
-	 * 
+	 *
 	 * PLUS COURT CHEMIN
 	 */
-	
+
 	/* Plus court chemin : algorithme de Dijkstra
 	 * 		On pourra changer la manière de faire
 	 * 		en mémorisant les poids pour chaque case
@@ -99,12 +99,12 @@ public class Chemin {
 		Case src = this.getRobot().getPosition();
 		int x_src = src.getLigne();
 		int y_src = src.getColonne();
-		
+
 		/* Ensemble des poids */
 		int[][] poids = new int[nbLignes][nbColonnes];
 		/* Ensemble des cases */
 		List<Case> noeuds = new ArrayList<Case>();
-		
+
 		/* Initialisation du graphe (poids infini) */
 		for(int l=0; l<nbLignes; l++) {
 			for(int c=0; c<nbColonnes; c++) {
@@ -113,7 +113,7 @@ public class Chemin {
 			}
 		}
 		poids[x_src][y_src] = 0;
-		
+
 		Case noeud = src;
 		/* Tant que l'on a pas parcouru toutes les cases ou atteint la dest */
 		while(!noeuds.isEmpty() || src != dest) {
@@ -173,7 +173,7 @@ public class Chemin {
 		}
 		return position;
 	}
-	
+
 	/* Calcul du temps de déplacement
 	 * 		Dépend de la vitesse du robot et de la nature du terrain,
 	 * 		donc de la nature du terrain sur la moitié de la première
@@ -193,16 +193,16 @@ public class Chemin {
 		/* On renvoie le temps, arrondi au supérieur */
 		return (int) Math.round(temps_src+temps_dest);
 	}
-	
-	
+
+
 	/*********************************************
-	 * 
+	 *
 	 * REMPLISSAGE
 	 * 		- gérer le déplacement vers la case eau la plus proche
 	 * 		- selon le type du robot
 	 * 		- génère le chemin correspondant
 	 */
-	
+
 	public void getEau() {
 		//TODO
 	}

@@ -21,7 +21,6 @@ public class TestCreationDonnees {
 
         try {
         	DonneesSimulation donnees = LecteurDonnees.creeDonnees(args[0]);
-          System.out.println("\nCacaaaaaaaaa !!!! \n\n\n");
         	//Affichage des données
         	System.out.println(donnees);
         	//On récupère les données pour le simulateur

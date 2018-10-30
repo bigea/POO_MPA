@@ -1,5 +1,6 @@
 /Invader.class
 /TestCreationDonnees.class
+/TestEvenement.class
 /TestInvader.class
 /TestLecteurDonnees.class
 /TestSimulateur.class
@@ -9,4 +10,4 @@
 /gui2/
 /io/
 /script.sh
-/TestEvenement.class
+/TestPlusCourtChemin.class

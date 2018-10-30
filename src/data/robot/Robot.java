@@ -95,7 +95,7 @@ public abstract class Robot {
 		ajoutSimulateurDeplacement(sim, chemin);
 	}
 
-	/* Déplacement possible selon la nature du drone */
+	/* Déplacement possible selon la nature du robot */
 	public abstract boolean possibleDeplacement(Case voisin);
 
 	/* Calcul du plus court chemin : spécifique selon le type de robot*/
