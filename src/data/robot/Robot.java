@@ -108,24 +108,20 @@ public abstract class Robot {
 	 */
 
 	/* Remplissage mais instanciation d'évènements pour ce faire (déplacement puis sur place) */
-	public void remplirReservoir(Simulateur sim) {
-    if (this.possibleRemplissage(this.getCase())) {
-      this.setVolume(10000);
-    } else {
-  		int date = sim.getDateSimulation();
-  		Chemin chemin = new Chemin(this, date);
-  		/* Chemin pour récupérer de l'eau */
-  		chemin.getEau();
-  		/* Ajout au simulateur du chemin */
-  		this.ajoutSimulateurDeplacement(sim, chemin);
-  		/* Date de fin du déplacement */
-  		date = chemin.getDates().get(chemin.getNbCase());
-  		/* Ajout du temps de remplissage */
-  		date = date + this.getTempsRemplissage();
-  		/* Ajout au simulateur du remplissage */
-  		this.ajoutSimulateurRemplissage(sim, date);
-    }
-	}
+	// public void remplirReservoir(Simulateur sim) {
+	// 	int date = sim.getDateSimulation();
+	// 	Chemin chemin = new Chemin(this, date);
+	// 	/* Chemin pour récupérer de l'eau */
+	// 	chemin.getEau();
+	// 	/* Ajout au simulateur du chemin */
+	// 	this.ajoutSimulateurDeplacement(sim, chemin);
+	// 	/* Date de fin du déplacement */
+	// 	date = chemin.getDates().get(chemin.getNbCase());
+	// 	/* Ajout du temps de remplissage */
+	// 	date = date + this.getTempsRemplissage();
+	// 	/* Ajout au simulateur du remplissage */
+	// 	this.ajoutSimulateurRemplissage(sim, date);
+	// }
 
 	/* Possibilité de se remplir sur la position donnée */
 	public abstract boolean possibleRemplissage(Case cas);
@@ -135,7 +131,24 @@ public abstract class Robot {
 
 	/*ordre de remplissage donné au robot*/ /*fonction qui remplacera remplir Reservoir*/
 	/*Cette fonction appelera remplirResevoir une fois le robot arrivé sur la zone d'eau*/
-	public abstract void ordreRemplissage(Simulateur sim);
+	public  void ordreRemplissage(Simulateur sim) {
+    if (this.possibleRemplissage(this.getCase())) {
+      this.remplirReservoir();
+    } else {
+      int date = sim.getDateSimulation();
+      Chemin chemin = new Chemin(this, date);
+      /* Chemin pour récupérer de l'eau */
+      chemin.getEau();
+      /* Ajout au simulateur du chemin */
+      this.ajoutSimulateurDeplacement(sim, chemin);
+      /* Date de fin du déplacement */
+      date = chemin.getDates().get(chemin.getNbCase());
+      /* Ajout du temps de remplissage */
+      date = date + this.getTempsRemplissage();
+      /* Ajout au simulateur du remplissage */
+      this.ajoutSimulateurRemplissage(sim, date);
+    }
+  }
 
 	/*Remplie le réservoir du robot. Private car on passe par ordreRemplissage*/
 	private abstract void remplirReservoir();
@@ -171,7 +184,7 @@ public abstract class Robot {
 	/* Ajout au simulateur d'un remplissage effectif */
 	public void ajoutSimulateurRemplissage(Simulateur sim, int date) {
 		// sim.ajouteEvenement(new EvenementRemplissageSurPlace(date, sim, this));
-    sim.ajouteEvenement(new EvenementRemplissage(date, sim, this));
+    sim.ajouteEvenement(new Remplissage(date, sim, this));
 	}
 
 }
