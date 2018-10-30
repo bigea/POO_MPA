@@ -62,7 +62,7 @@ public class Simulateur implements Simulable {
 
 	/* Constructeur */
 
-	/*
+
 	public Simulateur(int date, int nbLignes, int nbColonnes, int tailleCase) {
 		this.nbLignes = nbLignes;
 		this.nbColonnes = nbColonnes;
@@ -73,7 +73,6 @@ public class Simulateur implements Simulable {
 		this.gui.setSimulable(this);
 		this.dessinerBase();
 	}
-	*/
 
 
 	public Simulateur(int date, DonneesSimulation donneesSim) {
@@ -122,7 +121,7 @@ public class Simulateur implements Simulable {
 	*/
 
 
-	public void dessinerBase() {
+	private void dessinerBase() {
 		this.gui.reset();
 		for (int i=100; i<(this.nbLignes*this.tailleCase)+100; i+=this.tailleCase) {
 			for (int j=100; j<(this.nbColonnes*this.tailleCase)+100; j+=this.tailleCase){
@@ -132,7 +131,7 @@ public class Simulateur implements Simulable {
 	}
 
 
-	public void dessinerCarte(Carte carte) {
+	private void dessinerCarte(Carte carte) {
 		for (int i=0; i<this.nbLignes; i+=1) {
 			for (int j=0; j<this.nbColonnes; j+=1){
 				Case currentCase = carte.getCase(i, j);
@@ -141,7 +140,7 @@ public class Simulateur implements Simulable {
 		}
 	}
 
-	public void dessinerCase(Case currentCase) {
+	private void dessinerCase(Case currentCase) {
 		NatureTerrain nature_case = currentCase.getNature();
 		int i = currentCase.getLigne();
 		int j = currentCase.getColonne();
@@ -183,7 +182,7 @@ public class Simulateur implements Simulable {
 		}
 	}
 
-	public void dessinerIncendie(int lig, int col) {
+	private void dessinerIncendie(int lig, int col) {
 		int x = this.tailleCase + col*this.tailleCase - this.tailleCase/2 + 2;
 		int y = this.tailleCase + lig*this.tailleCase - this.tailleCase/2 + 2;
 		ImageObserver obs = new Panel();
@@ -191,7 +190,7 @@ public class Simulateur implements Simulable {
 		//this.gui.addGraphicalElement(new Rectangle(x, y, Color.BLACK, Color.RED, this.tailleCase));
 	}
 
-	public void dessinerTousLesIncendies(int nbIncendies, Incendie[] incendies) {
+	private void dessinerTousLesIncendies(int nbIncendies, Incendie[] incendies) {
 		for (int i=0; i<nbIncendies; i++){
 			Case position = incendies[i].getPosition();
 			int lig = position.getLigne();
@@ -200,7 +199,7 @@ public class Simulateur implements Simulable {
 		}
 	}
 
-	public void dessinerRobot(int lig, int col, Robot robot) {
+	private void dessinerRobot(int lig, int col, Robot robot) {
 		NatureRobot robotType = robot.getNature();
 		int x = this.tailleCase + col*this.tailleCase;
 		int y = this.tailleCase + lig*this.tailleCase;
@@ -231,7 +230,7 @@ public class Simulateur implements Simulable {
 		}
 	}
 
-	public void dessinerTousLesRobots(int nbRobots, Robot[] robots) {
+	private void dessinerTousLesRobots(int nbRobots, Robot[] robots) {
 		for (int i=0; i<nbRobots; i++){
 			Case position = robots[i].getPosition();
 			int lig = position.getLigne();
@@ -241,7 +240,7 @@ public class Simulateur implements Simulable {
 		}
 	}
 
-	public void dessinerDonnees() {
+	private void dessinerDonnees() {
 		Carte carte = this.donnees.getCarte();
 		Incendie[] incendies = this.donnees.getIncendies();
 		Robot[] robots = this.donnees.getRobots();
@@ -265,16 +264,16 @@ public class Simulateur implements Simulable {
 	 * METHODES DE REDESSIN (MOUVEMENT)
 	 */
 
-	public void bougerRobot(Robot robot, int newLig, int newCol) {
-		Case actualPosition = robot.getPosition();
-		int actualLig = actualPosition.getLigne();
-		int actualCol = actualPosition.getColonne();
-		//NatureRobot nature = robot.getNature();
-		int x = this.tailleCase + actualCol*this.tailleCase;
-		int y = this.tailleCase + actualLig*this.tailleCase;
-		this.dessinerCase(actualPosition);
-		this.dessinerRobot(newLig, newCol, robot);
-	}
+	// private void bougerRobot(Robot robot, int newLig, int newCol) {
+	// 	Case actualPosition = robot.getPosition();
+	// 	int actualLig = actualPosition.getLigne();
+	// 	int actualCol = actualPosition.getColonne();
+	// 	//NatureRobot nature = robot.getNature();
+	// 	int x = this.tailleCase + actualCol*this.tailleCase;
+	// 	int y = this.tailleCase + actualLig*this.tailleCase;
+	// 	this.dessinerCase(actualPosition);
+	// 	this.dessinerRobot(newLig, newCol, robot);
+	// }
 
 	/*********************************************
 	 *

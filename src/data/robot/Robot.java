@@ -85,7 +85,7 @@ public abstract class Robot {
 		Chemin chemin = plusCourt(dest, sim.getDateSimulation());
 		ajoutSimulateurDeplacement(sim,chemin);
 	}
-	
+
 	/* Méthode de déplacement du robot vers une case voisine (ne peut être appelée seulement si la case dest est vosine) */
 	public void deplacementVoisin(Case dest, Simulateur sim) {
 		int date = sim.getDateSimulation();

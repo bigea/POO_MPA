@@ -62,4 +62,4 @@ exeEvenement:
 		java -classpath bin:bin/gui.jar TestEvenement cartes/carteSujet.map
 
 clean:
-	rm -rf bin/*.class
+	find . -name "*.class" -exec rm {}  \;
