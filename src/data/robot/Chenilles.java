@@ -19,10 +19,10 @@ public class Chenilles extends Robot {
 	 */
 
 	/*********************************************
-	 * 
+	 *
 	 * METHODES DE BASE
 	 */
-	
+
 	public Chenilles(Case pos, Carte carte) {
 		super(pos, carte, NatureRobot.CHENILLES);
 		this.setVolume(2000);
@@ -56,22 +56,22 @@ public class Chenilles extends Robot {
 		return this.getPosition().getLigne()+" "+this.getPosition().getColonne()+" CHENILLES "+this.getVitesse(this.getPosition().getNature());
 	}
 
-	
+
 	/*********************************************
-	 * 
+	 *
 	 * METHODES D'INTERVENTION
 	 */
-	
+
 	@Override
 	public void deverserEau(int vol) {
 		// TODO Auto-generated method stub
 	}
 
 	/*********************************************
-	 * 
+	 *
 	 * METHODES DE REMPLISSAGE
 	 */
-	
+
 	/* Possibilité de remplir sur la case donnée */
 	@Override
 	public boolean possibleRemplissage(Case cas) {
@@ -97,16 +97,16 @@ public class Chenilles extends Robot {
 		}
 		return false;
 	}
-	
+
 	/* Remplissage effectif */
 	@Override
 	public void remplirEffectif() {
 		this.setVolume(2000);
 	}
 
-	
+
 	/*********************************************
-	 * 
+	 *
 	 * METHODES DE DEPLACEMENT
 	 */
 
@@ -117,7 +117,7 @@ public class Chenilles extends Robot {
 		chemin.plusCourt(dest);
 		return chemin;
 	}
-	
+
 	/* Indique si le déplacement est possible pour ce robot */
 	@Override
 	public boolean possibleDeplacement(Case voisin) {

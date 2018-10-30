@@ -83,12 +83,15 @@ public class Scenario {
 		int pos = 0;
 		if(nbEvents == 0) {
 			this.sequence.add(event);
-		} else {
-			ArrayList<Evenement> newEvents = new ArrayList<Evenement>();
+		} 
+		/*[Matthias] C'est pas plus simple d'insérer l'event directement dans l'attribut ? Au lieu de créer une autre liste*/	
+		else {
+			ArrayList<Evenement> newEvents = new ArrayList<Evenement>();		
 			while(pos < nbEvents && date >= this.sequence.get(pos).getDate()) {
 				newEvents.add(this.sequence.get(pos));
 				pos += 1;
 			}
+			
 			// on ajoute l'évènement à la fin de newEvents
 			newEvents.add(event);
 			// s'il reste des évènements dans la séquence initiale
@@ -102,6 +105,18 @@ public class Scenario {
 			/* On a un nouveau tableau avec les évènements ordonnés par date */
 			this.sequence = newEvents;
 		}
+		/*Proposition de modif : */
+		/*
+		else {
+			while(pos < nbEvents) {
+				if(date <= this.sequence.get(pos).getDate()) {
+					this.sequence.add(event);
+					break;
+				}
+				pos += 1;
+			}
+			this.sequence.add(event);
+		}*/
 	}
 
 	/* Exécution entre deux dates */

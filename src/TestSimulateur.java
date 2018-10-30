@@ -30,14 +30,12 @@ public class TestSimulateur {
     	} catch (Exception e) {
     		System.out.println("Evènement impossible");
     	}
-
-
     	/* TEST SIMULATEUR */
     	System.out.println("------ TEST SIMULATEUR -------");
     	System.out.println("------ Test EvenementMessage -------");
     	/* Création d'un simulateur et ajout des évènements */
-    	DonneesSimulation donnees = LecteurDonnees.creeDonnees(args[0]);
-        Simulateur simulateur1 = new Simulateur(2, donnees);
+//    	DonneesSimulation donnees = LecteurDonnees.creeDonnees(args[0]);
+        Simulateur simulateur1 = new Simulateur(1, 800, 600, 20);
         for(int i = 2 ; i <= 10 ; i += 2) {
         	simulateur1.ajouteEvenement(new EvenementMessage(i , simulateur1, " [ PING ] " ));
         }

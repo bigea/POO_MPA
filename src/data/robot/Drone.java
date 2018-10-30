@@ -17,9 +17,9 @@ public class Drone extends Robot {
      * Classe Drone
      * 		Hiérarchie des classes avec Drone => Robot
      */
-	
+
 	/*********************************************
-	 * 
+	 *
 	 * METHODES DE BASE
 	 */
 	public Drone(Case pos, Carte carte) {
@@ -32,7 +32,7 @@ public class Drone extends Robot {
 		if(vitesse > 150) {
 			this.vitesse = 150;
 		} else {
-			this.vitesse = vitesse;	
+			this.vitesse = vitesse;
 		}
 	}
 	@Override
@@ -50,22 +50,22 @@ public class Drone extends Robot {
 
 
 	/*********************************************
-	 * 
+	 *
 	 * METHODES D'INTERVENTION
 	 */
-	
+
 	@Override
 	public void deverserEau(int vol) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	
+
 	/*********************************************
-	 * 
+	 *
 	 * METHODES DE REMPLISSAGE
 	 */
-	
+
 	/* Possibilité de remplir sur la case donnée */
 	@Override
 	public boolean possibleRemplissage(Case cas) {
@@ -74,19 +74,19 @@ public class Drone extends Robot {
 		}
 		return false;
 	}
-	
+
 	/* Remplissage effectif */
 	@Override
 	public void remplirEffectif() {
 		this.setVolume(10000);
 	}
 
-	
+
 	/*********************************************
-	 * 
+	 *
 	 * METHODES DE DEPLACEMENT
 	 */
-	
+
 	@Override
 	/* Calcul du plus court chemin */
 	public Chemin plusCourt(Case dest, int date) {
@@ -98,8 +98,8 @@ public class Drone extends Robot {
 		int y_dest = dest.getColonne();
 		Chemin chemin = new Chemin(this, date);
 		/* Tant qu'on a pas atteint la destination */
-		while((x_src != x_dest)&&(y_src != y_dest)) {
-			Direction direction = null;
+		Direction direction = null;
+		while((x_src != x_dest)||(y_src != y_dest)) {
 			/* 	On choisit simplement la direction
 			 * 		qui nous rapproche le plus de la dest
 			 * 		en "ligne droite" sans se soucier de la nature du terrain
@@ -111,7 +111,7 @@ public class Drone extends Robot {
 			} else {
 				if(x_src < x_dest) {
 					direction = Direction.EST;
-				} else if (x_src < x_dest) {
+				} else if (x_src > x_dest) {
 					direction = Direction.OUEST;
 				}
 			}
@@ -124,8 +124,8 @@ public class Drone extends Robot {
 			chemin.ajoutCase(deplacement, date);
 			/* On réactualise la case qui est virtuellement la position du robot */
 			src = deplacement;
-			x_src = src.getLigne();
-			y_src = src.getColonne();
+			x_src = src.getColonne();
+			y_src = src.getLigne();
 		}
 		return chemin;
 	}
