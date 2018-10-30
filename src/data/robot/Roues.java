@@ -16,12 +16,12 @@ public class Roues extends Robot {
 	/**
 	 * Classe Roues (Robot Terrestre)
 	 */
-	
+
 	/*********************************************
-	 * 
+	 *
 	 * METHODES DE BASE
 	 */
-	
+
 	public Roues(Case pos, Carte carte) {
 		super(pos, carte, NatureRobot.ROUES);
 		this.setVolume(5000);
@@ -49,22 +49,22 @@ public class Roues extends Robot {
 		return this.getPosition().getLigne()+" "+this.getPosition().getColonne()+" ROUES "+this.getVitesse(this.getPosition().getNature());
 	}
 
-	
+
 	/*********************************************
-	 * 
+	 *
 	 * METHODES D'INTERVENTION
 	 */
-	
+
 	@Override
 	public void deverserEau(int vol) {
 		// TODO Auto-generated method stub
 	}
-	
+
 	/*********************************************
-	 * 
+	 *
 	 * METHODES DE REMPLISSAGE
 	 */
-	
+
 	/* Possibilité de remplir sur la case donnée */
 	@Override
 	public boolean possibleRemplissage(Case cas) {
@@ -90,15 +90,15 @@ public class Roues extends Robot {
 		}
 		return false;
 	}
-	
+
 	/* Remplissage effectif */
 	@Override
 	public void remplirEffectif() {
 		this.setVolume(5000);
 	}
-	
+
 	/*********************************************
-	 * 
+	 *
 	 * METHODES DE DEPLACEMENT
 	 */
 
