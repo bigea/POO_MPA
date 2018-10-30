@@ -131,7 +131,9 @@ public abstract class Robot {
 
 	/*ordre de remplissage donné au robot*/ /*fonction qui remplacera remplir Reservoir*/
 	/*Cette fonction appelera remplirResevoir une fois le robot arrivé sur la zone d'eau*/
-	public abstract void ordreRemplissage(Simulateur sim);
+	public void ordreRemplissage(Simulateur sim){
+		//TODO
+	}
 
 	/*Remplie le réservoir du robot. Private car on passe par ordreRemplissage*/
 	private abstract void remplirReservoir();
