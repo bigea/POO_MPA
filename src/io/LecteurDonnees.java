@@ -57,7 +57,7 @@ public class LecteurDonnees {
         scanner.close();
         System.out.println("\n == Lecture terminee");
     }
-    
+
     /**
      * Lit et crée un objet DonneesSimulation avec les donnéees du fichier (cases,
      * robots et incendies).
@@ -79,6 +79,8 @@ public class LecteurDonnees {
             int nbRobots = lecteur.nbRobots();
             //Création des objets robots dans un tableau
             Robot[] robots = lecteur.creeRobots(nbRobots, carte);
+            // On va compter le nombre de case d'eau
+            int nbCaseEau = 0;
             // Nouvel objet DonneesSimulation (avec tableaux vides)
             DonneesSimulation donnees = new DonneesSimulation(carte, nbIncendies, nbRobots);
             // On remplie le tableau des incendies de donnees
@@ -107,12 +109,12 @@ public class LecteurDonnees {
         scanner = new Scanner(new File(fichierDonnees));
         scanner.useLocale(Locale.US);
     }
-    
-    
-    /******* 
+
+
+    /*******
      * LECTURE ET AFFICHAGE DES OBJETS (classes créées auparavant par les enseignants)
      */
-    
+
     /**
      * Lit et affiche les donnees de la carte.
      * @throws ExceptionFormatDonnees
@@ -259,14 +261,14 @@ public class LecteurDonnees {
         }
     }
 
-    
-    /******* 
+
+    /*******
      * LECTURE ET CREATION DES OBJETS
      */
-    
+
     /**
      * Lit et construit un objet carte
-     * @throws DataFormatException 
+     * @throws DataFormatException
      */
     private Carte creeCarte() throws DataFormatException {
     	ignorerCommentaires();
@@ -287,10 +289,10 @@ public class LecteurDonnees {
                     + "Attendu: nbLignes nbColonnes tailleCases");
         }
 	}
-    
+
     /**
      * Lit et construit un objet case
-     * @throws DataFormatException 
+     * @throws DataFormatException
      */
     private Case creeCase(int lig, int col) throws DataFormatException {
         ignorerCommentaires();
@@ -306,10 +308,10 @@ public class LecteurDonnees {
                     + "Attendu: nature altitude [valeur_specifique]");
         }
     }
-    
+
     /**
      * Lit et renvoie le nombre d'incendies
-     * @throws DataFormatException 
+     * @throws DataFormatException
      */
     private int nbIncendies() throws DataFormatException {
     	ignorerCommentaires();
@@ -321,10 +323,10 @@ public class LecteurDonnees {
                     + "Attendu: nbIncendies");
         }
     }
-    
+
     /**
      * Lit et construit les objets Incendies
-     * @throws DataFormatException 
+     * @throws DataFormatException
      */
     private Incendie[] creeIncendies(int nbIncendies, Carte carte) throws DataFormatException {
         ignorerCommentaires();
@@ -340,10 +342,10 @@ public class LecteurDonnees {
                     + "Attendu: nbIncendies");
         }
 	}
-    
+
     /**
      * Lit et construit le i-ème objet Incendie
-     * @throws DataFormatException 
+     * @throws DataFormatException
      */
     private Incendie creeIncendie(int i, Carte carte) throws DataFormatException {
         ignorerCommentaires();
@@ -364,7 +366,7 @@ public class LecteurDonnees {
                     + "Attendu: ligne colonne intensite");
         }
     }
-    
+
     /**
      * Lit et affiche les donnees des robots.
      */
@@ -378,10 +380,10 @@ public class LecteurDonnees {
                     + "Attendu: nbRobots");
         }
     }
-    
+
     /**
      * Lit et construit les objets Robot
-     * @throws DataFormatException 
+     * @throws DataFormatException
      */
     private Robot[] creeRobots(int nbRobots, Carte carte) throws DataFormatException {
         ignorerCommentaires();
@@ -396,10 +398,10 @@ public class LecteurDonnees {
                     + "Attendu: nbRobots");
         }
     }
-    
+
     /**
      * Lit et construit le i-ème objet Robot
-     * @throws DataFormatException 
+     * @throws DataFormatException
      */
     private Robot creeRobot(int i, Carte carte) throws DataFormatException {
         ignorerCommentaires();
@@ -407,13 +409,13 @@ public class LecteurDonnees {
             int lig = scanner.nextInt();
             int col = scanner.nextInt();
             String type = scanner.next();
-            
+
             // lecture eventuelle d'une vitesse du robot (entier)
             String s = scanner.findInLine("(\\d+)");	// 1 or more digit(s) ?
             // pour lire un flottant:    ("(\\d+(\\.\\d+)?)");
-            
+
             int vitesse;
-            
+
             switch(type) {
             	case "DRONE":
                     Robot drone = new Drone(carte.getCase(lig, col),carte);

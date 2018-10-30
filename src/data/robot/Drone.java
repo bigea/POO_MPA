@@ -76,10 +76,10 @@ public class Drone extends Robot {
 	}
 
 	/* Remplissage effectif */
-	@Override
-	public void remplirEffectif() {
-		this.setVolume(10000);
-	}
+	// @Override
+	// public void remplirEffectif() {
+	// 	this.setVolume(10000);
+	// }
 
 
 	/*********************************************
