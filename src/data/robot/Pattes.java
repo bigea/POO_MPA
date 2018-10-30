@@ -74,7 +74,7 @@ public class Pattes extends Robot {
 	 */
 
 	@Override
-	public void remplirEffectif() {
+	public void remplirReservoir() {
 		this.setVolume(INFINI);
 	}
 	@Override

@@ -14,25 +14,25 @@ public class Incendie {
 
 	/* Attributs */
 	private Case position;
-	private int litre;
-	
+	private int litrePourEteindre;
+
 	/* Affichage */
 	public String toString() {
-		return this.getPosition().getLigne()+" "+this.getPosition().getColonne()+" "+this.getLitre();
+		return this.getPosition().getLigne()+" "+this.getPosition().getColonne()+" "+this.getLitrePourEteindre();
 	}
 
 	/* Constructeur */
-	public Incendie(Case pos, int litre) {
+	public Incendie(Case pos, int litrePourEteindre) {
 		this.setPosition(pos);
-		this.setVolume(litre);
+		this.setVolume(litrePourEteindre);
 	};
 	
 	/* Accesseurs */
 	public Case getPosition() {
 		return this.position;
 	}
-	public int getLitre() {
-		return this.litre;
+	public int getLitrePourEteindre() {
+		return this.litrePourEteindre;
 	}
 
 	/* Mutateurs */
@@ -40,6 +40,6 @@ public class Incendie {
 		this.position = pos;
 	}
 	public void setVolume(int ltr) {
-		this.litre = ltr;
+		this.litrePourEteindre = ltr;
 	}
 }

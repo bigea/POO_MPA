@@ -16,16 +16,20 @@ public class DonneesSimulation {
 	private Carte carte;
 	private Incendie[] incendies;
 	private Robot[] robots;
+  private Case[] eaux;
 	private int nbIncendies;
 	private int nbRobots;
+  private int nbEaux;
 
 	/* Constructeur */
-	public DonneesSimulation(Carte carte, int nbIncendies, int nbRobots) {
+	public DonneesSimulation(Carte carte, int nbIncendies, int nbRobots, int nbEaux) {
 		this.carte = carte;
 		this.nbIncendies = nbIncendies;
 		this.nbRobots = nbRobots;
+    this.nbEaux = nbEaux;
 		this.incendies = new Incendie[nbIncendies];
 		this.robots = new Robot[nbRobots];
+    this.eaux = new Case[nbEaux];
 	}
 
 	/* Affichage comme dans le fichier d'origine*/
@@ -76,12 +80,18 @@ public class DonneesSimulation {
 	public Robot[] getRobots() {
 		return this.robots;
 	}
+  public Case[] getEaux() {
+    return this.eaux;
+  }
 	public int getNbIncendies() {
 		return this.nbIncendies;
 	}
 	public int getNbRobots() {
 		return this.nbRobots;
 	}
+  public int getNbEaux() {
+    return this.nbEaux;
+  }
 
 	/* Ajout d'un incendie */
 	public void addIncendie(Incendie inc, int n) {
@@ -91,5 +101,10 @@ public class DonneesSimulation {
 	/* Ajout d'un robot */
 	public void addRobot(Robot rob, int n) {
 		this.robots[n] = rob;
+	}
+
+  /* Ajout d'une case eau */
+  public void addEau(Case caseEau, int n) {
+		this.eaux[n] = caseEau;
 	}
 }

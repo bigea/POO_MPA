@@ -24,7 +24,7 @@ public class Chenilles extends Robot {
 	 */
 
 	public Chenilles(Case pos, Carte carte) {
-		super(pos, carte, NatureRobot.CHENILLES);
+		super(pos, NatureRobot.CHENILLES);
 		this.setVolume(2000);
 		this.setVitesse(60);
 	}
@@ -100,7 +100,7 @@ public class Chenilles extends Robot {
 
 	/* Remplissage effectif */
 	@Override
-	public void remplirEffectif() {
+	public void remplirReservoir() {
 		this.setVolume(2000);
 	}
 
@@ -112,7 +112,7 @@ public class Chenilles extends Robot {
 
 	/* Calcul du plus court chemin */
 	@Override
-	public Chemin plusCourt(Case dest, int date) {
+	public Chemin plusCourt(Case dest, int date, Carte carte) {
 		Chemin chemin = new Chemin(this, date);
 		chemin.plusCourt(dest);
 		return chemin;

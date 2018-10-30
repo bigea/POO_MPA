@@ -60,9 +60,9 @@ public class Simulateur implements Simulable {
 	 * METHODES DE BASE
 	 */
 
-	/* Constructeur */
+	/* Constructeurs */
 
-
+	/* Constructeur quand on n'a pas de donnees */
 	public Simulateur(int date, int nbLignes, int nbColonnes, int tailleCase) {
 		this.nbLignes = nbLignes;
 		this.nbColonnes = nbColonnes;
@@ -75,7 +75,7 @@ public class Simulateur implements Simulable {
 	}
 
 
-
+	/* Constructeur quand on a des donnees */
 	public Simulateur(int date, DonneesSimulation donneesSim) {
 		this.donnees = donneesSim;
 		Carte carte = this.donnees.getCarte();
@@ -91,12 +91,14 @@ public class Simulateur implements Simulable {
 	}
 
 
-
 	/* Mutateur */
 	public void setDateSimulation(int date) {
 		this.dateSimulation = date;
 	}
 	/* Accesseur */
+	public GUISimulator getGui() {
+		return this.gui;
+	}
 	public int getDateSimulation() {
 		return this.dateSimulation;
 	}
@@ -106,6 +108,19 @@ public class Simulateur implements Simulable {
 	public ArrayList<Evenement> getScenario(){
 		return this.scenario.getScenario();
 	}
+	public DonneesSimulation getDonnees() {
+		return this.donnees;
+	}
+	public int getNbLignes() {
+		return this.nbLignes;
+	}
+	public int getNbColonnes() {
+		return this.nbColonnes;
+	}
+	public int getTailleCase() {
+		return this.tailleCase;
+	}
+
 
 	public void next() {
 		this.incrementeDate();

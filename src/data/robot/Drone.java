@@ -77,7 +77,7 @@ public class Drone extends Robot {
 
 	/* Remplissage effectif */
 	@Override
-	public void remplirEffectif() {
+	public void remplirReservoir() {
 		this.setVolume(10000);
 	}
 
