@@ -115,7 +115,7 @@ public class Scenario {
 				}
 				pos += 1;
 			}
-			this.sequence.add(event);
+			this.sequence.add(pos, event);
 		}*/
 	}
 
