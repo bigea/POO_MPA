@@ -103,7 +103,7 @@ public class LecteurDonnees {
             }
             //On remplie le tableau des cases d'eau de donnees
             for(int i = 0; i < nbCaseEau; i++) {
-            	donnees.addEaux(eaux.get(i), i);
+            	donnees.addEau(eaux.get(i), i);
             }
             scanner.close();
             return donnees;
@@ -432,7 +432,7 @@ public class LecteurDonnees {
 
             switch(type) {
             	case "DRONE":
-                    Robot drone = new Drone(carte.getCase(lig, col),carte);
+                    Robot drone = new Drone(carte.getCase(lig, col));
                     if (s != null) {
                         vitesse = Integer.parseInt(s);
                         drone.setVitesse(vitesse);
@@ -440,7 +440,7 @@ public class LecteurDonnees {
                     verifieLigneTerminee();
                     return drone;
             	case "ROUES":
-                    Robot roues = new Roues(carte.getCase(lig, col),carte);
+                    Robot roues = new Roues(carte.getCase(lig, col));
                     if (s != null) {
                         vitesse = Integer.parseInt(s);
                         roues.setVitesse(vitesse);
@@ -448,7 +448,7 @@ public class LecteurDonnees {
                     verifieLigneTerminee();
                     return roues;
             	case "PATTES":
-                    Robot pattes = new Pattes(carte.getCase(lig, col),carte);
+                    Robot pattes = new Pattes(carte.getCase(lig, col));
                     if (s != null) {
                         vitesse = Integer.parseInt(s);
                         pattes.setVitesse(vitesse);
@@ -456,7 +456,7 @@ public class LecteurDonnees {
                     verifieLigneTerminee();
                     return pattes;
             	case "CHENILLES":
-                    Robot che = new Chenilles(carte.getCase(lig, col),carte);
+                    Robot che = new Chenilles(carte.getCase(lig, col));
                     if (s != null) {
                         vitesse = Integer.parseInt(s);
                         che.setVitesse(vitesse);

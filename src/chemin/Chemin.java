@@ -26,7 +26,6 @@ public class Chemin {
 	private List<Case> chemin;
 	private int nbDate;
 	private List<Integer> dates;
-	private int nbDate;
 
 	/*********************************************
 	 *
@@ -43,25 +42,25 @@ public class Chemin {
 
 	/* Mutateurs - Accesseurs */
 	public List<Case> getChemin() {
-		return chemin;
+		return this.chemin;
 	}
 	public void setChemin() {
 		this.chemin = new ArrayList<Case>();
 	}
 	public List<Integer> getDates() {
-		return dates;
+		return this.dates;
 	}
 	public void setDates() {
 		this.dates = new ArrayList<Integer>();
 	}
 	public int getNbCase() {
-		return nbCase;
+		return this.nbCase;
 	}
 	public void setNbCase(int nbCase) {
 		this.nbCase = nbCase;
 	}
 	public int getNbDate() {
-		return nbDate;
+		return this.nbDate;
 	}
 	public void setNbDate(int nbDate) {
 		this.nbDate = nbDate;
@@ -72,12 +71,28 @@ public class Chemin {
 	// public void setDateSimulation(int dateSimulaion) {
 	// 	this.dateSimulation = dateSimulaion;
 	// }
-	/* Ajout d'une case au chemin */
-	public void ajoutCase(Case cas, int date, Robot rbt) {
-		if(nbDates > 0 && nbCase > 0){
+
+	/* Ajout d'une case au début du chemin (en tête) */
+	public void ajoutCaseTete(Case cas, int date, Robot rbt, Carte carte) {
+		if(this.nbDate > 0 && this.nbCase > 0){
 			int derniereDate = this.dates.get(this.nbDate-1);
 			Case derniereCase = this.chemin.get(this.nbCase-1);
-			this.dates.add(derniereDate + this.calculTemps(derniereCase, cas, rbt));
+			this.dates.add(0, derniereDate + rbt.calculTemps(derniereCase, cas, carte));
+		}
+		else{
+			this.dates.add(0, date);
+		}
+        this.chemin.add(0, cas);
+        this.nbCase += 1;
+		this.nbDate += 1;
+    }
+
+	/* Ajout d'une case à la fin du chemin (en queue) */
+	public void ajoutCaseQueue(Case cas, int date, Robot rbt, Carte carte) {
+		if(this.nbDate > 0 && this.nbCase > 0){
+			int derniereDate = this.dates.get(this.nbDate-1);
+			Case derniereCase = this.chemin.get(this.nbCase-1);
+			this.dates.add(derniereDate + rbt.calculTemps(derniereCase, cas, carte));
 		}
 		else{
 			this.dates.add(date);
@@ -87,32 +102,12 @@ public class Chemin {
 		this.nbDate += 1;
     }
 
-	public int tempsChemin(Robot robot) {
-		int temps = this.dates.get(chemin.getNbDates()-1) - this.dates.get(0);
+	public int tempsChemin(Robot robot, Carte carte) {
+		int temps = this.dates.get(this.getNbDate()-1) - this.dates.get(0);
 		Case avantDerniereCase = this.chemin.get(this.nbCase-2);
 		Case derniereCase = this.chemin.get(this.nbCase-1);
-		temps = temps + calculTemps(avantDerniereCase, derniereCase, robot);
+		temps = temps + robot.calculTemps(avantDerniereCase, derniereCase, carte);
 		return temps;
-	}
-
-	/* Calcul du temps de déplacement
-	 * 		Dépend de la vitesse du robot et de la nature du terrain,
-	 * 		donc de la nature du terrain sur la moitié de la première
-	 * 		case et la moitié de la seconde case
-	 */
-	private int calculTemps(Case src, Case voisin, Robot robot) {
-		/* Vitesse sur la case src en m/s*/
-		double vitesse_src = (robot.getVitesse(src.getNature()))/3.6;
-		/* Vitesse sur la case dest en m/s */
-		double vitesse_voisin = (robot.getVitesse(voisin.getNature()))/3.6;
-		/* Taille de la case, on prend comme distance la moitié */
-		int taille_case = robot.getCarte().getTailleCases();
-		int distance = taille_case/2;
-		/* Calcul du temps sur les deux terrains */
-		double temps_src = distance/vitesse_src;
-		double temps_voisin = distance/vitesse_voisin;
-		/* On renvoie le temps, arrondi au supérieur */
-		return (int) Math.round(temps_src+temps_dest);
 	}
 
 	/*********************************************

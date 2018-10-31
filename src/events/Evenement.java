@@ -16,6 +16,7 @@ public abstract class Evenement {
 	private int date;
 	private Simulateur sim;
 	private Robot robot;
+	private int duree;
 
 	/*********************************************
 	 *
@@ -23,10 +24,11 @@ public abstract class Evenement {
 	 */
 
 	/* Constructeur */
-	public Evenement(int date, Simulateur sim, Robot robot) {
+	public Evenement(int date, Simulateur sim, Robot robot, int duree) {
 		this.setDate(date);
 		this.setRobot(robot);
 		this.sim = sim;
+		this.duree = duree;
 	}
 
 	/* Mutateurs */
@@ -35,6 +37,9 @@ public abstract class Evenement {
 	}
 	public void setRobot(Robot robot) {
 		this.robot = robot;
+	}
+	public void setDuree(int duree) {
+		this.duree = duree;
 	}
 
 	/* Accesseur */
@@ -46,6 +51,9 @@ public abstract class Evenement {
 	}
 	public Simulateur getSimulateur() {
 		return this.sim;
+	}
+	public int getDuree() {
+		return this.duree;
 	}
 
 	/*********************************************

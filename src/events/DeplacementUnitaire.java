@@ -1,3 +1,5 @@
+package events;
+
 import data.Case;
 import data.robot.Robot;
 import gui2.Simulateur;
@@ -6,7 +8,7 @@ import gui2.Simulateur;
  * Classe EvenementDeplacementCase
  */
 
-public class Deplacement extends Evenement{
+public class DeplacementUnitaire extends Evenement{
     /**
 	 * Classe EvenementDeplacementCase :
 	 * 		hérite du modèle Evenement et effectue le déplacement du robot
@@ -19,17 +21,17 @@ public class Deplacement extends Evenement{
      */
 
      /* Constructeur */
-     public Deplacement(int date, Simulateur sim, Robot rbt, Case dest) {
-         super(date, sim, rbt);
-         this.setCase(dest);
+     public DeplacementUnitaire(int date, Simulateur sim, Robot rbt, int duree, Case dest) {
+         super(date, sim, rbt, duree);
+         this.setDestination(dest);
      }
      /* Mutateurs */
-     public void setCaseDestination(Case dest) {
+     public void setDestination(Case dest) {
          this.destination = dest;
      }
 
      /* Accesseur */
-     public Case getCaseDestination() {
+     public Case getDestination() {
          return this.destination;
      }
      /*********************************************
@@ -40,6 +42,7 @@ public class Deplacement extends Evenement{
      /* Exécution de l'évènement */
      public void execute() {
          /* Le robot va gérer le déplacement vers la case */
-         this.getRobot().deplacementCase(this.getCase(), this.getSimulateur());
+        //  this.getRobot().deplacementCase(this.getCase(), this.getSimulateur());
+         this.getRobot().setPosition(this.getDestination());
      }
 }

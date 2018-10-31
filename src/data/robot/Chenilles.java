@@ -1,5 +1,7 @@
 package data.robot;
 
+import java.util.List;
+
 import chemin.Chemin;
 import data.Carte;
 import data.Case;
@@ -29,8 +31,8 @@ public class Chenilles extends Robot {
 		this.setVitesse(60);
 		this.setTempsRemplissage(5*60);
 		this.setTempsVidageComplet(20*8);
-		this.vitesseRemplissage =  (float)this.capacite/(float)this.getTempsRemplissage;
-		this.vitesseVidage =  (float)this.capacite/(float)this.getTempsVidageComplet;
+		this.vitesseRemplissage =  (float)this.capacite/(float)this.getTempsRemplissage();
+		this.vitesseVidage =  (float)this.capacite/(float)this.getTempsVidageComplet();
 	}
 
 	public void setVitesse(int vitesse) {
@@ -51,7 +53,7 @@ public class Chenilles extends Robot {
 		}
 	}
 
-	private void setCapacite(int capacite){
+	public void setCapacite(int capacite){
 		this.capacite = capacite;
 	}
 	public int getCapacite(){
@@ -61,23 +63,29 @@ public class Chenilles extends Robot {
 	public int getTempsRemplissage() {
 		return this.tempsRemplissage;
 	}
-	private void setTempsRemplissage(int temps){
+	public void setTempsRemplissage(int temps){
 		this.tempsRemplissage = temps;
 	}
 
 	public int getTempsVidageComplet() {
 		return this.tempsVidage;
 	}
-	private void setTempsVidageComplet(int temps){
+	public void setTempsVidageComplet(int temps){
 		this.tempsVidage = temps;
 	}
 
 	public double getVitesseRemplissage(){
 		return this.vitesseRemplissage;
 	}
+	public void setVitesseRemplissage(int tempsRemplissage, int capacite) {
+		this.vitesseRemplissage = (float)capacite/(float)tempsRemplissage;
+	}
 
 	public double getVitesseVidage(){
 		return this.vitesseVidage;
+	}
+	public void setVitesseVidage(int tempsVidage, int capacite) {
+		this.vitesseVidage = (float)capacite/(float)tempsVidage;
 	}
 
 
@@ -102,24 +110,24 @@ public class Chenilles extends Robot {
 	 */
 
 	/* Possibilité de remplir sur la case donnée */
-	public boolean possibleRemplissage(Case cas) {
+	public boolean possibleRemplissage(Case cas, Carte carte) {
 		Direction direction = Direction.SUD;
-		Case voisin = this.getCarte().getVoisin(cas, direction);
+		Case voisin = carte.voisin(cas, direction);
 		if(voisin.getNature() == NatureTerrain.EAU) {
 			return true;
 		}
 		direction = Direction.NORD;
-		voisin = this.getCarte().getVoisin(cas, direction);
+		voisin = carte.voisin(cas, direction);
 		if(voisin.getNature() == NatureTerrain.EAU) {
 			return true;
 		}
 		direction = Direction.EST;
-		voisin = this.getCarte().getVoisin(cas, direction);
+		voisin = carte.voisin(cas, direction);
 		if(voisin.getNature() == NatureTerrain.EAU) {
 			return true;
 		}
 		direction = Direction.OUEST;
-		voisin = this.getCarte().getVoisin(cas, direction);
+		voisin = carte.voisin(cas, direction);
 		if(voisin.getNature() == NatureTerrain.EAU) {
 			return true;
 		}
@@ -128,7 +136,7 @@ public class Chenilles extends Robot {
 
 	/* Remplissage effectif */
 	public void remplirReservoir() {
-		this.setVolume(2000);
+		this.setCapacite(2000);
 	}
 
 
@@ -138,14 +146,14 @@ public class Chenilles extends Robot {
 	 */
 
 	/* calcul du plus court chemin */
-	public Chemin plusCourt(Case dest, int date, Carte carte) {
-		Chemin chemin = new Chemin(this, date);
+	protected Chemin plusCourt(Case dest, int date, Carte carte) {
+		Chemin chemin = new Chemin();
 		chemin = this.plusCourtChemin(dest, date, carte);
 		return chemin;
 	}
 
 	/*FONCTION UTILE AU CALCUL DE PLUS COURT CHEMIN*/
-	private Chemin plusCourtChemin(int dest, int date, Carte carte){
+	private Chemin plusCourtChemin(Case dest, int date, Carte carte){ // Normalement, return un Chemin
 		/*Données nécessaires à l'algorithme*/
 		int nbColonnes = carte.getNbColonnes();
 		int nbLignes = carte.getNbLignes();
@@ -153,76 +161,76 @@ public class Chenilles extends Robot {
 		int x_src = src.getColonne();
 		int y_src = src.getLigne();
 
-
-
-	}
-
-	private Initialisation(){
+		return new Chemin();
 
 	}
 
-	public void plusCourt(Case dest int date) {
-		/* Données nécessaires à l'algorithme */
-		int date = this.getDateSimulation();
-		Robot rbt = this.getRobot();
-		Carte carte = rbt.getCarte();
-		int nbColonnes = carte.getNbColonnes();
-		int nbLignes = carte.getNbLignes();
-		Case src = this.getRobot().getPosition();
-		int x_src = src.getLigne();
-		int y_src = src.getColonne();
+	// private Initialisation(){
+	//
+	// }
 
-		/* Ensemble des poids */
-		int[][] poids = new int[nbLignes][nbColonnes];
-		/* Ensemble des cases */
-		List<Case> noeuds = new ArrayList<Case>();
-
-		/* Initialisation du graphe (poids infini) */
-		for(int l=0; l<nbLignes; l++) {
-			for(int c=0; c<nbColonnes; c++) {
-				poids[l][c] = INFINI;
-				noeuds.add(carte.getCase(l, c));
-			}
-		}
-		poids[x_src][y_src] = 0;
-
-		Case noeud = src;
-		/* Tant que l'on a pas parcouru toutes les cases ou atteint la dest */
-		while(!noeuds.isEmpty() || src != dest) {
-			// on récupère la case dont la distance est minimale
-			noeud = minimum(noeuds,poids);
-			date += poids[noeud.getLigne()][noeud.getColonne()];
-			// si c'est la case src : on ne la prend pas en compte dans le chemin
-			if(noeud!=src) {
-				// on l'ajoute au chemin
-				this.ajoutCase(noeud, date);
-			}
-			// on supprime ce noeud
-			noeuds.remove(noeud);
-			// on s'occupe des noeuds restants
-			// on met à jour les distances pour tous les voisins du minimum
-			Case voisin = carte.getVoisin(noeud, Direction.SUD);
-			if(noeuds.contains(voisin)&&(rbt.possibleDeplacement(voisin))){
-				poids = majPoids(poids, noeud, voisin);
-			}
-			voisin = carte.getVoisin(noeud, Direction.NORD);
-			if(noeuds.contains(voisin)&&(rbt.possibleDeplacement(voisin))){
-				poids = majPoids(poids, noeud, voisin);
-			}
-			voisin = carte.getVoisin(noeud, Direction.EST);
-			if(noeuds.contains(voisin)&&(rbt.possibleDeplacement(voisin))){
-				poids = majPoids(poids, noeud, voisin);
-			}
-			voisin = carte.getVoisin(noeud, Direction.OUEST);
-			if(noeuds.contains(voisin)&&(rbt.possibleDeplacement(voisin))){
-				poids = majPoids(poids, noeud, voisin);
-			}
-		}
-	}
+	// public void plusCourt(Case dest, int date) {
+	// 	/* Données nécessaires à l'algorithme */
+	// 	int date = this.getDateSimulation();
+	// 	Robot rbt = this.getRobot();
+	// 	Carte carte = rbt.getCarte();
+	// 	int nbColonnes = carte.getNbColonnes();
+	// 	int nbLignes = carte.getNbLignes();
+	// 	Case src = this.getRobot().getPosition();
+	// 	int x_src = src.getLigne();
+	// 	int y_src = src.getColonne();
+	//
+	// 	/* Ensemble des poids */
+	// 	int[][] poids = new int[nbLignes][nbColonnes];
+	// 	/* Ensemble des cases */
+	// 	List<Case> noeuds = new ArrayList<Case>();
+	//
+	// 	/* Initialisation du graphe (poids infini) */
+	// 	for(int l=0; l<nbLignes; l++) {
+	// 		for(int c=0; c<nbColonnes; c++) {
+	// 			poids[l][c] = INFINI;
+	// 			noeuds.add(carte.getCase(l, c));
+	// 		}
+	// 	}
+	// 	poids[x_src][y_src] = 0;
+	//
+	// 	Case noeud = src;
+	// 	/* Tant que l'on a pas parcouru toutes les cases ou atteint la dest */
+	// 	while(!noeuds.isEmpty() || src != dest) {
+	// 		// on récupère la case dont la distance est minimale
+	// 		noeud = minimum(noeuds,poids);
+	// 		date += poids[noeud.getLigne()][noeud.getColonne()];
+	// 		// si c'est la case src : on ne la prend pas en compte dans le chemin
+	// 		if(noeud!=src) {
+	// 			// on l'ajoute au chemin
+	// 			this.ajoutCaseQueue(noeud, date);
+	// 		}
+	// 		// on supprime ce noeud
+	// 		noeuds.remove(noeud);
+	// 		// on s'occupe des noeuds restants
+	// 		// on met à jour les distances pour tous les voisins du minimum
+	// 		Case voisin = carte.voisin(noeud, Direction.SUD);
+	// 		if(noeuds.contains(voisin)&&(rbt.possibleDeplacement(voisin))){
+	// 			poids = majPoids(poids, noeud, voisin);
+	// 		}
+	// 		voisin = carte.voisin(noeud, Direction.NORD);
+	// 		if(noeuds.contains(voisin)&&(rbt.possibleDeplacement(voisin))){
+	// 			poids = majPoids(poids, noeud, voisin);
+	// 		}
+	// 		voisin = carte.voisin(noeud, Direction.EST);
+	// 		if(noeuds.contains(voisin)&&(rbt.possibleDeplacement(voisin))){
+	// 			poids = majPoids(poids, noeud, voisin);
+	// 		}
+	// 		voisin = carte.voisin(noeud, Direction.OUEST);
+	// 		if(noeuds.contains(voisin)&&(rbt.possibleDeplacement(voisin))){
+	// 			poids = majPoids(poids, noeud, voisin);
+	// 		}
+	// 	}
+	// }
 
 	/* Met à jour la distance entre le voisin et le noeud */
-	private int[][] majPoids(int[][] poids, Case src, Case voisin) {
-		int temps = this.calculTemps(src, voisin);
+	private int[][] majPoids(int[][] poids, Case src, Case voisin, Carte carte) {
+		int temps = this.calculTemps(src, voisin, carte);
 		int d_src = poids[src.getLigne()][src.getColonne()];
 		int d_voisin = poids[voisin.getLigne()][voisin.getColonne()];
 		if(d_voisin > d_src+temps) {
@@ -233,11 +241,14 @@ public class Chenilles extends Robot {
 
 	/* renvoie la case dont le poids est minimal parmis toutes les cases restantes */
 	private Case minimum(List<Case> noeuds, int[][] poids) {
-		int mini = INFINI;
+		int mini = 0;
 		Case position = noeuds.get(0);
 		for(int i=0;i<noeuds.size();i++) {
 			Case noeud = noeuds.get(i);
 			int poid = poids[noeud.getLigne()][noeud.getColonne()];
+			if (i==0) {
+				mini = poid;
+			}
 			if( poid < mini) {
 				mini = poid;
 				position = noeud;

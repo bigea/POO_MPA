@@ -22,8 +22,8 @@ public class EvenementDeplacementUnitaire extends Evenement{
 	 */
 
 	/* Constructeur */
-	public EvenementDeplacementUnitaire(int date, Simulateur sim, Robot rbt, Case dest) {
-		super(date, sim, rbt);
+	public EvenementDeplacementUnitaire(int date, Simulateur sim, Robot rbt, int duree, Case dest) {
+		super(date, sim, rbt, duree);
 		this.setCase(dest);
 	}
 
