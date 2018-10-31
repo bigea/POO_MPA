@@ -1,5 +1,6 @@
 package data.robot;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import chemin.Chemin;
@@ -12,6 +13,7 @@ import events.EvenementDeplacementUnitaire;
 import events.EvenementRemplissageSurPlace;
 import events.*;
 import gui2.Simulateur;
+import data.enumerate.Direction;
 
 /**
  * Classe Robot
@@ -23,7 +25,7 @@ public abstract class Robot {
      * Classe Robot
      * 		Avec hérachie (sous-classes)
      */
-
+	private static final int INFINI = 10000;
 	/* Attributs */
 	private NatureRobot nature;
 	protected Case position;
@@ -97,6 +99,8 @@ public abstract class Robot {
 		/* Calcul du plus court dans chemin */
         // date = sim.getDateSimulation(); // Valeur par défaut si pas donné en paramètre
 		Chemin chemin = this.plusCourt(dest, date, sim.getDonnees().getCarte());
+		// System.out.println("HELLO");
+		// System.out.println("chemin : " + chemin.toStringDate());
 		this.ajoutSimulateurDeplacement(sim,chemin);
         return chemin;
 	}
@@ -112,9 +116,6 @@ public abstract class Robot {
 
 	/* Déplacement possible selon la nature du robot */
 	public abstract boolean possibleDeplacement(Case voisin);
-
-	/* Calcul du plus court chemin : spécifique selon le type de robot*/
-	protected abstract Chemin plusCourt(Case dest, int date, Carte carte);
 
     /* Calcul du temps de déplacement
 	 * 		Dépend de la vitesse du robot et de la nature du terrain,
@@ -197,8 +198,8 @@ public abstract class Robot {
 /*FONCTION UTILE AU CALCUL DE PLUS COURT CHEMIN********************************************/
 
 	/* calcul du plus court chemin */
-	public Chemin plusCourt(Case dest, int date, Carte carte) {
-		Chemin chemin = this.Dijkstra(dest, date, carte);
+	protected Chemin plusCourt(Case dest, int date, Carte carte) {
+		Chemin chemin = Dijkstra(dest, date, carte);
 		return chemin;
 	}
 	/* Initialisation du graphe (poids infini) */
@@ -209,16 +210,15 @@ public abstract class Robot {
 				noeuds.add(carte.getCase(l, c));
 			}
 		}
-		poids[x_src][y_src] = 0;
-		return poids;
+		poids[src.getColonne()][src.getLigne()] = 0;
 	}
 
 	protected Case TrouveMin(List<Case> noeuds, int[][] poids){
 		int min = INFINI;
 		Case noeudChoisi = null;
 		for(Case noeud : noeuds){
-			if(poids[noeud.getLigne()][noeud.getColonne()] < min){
-				min = poids[noeud.getLigne()][noeud.getColonne()];
+			if(poids[noeud.getColonne()][noeud.getLigne()] < min){
+				min = poids[noeud.getColonne()][noeud.getLigne()];
 				noeudChoisi = noeud;
 			}
 		}
@@ -226,25 +226,25 @@ public abstract class Robot {
 	}
 
 	/* Met à jour la distance entre le voisin et le noeud */
-	protected void majPoids(Chemin chemin, int[][] poids, Case src, Case voisin) {
-		int temps = this.calculTemps(src, voisin);
-		int poids_src = poids[src.getLigne()][src.getColonne()];
-		int poids_voisin = poids[voisin.getLigne()][voisin.getColonne()];
+	protected void majPoids(Case[][] predecesseurs, int[][] poids, Case src, Case voisin, Carte carte) {
+		int temps = this.calculTemps(src, voisin, carte);
+		int poids_src = poids[src.getColonne()][src.getLigne()];
+		int poids_voisin = poids[voisin.getColonne()][voisin.getLigne()];
 		if(poids_voisin > poids_src+temps) {
-			poids[voisin.getLigne()][voisin.getColonne()] = poids_src+temps;
-			predecesseurs[voisin.getLigne()][voisin.getColonne()] = src;
+			poids[voisin.getColonne()][voisin.getLigne()] = poids_src+temps;
+			predecesseurs[voisin.getColonne()][voisin.getLigne()] = src;
 		}
 	}
 
-	protected Chemin Dijkstra(int dest, int date, Carte carte){
+	protected Chemin Dijkstra(Case dest, int date, Carte carte){
 		/*création du tableau des predecesseurs*/
-		Case[][] predecesseurs = new Case[nbLignes][nbColonnes];
+		Case[][] predecesseurs = new Case[carte.getNbColonnes()][carte.getNbLignes()];
 		/*Données nécessaires à l'algorithme*/
 		Case src = this.getPosition();
 		/* Ensemble des cases */
-		List<Case> noeuds = new ArrayList<Case>();
+		ArrayList<Case> noeuds = new ArrayList<Case>();
 		/* Ensemble des poids */
-		int[][] poids = new int[nbLignes][nbColonnes];
+		int[][] poids = new int[carte.getNbColonnes()][carte.getNbLignes()];
 		/* Initialisation du graphe (poids infini) */
 		Initialisation(carte, src, noeuds, poids);
 
@@ -253,45 +253,47 @@ public abstract class Robot {
 		while(!noeuds.isEmpty()) {
 			// on récupère la case dont la distance est minimale
 			noeud = TrouveMin(noeuds, poids);
-			date += poids[noeud.getLigne()][noeud.getColonne()];
-			// si c'est la case src : on ne la prend pas en compte dans le chemin
-			if(noeud!=src) {
-				// on l'ajoute au chemin
-				chemin.ajoutCase(noeud, date, this);
-			}
+			date += poids[noeud.getColonne()][noeud.getLigne()];
 			// on supprime ce noeud
 			noeuds.remove(noeud);
+			if(noeud.equals(dest)){ //On s'arrête dès qu'on a atteint la destination pour éviter des calculs inutiles
+				break;
+			}
 			// on s'occupe des noeuds restants
 			// on met à jour les distances pour tous les voisins du minimum
-			Case voisin = carte.getVoisin(noeud, Direction.SUD);
-			if(noeuds.contains(voisin)&&(rbt.possibleDeplacement(voisin))){
-				majPoids(predecesseurs, poids, noeud, voisin);
+			Case voisin = carte.voisin(noeud, Direction.SUD);
+			if( (voisin != null) && (noeuds.contains(voisin)&&(this.possibleDeplacement(voisin)))){
+				majPoids(predecesseurs, poids, noeud, voisin, carte);
 			}
-			voisin = carte.getVoisin(noeud, Direction.NORD);
-			if(noeuds.contains(voisin)&&(rbt.possibleDeplacement(voisin))){
-				majPoids(predecesseurs, poids, noeud, voisin);
+			voisin = carte.voisin(noeud, Direction.NORD);
+			if((voisin != null) && (noeuds.contains(voisin)&&(this.possibleDeplacement(voisin)))){
+				majPoids(predecesseurs, poids, noeud, voisin, carte);
 			}
-			voisin = carte.getVoisin(noeud, Direction.EST);
-			if(noeuds.contains(voisin)&&(rbt.possibleDeplacement(voisin))){
-				majPoids(predecesseurs, poids, noeud, voisin);
+			voisin = carte.voisin(noeud, Direction.EST);
+			if((voisin != null) && (noeuds.contains(voisin)&&(this.possibleDeplacement(voisin)))){
+				majPoids(predecesseurs, poids, noeud, voisin, carte);
 			}
-			voisin = carte.getVoisin(noeud, Direction.OUEST);
-			if(noeuds.contains(voisin)&&(rbt.possibleDeplacement(voisin))){
-				majPoids(predecesseurs, poids, noeud, voisin);
+			voisin = carte.voisin(noeud, Direction.OUEST);
+			if((voisin != null) && (noeuds.contains(voisin)&&(this.possibleDeplacement(voisin)))){
+				majPoids(predecesseurs, poids, noeud, voisin, carte);
 			}
 		}
 		/*On récupère le plus court chemin à partir du tableau des prédécesseurs*/
-		chemin = recupPlusCourtChemin(predecesseurs, voisin, src);
+		Chemin chemin = recupPlusCourtChemin(predecesseurs, poids, dest, src, carte, date);
 		return chemin;
 	}
 
-	protected Chemin recupPlusCourtChemin(Case[][] predecesseurs, int[][] poids, Case caseFinale, Case caseInitiale){
+	protected Chemin recupPlusCourtChemin(Case[][] predecesseurs, int[][] poids, Case caseFinale, Case caseInitiale, Carte carte, int date){
 		Chemin chemin = new Chemin();
-		Case cas = derniereCase;
+		Case cas = caseFinale;
+		ArrayList<Case> listeCases = new ArrayList<Case>();
 		while(cas != caseInitiale){
-			int poid = poids[cas.getLigne()][cas.getColonne()];
-			chemin.ajoutCaseEnTete(cas, this);
-			cas = predecesseurs[cas.getLigne()][cas.getColonne()];
+			listeCases.add(cas);
+			cas = predecesseurs[cas.getColonne()][cas.getLigne()];
+		}
+		for(int i = listeCases.size()-1; i >=0; i--){
+			chemin.ajoutCase(listeCases.get(i), date, this, carte);
+			date += poids[listeCases.get(i).getColonne()][listeCases.get(i).getLigne()];
 		}
 		return chemin;
 	}

@@ -126,38 +126,34 @@ public class Drone extends Robot {
 	@Override
 	protected Chemin plusCourt(Case dest, int date, Carte carte) {
 		Case src = this.getPosition();
-		int x_src = src.getColonne();
-		int y_src = src.getLigne();
-		int x_dest = dest.getColonne();
-		int y_dest = dest.getLigne();
 		Chemin chemin = new Chemin();
 		/* Tant qu'on a pas atteint la destination */
 		Direction direction = null;
-		while((x_src != x_dest)||(y_src != y_dest)) {
+		System.out.println(src.equals(dest));
+		while(!src.equals(dest)) {
 			/* 	On choisit simplement la direction
 			 * 		qui nous rapproche le plus de la dest
 			 * 		en "ligne droite" sans se soucier de la nature du terrain
 			 */
-			if(y_src < y_dest) {
+			 // System.out.println("HELLO DRONE");
+			if(src.getLigne() < dest.getLigne()) {
 				direction = Direction.SUD;
-			} else if (y_src > y_dest) {
+			} else if (src.getLigne() > dest.getLigne()) {
 				direction = Direction.NORD;
-			} else {
-				if(x_src < x_dest) {
+			} else if(src.getColonne() < dest.getColonne()) {
 					direction = Direction.EST;
-				} else if (x_src > x_dest) {
+			} else if (src.getColonne() > dest.getColonne()) {
 					direction = Direction.OUEST;
-				}
 			}
+
 			/* On ajoute le déplacement élémentaire dans le simulateur
 			 * 		La date dépend de la durée du déplacement donc de la vitesse du robot
 			 * 		Temps calculé dans calculTemps() par le Chemin
 			 */
 			Case voisin = carte.voisin(src, direction);
-			chemin.ajoutCaseQueue(voisin, date, this, carte);
+			chemin.ajoutCase(voisin, date, this, carte);
 			/* On réactualise la case qui est virtuellement la position du robot */
-			x_src = voisin.getColonne();
-			y_src = voisin.getLigne();
+			src = voisin;
 		}
 		return chemin;
 	}

@@ -124,12 +124,6 @@ public class Pattes extends Robot {
 	 *
 	 * METHODES DE DEPLACEMENT
 	 */
-	/* Calcul du plus court chemin */
-	protected Chemin plusCourt(Case dest, int date, Carte carte) {
-		Chemin chemin = new Chemin();
-		// chemin.plusCourt(dest);
-		return chemin;
-	}
 
 	/* Déplacement possible partout sauf eau */
 	public boolean possibleDeplacement(Case voisin) {

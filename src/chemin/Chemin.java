@@ -50,7 +50,7 @@ public class Chemin {
 	public List<Integer> getDates() {
 		return this.dates;
 	}
-	public void setDates() {
+	public void setDates() { //stupide car ce n'est pas un setter
 		this.dates = new ArrayList<Integer>();
 	}
 	public int getNbCase() {
@@ -72,35 +72,37 @@ public class Chemin {
 	// 	this.dateSimulation = dateSimulaion;
 	// }
 
-	/* Ajout d'une case au début du chemin (en tête) */
-	public void ajoutCaseTete(Case cas, int date, Robot rbt, Carte carte) {
-		if(this.nbDate > 0 && this.nbCase > 0){
-			int derniereDate = this.dates.get(this.nbDate-1);
-			Case derniereCase = this.chemin.get(this.nbCase-1);
-			this.dates.add(0, derniereDate + rbt.calculTemps(derniereCase, cas, carte));
-		}
-		else{
-			this.dates.add(0, date);
-		}
-        this.chemin.add(0, cas);
-        this.nbCase += 1;
-		this.nbDate += 1;
-    }
 
-	/* Ajout d'une case à la fin du chemin (en queue) */
-	public void ajoutCaseQueue(Case cas, int date, Robot rbt, Carte carte) {
-		if(this.nbDate > 0 && this.nbCase > 0){
-			int derniereDate = this.dates.get(this.nbDate-1);
-			Case derniereCase = this.chemin.get(this.nbCase-1);
-			this.dates.add(derniereDate + rbt.calculTemps(derniereCase, cas, carte));
+ 	/* Ajout d'une case à la fin du chemin (en queue) */
+	// public void ajoutCase(Case cas, int date, Robot rbt, Carte carte) {
+	// 	if(this.nbDate > 0 && this.nbCase > 0){
+	// 		int derniereDate = this.dates.get(this.nbDate-1);
+	// 		Case derniereCase = this.chemin.get(this.nbCase-1);
+	// 		this.dates.add(derniereDate + rbt.calculTemps(derniereCase, cas, carte)); // à changer
+	// 	}
+	// 	else{
+	// 		this.dates.add(date);
+	// 	}
+    //     this.chemin.add(cas);
+    //     this.nbCase += 1;
+	// 	this.nbDate += 1;
+    // }
+
+	public StringBuffer toStringDate(){
+		StringBuffer sb = new StringBuffer();
+		for(int i=0; i<this.dates.size(); i++){
+			sb.append(" " + this.dates.get(i) + "FIN");
 		}
-		else{
-			this.dates.add(date);
-		}
-        this.chemin.add(cas);
-        this.nbCase += 1;
+		return sb;
+	}
+
+	public void ajoutCase(Case cas, int date, Robot rbt, Carte carte) {
+		this.dates.add(date);
+		// System.out.println(this.toStringDate());
+		this.chemin.add(cas);
+		this.nbCase += 1;
 		this.nbDate += 1;
-    }
+	}
 
 	public int tempsChemin(Robot robot, Carte carte) {
 		int temps = this.dates.get(this.getNbDate()-1) - this.dates.get(0);

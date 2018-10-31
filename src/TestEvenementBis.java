@@ -51,7 +51,7 @@ public class TestEvenementBis {
             Robot pattes = donnees.getRobots()[2];
 
             /*On modifie la position initiale du drone*/
-            Case case_initiale = donnees.getCarte().getCase(0, 0);
+            Case case_initiale = donnees.getCarte().getCase(1, 1);
             drone.setPosition(case_initiale);
             int nbLignes = donnees.getCarte().getNbLignes();
             int nbColonnes = donnees.getCarte().getNbLignes();
@@ -60,82 +60,25 @@ public class TestEvenementBis {
             Simulateur simulateur2 = new Simulateur(0, donnees);
 
             /* TEST EVENEMENT DEPLACEMENT UNITAIRE */
-            System.out.println("------ DATE SIMULATION : "+simulateur2.getDateSimulation());
-            System.out.println("    drone : "+drone.getPosition().getLigne()+"-"+drone.getPosition().getColonne());
-            System.out.println("    roues : "+roues.getPosition().getLigne()+"-"+roues.getPosition().getColonne());
-            System.out.println("    pattes : "+pattes.getPosition().getLigne()+"-"+pattes.getPosition().getColonne());
             Case dest = donnees.getCarte().getCase(3, 4);
-            drone.deplacementCase(dest, simulateur2, 60);
-            // Evenement event = new DeplacementUnitaire(60,simulateur2,drone,dest);
-            // simulateur2.ajouteEvenement(event);
-            dest = donnees.getCarte().getCase(6, 6);
-            roues.deplacementCase(dest, simulateur2, 20);
-            // event = new DeplacementUnitaire(20,simulateur2,roues,dest);
-            // simulateur2.ajouteEvenement(event);
-            dest = donnees.getCarte().getCase(5, 7);
-            pattes.deplacementCase(dest, simulateur2, 45);
-            // event = new DeplacementUnitaire(45,simulateur2,pattes,dest);
-            // simulateur2.ajouteEvenement(event);
-            // System.out.println("ATTEEEEEEEEEEEEEEEEEENNNNNNNDS !!!!!!!!!!!!!!!!!");
-            // try {
-            //   Thread.sleep(5000);
-            // } catch(InterruptedException ex) {
-            //   Thread.currentThread().interrupt();
-            // }
-           simulateur2.incrementeDate();
-           System.out.println("------ DATE SIMULATION : "+simulateur2.getDateSimulation());
-           System.out.println("    drone : "+drone.getPosition().getLigne()+"-"+drone.getPosition().getColonne());
-           System.out.println("    roues : "+roues.getPosition().getLigne()+"-"+roues.getPosition().getColonne());
-           System.out.println("    pattes : "+pattes.getPosition().getLigne()+"-"+pattes.getPosition().getColonne());
-           // System.out.println("2 ATTEEEEEEEEEEEEEEEEEENNNNNNNDS !!!!!!!!!!!!!!!!!");
-           // try {
-           //   Thread.sleep(5000);
-           // } catch(InterruptedException ex) {
-           //   Thread.currentThread().interrupt();
-           // }
-           simulateur2.incrementeDate();
-           System.out.println("------ DATE SIMULATION : "+simulateur2.getDateSimulation());
-           System.out.println("    drone : "+drone.getPosition().getLigne()+"-"+drone.getPosition().getColonne());
-           System.out.println("    roues : "+roues.getPosition().getLigne()+"-"+roues.getPosition().getColonne());
-           System.out.println("    pattes : "+pattes.getPosition().getLigne()+"-"+pattes.getPosition().getColonne());
+            drone.deplacementCase(dest, simulateur2, 1);
+            // dest = donnees.getCarte().getCase(6, 6);
+            // roues.deplacementCase(dest, simulateur2, 20);
+
+            // dest = donnees.getCarte().getCase(5, 7);
+            // pattes.deplacementCase(dest, simulateur2, 45);
+
+           // simulateur2.incrementeDate();
+           // //
+           // simulateur2.incrementeDate();
 
             /* TEST DEPLACEMENT CASE
              * 		OK pour les déplacements case quand le chemin est fixé et donné par l'utilisateur
              * 		Testé quand on ne fait pas appel au plus cours chemin, qui lui marche pas
              * 		26/10
              */
-            dest = donnees.getCarte().getCase(5, 5);
-            drone.deplacementCase(dest, simulateur2, 80);
-            // Evenement event = new EvenementDeplacementCase(80,simulateur2,drone,dest);
-            // simulateur2.ajouteEvenement(event);
-
-
 
 //            /* TEST DEPLACEMENT DIRECTION */
-//            Simulateur simulateur3 = new Simulateur(0, donnees);
-//            event = new EvenementDeplacementDirection(simulateur3.getDateSimulation(),simulateur3,drone,Direction.NORD);
-//            simulateur3.ajouteEvenement(event);
-//            System.out.println("------ TEST EVENEMENT DEPLACEMENT DIRECTION ------");
-//            System.out.println("------ DATE SIMULATION : "+simulateur3.getDateSimulation());
-//            System.out.println("    drone : "+drone.getPosition().getLigne()+"-"+drone.getPosition().getColonne());
-//            simulateur3.incrementeDate();
-//            System.out.println("------ DATE SIMULATION : "+simulateur3.getDateSimulation());
-//            System.out.println("    drone : "+drone.getPosition().getLigne()+"-"+drone.getPosition().getColonne());
-//            simulateur3.incrementeDate();
-//            System.out.println("------ DATE SIMULATION : "+simulateur3.getDateSimulation());
-//            System.out.println("    drone : "+drone.getPosition().getLigne()+"-"+drone.getPosition().getColonne());
-//            simulateur3.incrementeDate();
-//            System.out.println("------ DATE SIMULATION : "+simulateur3.getDateSimulation());
-//            System.out.println("    drone : "+drone.getPosition().getLigne()+"-"+drone.getPosition().getColonne());
-//            simulateur3.incrementeDate();
-//            System.out.println("------ DATE SIMULATION : "+simulateur3.getDateSimulation());
-//            System.out.println("    drone : "+drone.getPosition().getLigne()+"-"+drone.getPosition().getColonne());
-//            simulateur3.incrementeDate();
-//            System.out.println("------ DATE SIMULATION : "+simulateur3.getDateSimulation());
-//            System.out.println("    drone : "+drone.getPosition().getLigne()+"-"+drone.getPosition().getColonne());
-//            simulateur3.incrementeDate();
-//            System.out.println("------ DATE SIMULATION : "+simulateur3.getDateSimulation());
-//            System.out.println("    drone : "+drone.getPosition().getLigne()+"-"+drone.getPosition().getColonne());
 
         } catch (FileNotFoundException e) {
             System.out.println("fichier " + args[0] + " inconnu ou illisible");

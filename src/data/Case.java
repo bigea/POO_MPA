@@ -22,7 +22,7 @@ public class Case{
 
 	/* Affichage */
 	public String toString() {
-		return this.getNature()+" ";
+		return this.getNature()+" ligne : "+this.ligne + "  Colonne : "+this.colonne ;
     // return "(" + this.getLigne() + "," + this.getColonne() + ") : " + this.getNature() + "\n";
 	}
 
@@ -53,6 +53,10 @@ public class Case{
 	}
 	public void setNature(NatureTerrain nt) {
 		this.nature = nt;
+	}
+
+	public boolean equals(Case cas){
+		return (this.getLigne() == cas.getLigne() && this.getColonne() == cas.getColonne());
 	}
 
 }

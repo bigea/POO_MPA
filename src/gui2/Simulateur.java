@@ -82,7 +82,7 @@ public class Simulateur implements Simulable {
 		this.nbLignes = carte.getNbLignes();
 		this.nbColonnes = carte.getNbColonnes();
 		this.tailleCase = 800/this.nbLignes;
-		this.tailleCase = 100;
+		this.tailleCase = 50;
 		this.gui = new GUISimulator(1000, 800, Color.WHITE);
 		this.dateSimulation = date;
 		this.scenario = new Scenario();
