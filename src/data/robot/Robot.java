@@ -194,6 +194,111 @@ public abstract class Robot {
 		return caseEauChoisie;
 	}
 
+/*FONCTION UTILE AU CALCUL DE PLUS COURT CHEMIN********************************************/
+
+	/* calcul du plus court chemin */
+	public Chemin plusCourt(Case dest, int date, Carte carte) {
+		Chemin chemin = this.Dijkstra(dest, date, carte);
+		return chemin;
+	}
+	/* Initialisation du graphe (poids infini) */
+	protected void Initialisation(Carte carte, Case src, List<Case> noeuds, int[][] poids){
+		for(int l=0; l<carte.getNbLignes(); l++) {
+			for(int c=0; c<carte.getNbColonnes(); c++) {
+				poids[l][c] = INFINI;
+				noeuds.add(carte.getCase(l, c));
+			}
+		}
+		poids[x_src][y_src] = 0;
+		return poids;
+	}
+
+	protected Case TrouveMin(List<Case> noeuds, int[][] poids){
+		int min = INFINI;
+		Case noeudChoisi = null;
+		for(Case noeud : noeuds){
+			if(poids[noeud.getLigne()][noeud.getColonne()] < min){
+				min = poids[noeud.getLigne()][noeud.getColonne()];
+				noeudChoisi = noeud;
+			}
+		}
+		return noeudChoisi;
+	}
+
+	/* Met à jour la distance entre le voisin et le noeud */
+	protected void majPoids(Chemin chemin, int[][] poids, Case src, Case voisin) {
+		int temps = this.calculTemps(src, voisin);
+		int poids_src = poids[src.getLigne()][src.getColonne()];
+		int poids_voisin = poids[voisin.getLigne()][voisin.getColonne()];
+		if(poids_voisin > poids_src+temps) {
+			poids[voisin.getLigne()][voisin.getColonne()] = poids_src+temps;
+			predecesseurs[voisin.getLigne()][voisin.getColonne()] = src;
+		}
+	}
+
+	protected Chemin Dijkstra(int dest, int date, Carte carte){
+		/*création du tableau des predecesseurs*/
+		Case[][] predecesseurs = new Case[nbLignes][nbColonnes];
+		/*Données nécessaires à l'algorithme*/
+		Case src = this.getPosition();
+		/* Ensemble des cases */
+		List<Case> noeuds = new ArrayList<Case>();
+		/* Ensemble des poids */
+		int[][] poids = new int[nbLignes][nbColonnes];
+		/* Initialisation du graphe (poids infini) */
+		Initialisation(carte, src, noeuds, poids);
+
+		Case noeud = src;
+		/* Tant que l'on a pas parcouru toutes les cases ou atteint la dest */
+		while(!noeuds.isEmpty()) {
+			// on récupère la case dont la distance est minimale
+			noeud = TrouveMin(noeuds, poids);
+			date += poids[noeud.getLigne()][noeud.getColonne()];
+			// si c'est la case src : on ne la prend pas en compte dans le chemin
+			if(noeud!=src) {
+				// on l'ajoute au chemin
+				chemin.ajoutCase(noeud, date, this);
+			}
+			// on supprime ce noeud
+			noeuds.remove(noeud);
+			// on s'occupe des noeuds restants
+			// on met à jour les distances pour tous les voisins du minimum
+			Case voisin = carte.getVoisin(noeud, Direction.SUD);
+			if(noeuds.contains(voisin)&&(rbt.possibleDeplacement(voisin))){
+				majPoids(predecesseurs, poids, noeud, voisin);
+			}
+			voisin = carte.getVoisin(noeud, Direction.NORD);
+			if(noeuds.contains(voisin)&&(rbt.possibleDeplacement(voisin))){
+				majPoids(predecesseurs, poids, noeud, voisin);
+			}
+			voisin = carte.getVoisin(noeud, Direction.EST);
+			if(noeuds.contains(voisin)&&(rbt.possibleDeplacement(voisin))){
+				majPoids(predecesseurs, poids, noeud, voisin);
+			}
+			voisin = carte.getVoisin(noeud, Direction.OUEST);
+			if(noeuds.contains(voisin)&&(rbt.possibleDeplacement(voisin))){
+				majPoids(predecesseurs, poids, noeud, voisin);
+			}
+		}
+		/*On récupère le plus court chemin à partir du tableau des prédécesseurs*/
+		chemin = recupPlusCourtChemin(predecesseurs, voisin, src);
+		return chemin;
+	}
+
+	protected Chemin recupPlusCourtChemin(Case[][] predecesseurs, int[][] poids, Case caseFinale, Case caseInitiale){
+		Chemin chemin = new Chemin();
+		Case cas = derniereCase;
+		while(cas != caseInitiale){
+			int poid = poids[cas.getLigne()][cas.getColonne()];
+			chemin.ajoutCaseEnTete(cas, this);
+			cas = predecesseurs[cas.getLigne()][cas.getColonne()];
+		}
+		return chemin;
+	}
+
+/**********************************************************************************/
+
+
 	/*Remplie le réservoir du robot. Private car on passe par ordreRemplissage*/
 	public abstract void remplirReservoir();
 
