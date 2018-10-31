@@ -113,6 +113,7 @@ public class Drone extends Robot {
 	 */
 
 	/* Calcul du plus court chemin */
+	@Override
 	protected Chemin plusCourt(Case dest, int date, Carte carte) {
 		Case src = this.getPosition();
 		int x_src = src.getColonne();
