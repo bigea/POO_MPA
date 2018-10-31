@@ -22,12 +22,17 @@ public class Drone extends Robot {
 	 *
 	 * METHODES DE BASE
 	 */
-	public Drone(Case pos, Carte carte) {
-		super(pos, carte, NatureRobot.DRONE);
-		this.setVolume(10000);
+
+	public Drone(Case pos) {
+		super(pos, NatureRobot.DRONE);
+		this.setCapacite(10000);
 		this.setVitesse(100);
+		this.setTempsRemplissage(30*60);
+		this.setTempsVidageComplet(30);
+		this.vitesseRemplissage =  (float)this.capacite/(float)this.getTempsRemplissage;
+		/*Le drone n'a pas de vitesse de vidage car son intervention unitaire vide la totalité de son réservoir*/
 	}
-	@Override
+
 	public void setVitesse(int vitesse) {
 		if(vitesse > 150) {
 			this.vitesse = 150;
@@ -35,14 +40,37 @@ public class Drone extends Robot {
 			this.vitesse = vitesse;
 		}
 	}
-	@Override
 	public double getVitesse(NatureTerrain nt) {
 		return this.vitesse;
 	}
-	@Override
-	protected int getTempsRemplissage() {
-		return 1800;
+
+	private void setCapacite(int capacite){
+		this.capacite = capacite;
 	}
+	public int getCapacite(){
+		return this.capacite;
+	}
+
+	public int getTempsRemplissage() {
+		return this.tempsRemplissage;
+	}
+	private void setTempsRemplissage(int temps){
+		this.tempsRemplissage = temps;
+	}
+
+	public int getTempsVidageComplet() {
+		return this.tempsVidage;
+	}
+	private void setTempsVidageComplet(int temps){
+		this.tempsVidage = temps;
+	}
+
+	public double getVitesseRemplissage(){
+		return this.vitesseRemplissage;
+	}
+
+
+
 	@Override
 	public String toString() {
 		return this.getPosition().getLigne()+" "+this.getPosition().getColonne()+" DRONE "+this.getVitesse(this.getPosition().getNature());
@@ -54,7 +82,6 @@ public class Drone extends Robot {
 	 * METHODES D'INTERVENTION
 	 */
 
-	@Override
 	public void deverserEau(int vol) {
 		// TODO Auto-generated method stub
 
@@ -67,7 +94,6 @@ public class Drone extends Robot {
 	 */
 
 	/* Possibilité de remplir sur la case donnée */
-	@Override
 	public boolean possibleRemplissage(Case cas) {
 		if(cas.getNature() == NatureTerrain.EAU) {
 			return true;
@@ -76,8 +102,7 @@ public class Drone extends Robot {
 	}
 
 	/* Remplissage effectif */
-	@Override
-	public void remplirEffectif() {
+	public void remplirReservoir() {
 		this.setVolume(10000);
 	}
 
@@ -87,16 +112,14 @@ public class Drone extends Robot {
 	 * METHODES DE DEPLACEMENT
 	 */
 
-	@Override
 	/* Calcul du plus court chemin */
-	public Chemin plusCourt(Case dest, int date) {
-		Carte carte = this.getCarte();
+	protected Chemin plusCourt(Case dest, int date, Carte carte) {
 		Case src = this.getPosition();
 		int x_src = src.getLigne();
 		int y_src = src.getColonne();
 		int x_dest = dest.getLigne();
 		int y_dest = dest.getColonne();
-		Chemin chemin = new Chemin(this, date);
+		Chemin chemin = new Chemin();
 		/* Tant qu'on a pas atteint la destination */
 		Direction direction = null;
 		while((x_src != x_dest)||(y_src != y_dest)) {
@@ -119,19 +142,16 @@ public class Drone extends Robot {
 			 * 		La date dépend de la durée du déplacement donc de la vitesse du robot
 			 * 		Temps calculé dans calculTemps() par le Chemin
 			 */
-			Case deplacement = carte.getVoisin(src, direction);
-			date += chemin.calculTemps(src, deplacement);
-			chemin.ajoutCase(deplacement, date);
+			Case voisin = carte.voisin(src, direction);
+			chemin.ajoutCase(voisin, date, this);
 			/* On réactualise la case qui est virtuellement la position du robot */
-			src = deplacement;
-			x_src = src.getColonne();
-			y_src = src.getLigne();
+			x_src = voisin.getColonne();
+			y_src = voisin.getLigne();
 		}
 		return chemin;
 	}
 
 	/* Déplacement possible du drone partout */
-	@Override
 	public boolean possibleDeplacement(Case voisin) {
 		return true;
 	}

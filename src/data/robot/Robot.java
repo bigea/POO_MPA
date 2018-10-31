@@ -25,9 +25,12 @@ public abstract class Robot {
 	/* Attributs */
 	private NatureRobot nature;
 	protected Case position;
-	protected int volume;
-	protected int vitesse;
-	private Carte carte;
+	protected int capacite; //en litre
+	protected int vitesse; //en km/h
+	protected int tempsRemplissage; //temps en seconde
+	protected int tempsVidage; //temps en seconde
+	protected double vitesseRemplissage; //en l/s
+	protected double vitesseVidage; //en l/s
 
 	/*********************************************
 	 *
@@ -35,9 +38,8 @@ public abstract class Robot {
 	 */
 
 	/* Constructeur */
-	public Robot(Case pos, Carte carte, NatureRobot nature) {
+	public Robot(Case pos, NatureRobot nature) {
 		this.setPosition(pos);
-		this.carte = carte;
 		this.nature = nature;
 	}
 
@@ -51,8 +53,8 @@ public abstract class Robot {
 	public NatureRobot getNature() {
 		return this.nature;
 	}
-	public int getVolume() {
-		return this.volume;
+	public int getCapacite() {
+		return this.capacite;
 	}
 	public Carte getCarte() {
 		return this.carte;
@@ -62,16 +64,24 @@ public abstract class Robot {
 	public void setPosition(Case cas) {
 		this.position = cas;
 	}
-	public void setVolume(int vol) {
-		this.volume = vol;
+	public void setCapacite(int vol) {
+		this.capacite = vol;
 	}
-	public abstract void setVitesse(int vitesse);
 
-	/* Obtenir la vitesse */
+	public abstract void setVitesse(int vitesse);
 	public abstract double getVitesse(NatureTerrain nt);
 
-	/* Calcul du temps de remplissage */
-	protected abstract int getTempsRemplissage();
+	public abstract int getTempsRemplissage();
+	private abstract void setTempsRemplissage(int temps);
+
+	public abstract int getTempsVidageComplet();
+	private abstract void setTempsVidageComplet(int temps);
+
+	public abstract double getVitesseRemplissage();
+	private abstract void setVitesseRemplissage(int tempsRemplissage, int capacite);
+
+	public abstract double getVitesseVidage();
+	private abstract void setVitesseVidage(int tempsVidage, int capacite);
 
 
 	/*********************************************
@@ -80,9 +90,9 @@ public abstract class Robot {
 	 */
 
 	/* Déplacement du robot vers une case et ajout des évènements au simulateur */
-	public void deplacementCase(Case dest, Simulateur sim) {
+	public abstract void deplacementCase(Case dest, Simulateur sim) {
 		/* Calcul du plus court dans chemin */
-		Chemin chemin = plusCourt(dest, sim.getDateSimulation());
+		Chemin chemin = this.plusCourt(dest, sim.getDateSimulation());
 		ajoutSimulateurDeplacement(sim,chemin);
 	}
 
@@ -99,7 +109,7 @@ public abstract class Robot {
 	public abstract boolean possibleDeplacement(Case voisin);
 
 	/* Calcul du plus court chemin : spécifique selon le type de robot*/
-	public abstract Chemin plusCourt(Case dest, int date);
+	public abstract Chemin plusCourt(Case dest, int date, Carte carte);
 
 
 	/*********************************************

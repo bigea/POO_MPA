@@ -22,13 +22,17 @@ public class Roues extends Robot {
 	 * METHODES DE BASE
 	 */
 
-	public Roues(Case pos, Carte carte) {
-		super(pos, carte, NatureRobot.ROUES);
-		this.setVolume(5000);
+	public Roues(Case pos) {
+		super(pos, NatureRobot.ROUES);
+		this.setCapacite(5000);
 		this.setVitesse(80);
+		this.setTempsRemplissage(10*60);
+		this.setTempsVidageComplet(50*5);
+		this.vitesseRemplissage =  (float)this.capacite/(float)this.getTempsRemplissage;
+		this.vitesseVidage =  (float)this.capacite/(float)this.getTempsVidageComplet;
 	}
 
-	@Override
+
 	public void setVitesse(int vitesse) {
 		if (this.getPosition().getNature() != NatureTerrain.TERRAIN_LIBRE && this.getPosition().getNature() != NatureTerrain.HABITAT) {
 			this.vitesse = 0;
@@ -36,14 +40,43 @@ public class Roues extends Robot {
 			this.vitesse = vitesse;
 		}
 	}
-	@Override
 	public double getVitesse(NatureTerrain nt) {
 		return this.vitesse;
 	}
-	@Override
-	protected int getTempsRemplissage() {
-		return 600;
+
+	private void setCapacite(int capacite){
+		this.capacite = capacite;
 	}
+	public int getCapacite(){
+		return this.capacite;
+	}
+
+	public int getTempsRemplissage() {
+		return this.tempsRemplissage;
+	}
+	private void setTempsRemplissage(int temps){
+		this.tempsRemplissage = temps;
+	}
+
+	public int getTempsVidageComplet() {
+		return this.tempsVidage;
+	}
+	private void setTempsVidageComplet(int temps){
+		this.tempsVidage = temps;
+	}
+
+	public double getVitesseRemplissage(){
+		return this.vitesseRemplissage;
+	}
+	
+	public double getVitesseVidage(){
+		return this.vitesseVidage;
+	}
+
+
+
+
+
 	@Override
 	public String toString() {
 		return this.getPosition().getLigne()+" "+this.getPosition().getColonne()+" ROUES "+this.getVitesse(this.getPosition().getNature());

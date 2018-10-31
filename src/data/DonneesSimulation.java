@@ -16,16 +16,20 @@ public class DonneesSimulation {
 	private Carte carte;
 	private Incendie[] incendies;
 	private Robot[] robots;
+	private Case[] eaux;
 	private int nbIncendies;
 	private int nbRobots;
+	private int nbEaux;
 
 	/* Constructeur */
-	public DonneesSimulation(Carte carte, int nbIncendies, int nbRobots) {
+	public DonneesSimulation(Carte carte, int nbIncendies, int nbRobots, int nbEaux) {
 		this.carte = carte;
 		this.nbIncendies = nbIncendies;
 		this.nbRobots = nbRobots;
+		this.nbEaux = nbEaux;
 		this.incendies = new Incendie[nbIncendies];
 		this.robots = new Robot[nbRobots];
+		this.eaux = new Case[nbEaux];
 	}
 
 	/* Affichage comme dans le fichier d'origine*/
@@ -75,6 +79,9 @@ public class DonneesSimulation {
 	}
 	public Robot[] getRobots() {
 		return this.robots;
+	}
+	public Robot[] getEaux() {
+		return this.eaux;
 	}
 	public int getNbIncendies() {
 		return this.nbIncendies;

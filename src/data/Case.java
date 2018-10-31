@@ -6,7 +6,7 @@ import data.enumerate.NatureTerrain;
  * Classe Case
  */
 
-public class Case {
+public class Case{
 
     /**
      * Classe Case représentée par :
@@ -54,4 +54,5 @@ public class Case {
 	public void setNature(NatureTerrain nt) {
 		this.nature = nt;
 	}
+
 }

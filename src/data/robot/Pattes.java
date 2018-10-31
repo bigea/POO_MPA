@@ -23,12 +23,15 @@ public class Pattes extends Robot {
 	/* réservoir infini */
 	private static final int INFINI = 300000;
 
-	public Pattes(Case pos, Carte carte) {
-		super(pos, carte, NatureRobot.PATTES);
-		this.setVolume(INFINI);
+	public Pattes(Case pos) {
+		super(pos, NatureRobot.PATTES);
+		this.setCapacite(INFINI);
 		this.setVitesse(30);
+		this.setTempsRemplissage(0);
+		this.setTempsVidageComplet(INFINI);
+		this.vitesseVidage =  10;
+		/*Aucune vitesse de remplissage car le robot a un repertoire infini*/
 	}
-	@Override
 	public void setVitesse(int vitesse) {
 		if (this.getPosition().getNature() == NatureTerrain.ROCHE) {
 			this.vitesse = 10;
@@ -36,7 +39,6 @@ public class Pattes extends Robot {
 			this.vitesse = vitesse;
 		}
 	}
-	@Override
 	public double getVitesse(NatureTerrain nt) {
 		switch(nt) {
 			case ROCHE:
@@ -45,10 +47,36 @@ public class Pattes extends Robot {
 				return this.vitesse;
 		}
 	}
-	@Override
-	protected int getTempsRemplissage() {
-		return 0;
+
+	private void setCapacite(int capacite){
+		this.capacite = capacite;
 	}
+	public int getCapacite(){
+		return this.capacite;
+	}
+
+	public int getTempsRemplissage() {
+		return this.tempsRemplissage;
+	}
+	private void setTempsRemplissage(int temps){
+		this.tempsRemplissage = temps;
+	}
+
+	public int getTempsVidageComplet() {
+		return this.tempsVidage;
+	}
+	private void setTempsVidageComplet(int temps){
+		this.tempsVidage = temps;
+	}
+
+	public double getVitesseVidage(){
+		return this.vitesseVidage;
+	}
+
+
+
+
+
 	@Override
 	public String toString() {
 		return this.getPosition().getLigne()+" "+this.getPosition().getColonne()+" PATTES "+this.getVitesse(this.getPosition().getNature());

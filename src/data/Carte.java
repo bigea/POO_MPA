@@ -29,20 +29,6 @@ public class Carte {
 		return this.getNbLignes()+" "+this.getNbColonnes()+" "+this.getTailleCases();
 	}
 
-  // @Override
-  // public String toString() {
-  //   String chaine = new String();
-  //   chaine = chaine + "\nAffichage de la carte : \n";
-  //   for (int i=0; i<this.nbLignes; i++) {
-  //     for (int j=0; j<this.nbColonnes; j++) {
-  //       Case cas = this.matrice[i][j];
-  //       chaine = chaine + "(" + i + "," + j + ") : " + cas.getNature() + "\n";
-  //     }
-  //   }
-  //   chaine = chaine + "\nFin de la carte\n";
-  //   return chaine;
-  // }
-
 	/* Constructeur */
 	public Carte(int tc, int nbl, int nbc) {
 		this.setTailleCases(tc);
@@ -87,50 +73,50 @@ public class Carte {
 	}
 
 	/* Existence du voisin */
-	public boolean voisinExiste(Case src, Direction dir) {
-    int src_ligne = src.getLigne();
-    int src_colonne = src.getColonne();
-    boolean existe = false;
-    switch(dir){
-      case NORD:
-        existe = (src_ligne - 1 >= 0);
-        break;
-      case SUD:
-        existe = (src_ligne + 1 < this.nbLignes);
-        break;
-      case EST:
-        existe = (src_colonne + 1 < this.nbColonnes);
-        break;
-      case OUEST:
-        existe = (src_colonne - 1 >= 0);
-        break;
-    }
-    return existe;
+	private boolean voisinExiste(Case src, Direction dir) {
+	    int src_ligne = src.getLigne();
+	    int src_colonne = src.getColonne();
+	    boolean existe = false;
+	    switch(dir){
+	      case NORD:
+	        existe = (src_ligne - 1 >= 0);
+	        break;
+	      case SUD:
+	        existe = (src_ligne + 1 < this.nbLignes);
+	        break;
+	      case EST:
+	        existe = (src_colonne + 1 < this.nbColonnes);
+	        break;
+	      case OUEST:
+	        existe = (src_colonne - 1 >= 0);
+	        break;
+	    }
+	    return existe;
 	}
 
 	/* Accéder au voisin */
-	public Case getVoisin(Case src, Direction dir) {
+	public Case voisin(Case src, Direction dir) {
     if (this.voisinExiste(src, dir)){
-      int src_ligne = src.getLigne();
-      int src_colonne = src.getColonne();
-      Case voisin = src;
-      switch(dir){
-        case NORD:
-          voisin = this.matrice[src_ligne - 1][src_colonne];
-          break;
-        case SUD:
-          voisin = this.matrice[src_ligne + 1][src_colonne];
-          break;
-        case EST:
-          voisin = this.matrice[src_ligne][src_colonne + 1];
-          break;
-        case OUEST:
-          voisin = this.matrice[src_ligne][src_colonne - 1];
-          break;
-      }
-  		return voisin;
-    } else {
-      return null;
-    }
+	      int src_ligne = src.getLigne();
+	      int src_colonne = src.getColonne();
+	      Case voisin = src;
+	      switch(dir){
+	        case NORD:
+	          voisin = this.matrice[src_ligne - 1][src_colonne];
+	          break;
+	        case SUD:
+	          voisin = this.matrice[src_ligne + 1][src_colonne];
+	          break;
+	        case EST:
+	          voisin = this.matrice[src_ligne][src_colonne + 1];
+	          break;
+	        case OUEST:
+	          voisin = this.matrice[src_ligne][src_colonne - 1];
+	          break;
+	      }
+	  		return voisin;
+	    } else {
+	      return null;
+	    }
 	}
 }
