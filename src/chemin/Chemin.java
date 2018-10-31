@@ -91,28 +91,8 @@ public class Chemin {
 		int temps = this.dates.get(chemin.getNbDates()-1) - this.dates.get(0);
 		Case avantDerniereCase = this.chemin.get(this.nbCase-2);
 		Case derniereCase = this.chemin.get(this.nbCase-1);
-		temps = temps + calculTemps(avantDerniereCase, derniereCase, robot);
+		temps = temps + robot.calculTemps(avantDerniereCase, derniereCase, robot);
 		return temps;
-	}
-
-	/* Calcul du temps de déplacement
-	 * 		Dépend de la vitesse du robot et de la nature du terrain,
-	 * 		donc de la nature du terrain sur la moitié de la première
-	 * 		case et la moitié de la seconde case
-	 */
-	private int calculTemps(Case src, Case voisin, Robot robot) {
-		/* Vitesse sur la case src en m/s*/
-		double vitesse_src = (robot.getVitesse(src.getNature()))/3.6;
-		/* Vitesse sur la case dest en m/s */
-		double vitesse_voisin = (robot.getVitesse(voisin.getNature()))/3.6;
-		/* Taille de la case, on prend comme distance la moitié */
-		int taille_case = robot.getCarte().getTailleCases();
-		int distance = taille_case/2;
-		/* Calcul du temps sur les deux terrains */
-		double temps_src = distance/vitesse_src;
-		double temps_voisin = distance/vitesse_voisin;
-		/* On renvoie le temps, arrondi au supérieur */
-		return (int) Math.round(temps_src+temps_dest);
 	}
 
 	/*********************************************

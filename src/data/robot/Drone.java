@@ -115,10 +115,10 @@ public class Drone extends Robot {
 	/* Calcul du plus court chemin */
 	protected Chemin plusCourt(Case dest, int date, Carte carte) {
 		Case src = this.getPosition();
-		int x_src = src.getLigne();
-		int y_src = src.getColonne();
-		int x_dest = dest.getLigne();
-		int y_dest = dest.getColonne();
+		int x_src = src.getColonne();
+		int y_src = src.getLigne();
+		int x_dest = dest.getColonne();
+		int y_dest = dest.getLigne();
 		Chemin chemin = new Chemin();
 		/* Tant qu'on a pas atteint la destination */
 		Direction direction = null;
