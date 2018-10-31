@@ -23,8 +23,8 @@ public class EvenementDeplacementDirection extends Evenement {
 	 */
 
 	/* Constructeur */
-	public EvenementDeplacementDirection(int date, Simulateur sim, Robot rbt, Direction direct) {
-		super(date, sim, rbt);
+	public EvenementDeplacementDirection(int date, Simulateur sim, Robot rbt, int duree, Direction direct) {
+		super(date, sim, rbt, duree);
 		this.setDirection(direct);
 	}
 
@@ -45,12 +45,12 @@ public class EvenementDeplacementDirection extends Evenement {
 
 	@Override
 	public void execute() throws Exception {
-		/* On récupère la case voisine dans la direction donnée */
-		Case voisin = this.getRobot().getCarte().getVoisin(this.getRobot().getPosition(), this.getDirection());
-		if(voisin == null) {
-			throw new Exception("Déplacement impossible");
-		}
-		/* Le robot gère le déplacement vers cette case */
-		this.getRobot().deplacementVoisin(voisin, this.getSimulateur());
+	// 	/* On récupère la case voisine dans la direction donnée */
+	// 	Case voisin = this.getSimulateur().getDonnees().getCarte().getVoisin(this.getRobot().getPosition(), this.getDirection());
+	// 	if(voisin == null) {
+	// 		throw new Exception("Déplacement impossible");
+	// 	}
+	// 	/* Le robot gère le déplacement vers cette case */
+	// 	this.getRobot().deplacementCase(voisin, this.getSimulateur(), this.getDate());
 	}
 }

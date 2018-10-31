@@ -48,7 +48,7 @@ public class Pattes extends Robot {
 		}
 	}
 
-	private void setCapacite(int capacite){
+	public void setCapacite(int capacite){
 		this.capacite = capacite;
 	}
 	public int getCapacite(){
@@ -58,19 +58,29 @@ public class Pattes extends Robot {
 	public int getTempsRemplissage() {
 		return this.tempsRemplissage;
 	}
-	private void setTempsRemplissage(int temps){
+	protected void setTempsRemplissage(int temps){
 		this.tempsRemplissage = temps;
 	}
 
 	public int getTempsVidageComplet() {
 		return this.tempsVidage;
 	}
-	private void setTempsVidageComplet(int temps){
+	protected void setTempsVidageComplet(int temps){
 		this.tempsVidage = temps;
 	}
 
 	public double getVitesseVidage(){
 		return this.vitesseVidage;
+	}
+	public void setVitesseVidage(int tempsVidage, int capacite) {
+		this.vitesseVidage = (float)capacite/(float)tempsVidage;
+	}
+
+	public double getVitesseRemplissage(){
+		return this.vitesseRemplissage;
+	}
+    public void setVitesseRemplissage(int tempsRemplissage, int capacite) {
+		this.vitesseRemplissage = INFINI;
 	}
 
 
@@ -101,12 +111,11 @@ public class Pattes extends Robot {
 	 * METHODES DE REMPLISSAGE : ne se remplit jamais
 	 */
 
-	@Override
 	public void remplirReservoir() {
-		this.setVolume(INFINI);
+		this.setCapacite(INFINI);
 	}
-	@Override
-	public boolean possibleRemplissage(Case cas) {
+
+	public boolean possibleRemplissage(Case cas, Carte carte) {
 		return false;
 	}
 
@@ -116,15 +125,13 @@ public class Pattes extends Robot {
 	 * METHODES DE DEPLACEMENT
 	 */
 	/* Calcul du plus court chemin */
-	@Override
-	public Chemin plusCourt(Case dest, int date) {
-		Chemin chemin = new Chemin(this, date);
-		chemin.plusCourt(dest);
+	protected Chemin plusCourt(Case dest, int date, Carte carte) {
+		Chemin chemin = new Chemin();
+		// chemin.plusCourt(dest);
 		return chemin;
 	}
 
 	/* Déplacement possible partout sauf eau */
-	@Override
 	public boolean possibleDeplacement(Case voisin) {
 		NatureTerrain nature = voisin.getNature();
 		switch(nature) {

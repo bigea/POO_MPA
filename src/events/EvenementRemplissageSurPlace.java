@@ -19,8 +19,8 @@ public class EvenementRemplissageSurPlace extends Evenement {
 	 */
 
 	/* Constructeur */
-	public EvenementRemplissageSurPlace(int date, Simulateur sim, Robot rbt) {
-		super(date, sim, rbt);
+	public EvenementRemplissageSurPlace(int date, Simulateur sim, Robot rbt, int duree) {
+		super(date, sim, rbt, duree);
 		this.setRobot(rbt);
 	}
 
@@ -32,6 +32,6 @@ public class EvenementRemplissageSurPlace extends Evenement {
 	/* Exécution de l'évènement */
 	public void execute() {
 		/* Le robot se remplit */
-		this.getRobot().remplirEffectif();
+		this.getRobot().remplirReservoir();
 	}
 }

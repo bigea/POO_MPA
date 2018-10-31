@@ -29,7 +29,7 @@ public class Drone extends Robot {
 		this.setVitesse(100);
 		this.setTempsRemplissage(30*60);
 		this.setTempsVidageComplet(30);
-		this.vitesseRemplissage =  (float)this.capacite/(float)this.getTempsRemplissage;
+		this.vitesseRemplissage =  (float)this.capacite/(float)this.getTempsRemplissage();
 		/*Le drone n'a pas de vitesse de vidage car son intervention unitaire vide la totalité de son réservoir*/
 	}
 
@@ -44,7 +44,7 @@ public class Drone extends Robot {
 		return this.vitesse;
 	}
 
-	private void setCapacite(int capacite){
+	public void setCapacite(int capacite){
 		this.capacite = capacite;
 	}
 	public int getCapacite(){
@@ -54,19 +54,29 @@ public class Drone extends Robot {
 	public int getTempsRemplissage() {
 		return this.tempsRemplissage;
 	}
-	private void setTempsRemplissage(int temps){
+	protected void setTempsRemplissage(int temps){
 		this.tempsRemplissage = temps;
 	}
 
 	public int getTempsVidageComplet() {
 		return this.tempsVidage;
 	}
-	private void setTempsVidageComplet(int temps){
+	protected void setTempsVidageComplet(int temps){
 		this.tempsVidage = temps;
 	}
 
 	public double getVitesseRemplissage(){
 		return this.vitesseRemplissage;
+	}
+    public void setVitesseRemplissage(int tempsRemplissage, int capacite) {
+		this.vitesseRemplissage = (float)capacite/(float)tempsRemplissage;
+	}
+
+    public double getVitesseVidage(){
+        return this.vitesseVidage;
+    }
+    public void setVitesseVidage(int tempsVidage, int capacite) {
+		this.vitesseVidage = (float)capacite/(float)tempsVidage;
 	}
 
 
@@ -94,7 +104,7 @@ public class Drone extends Robot {
 	 */
 
 	/* Possibilité de remplir sur la case donnée */
-	public boolean possibleRemplissage(Case cas) {
+	public boolean possibleRemplissage(Case cas, Carte carte) {
 		if(cas.getNature() == NatureTerrain.EAU) {
 			return true;
 		}
@@ -103,7 +113,7 @@ public class Drone extends Robot {
 
 	/* Remplissage effectif */
 	public void remplirReservoir() {
-		this.setVolume(10000);
+		this.setCapacite(10000);
 	}
 
 
@@ -144,7 +154,7 @@ public class Drone extends Robot {
 			 * 		Temps calculé dans calculTemps() par le Chemin
 			 */
 			Case voisin = carte.voisin(src, direction);
-			chemin.ajoutCase(voisin, date, this);
+			chemin.ajoutCaseQueue(voisin, date, this, carte);
 			/* On réactualise la case qui est virtuellement la position du robot */
 			x_src = voisin.getColonne();
 			y_src = voisin.getLigne();

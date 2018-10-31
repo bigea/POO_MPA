@@ -23,8 +23,8 @@ public class EvenementDeplacementCase extends Evenement{
 	 */
 
 	/* Constructeur */
-	public EvenementDeplacementCase(int date, Simulateur sim, Robot rbt, Case dest) {
-		super(date, sim, rbt);
+	public EvenementDeplacementCase(int date, Simulateur sim, Robot rbt, int duree, Case dest) {
+		super(date, sim, rbt, duree);
 		this.setCase(dest);
 	}
 
@@ -46,6 +46,6 @@ public class EvenementDeplacementCase extends Evenement{
 	/* Exécution de l'évènement */
 	public void execute() {
 		/* Le robot va gérer le déplacement vers la case */
-		this.getRobot().deplacementCase(this.getCase(), this.getSimulateur());
+		this.getRobot().deplacementCase(this.getCase(), this.getSimulateur(), this.getDate());
 	}
 }

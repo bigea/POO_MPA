@@ -28,8 +28,8 @@ public class Roues extends Robot {
 		this.setVitesse(80);
 		this.setTempsRemplissage(10*60);
 		this.setTempsVidageComplet(50*5);
-		this.vitesseRemplissage =  (float)this.capacite/(float)this.getTempsRemplissage;
-		this.vitesseVidage =  (float)this.capacite/(float)this.getTempsVidageComplet;
+		this.vitesseRemplissage =  (float)this.capacite/(float)this.getTempsRemplissage();
+		this.vitesseVidage =  (float)this.capacite/(float)this.getTempsVidageComplet();
 	}
 
 
@@ -44,7 +44,7 @@ public class Roues extends Robot {
 		return this.vitesse;
 	}
 
-	private void setCapacite(int capacite){
+	public void setCapacite(int capacite){
 		this.capacite = capacite;
 	}
 	public int getCapacite(){
@@ -54,23 +54,29 @@ public class Roues extends Robot {
 	public int getTempsRemplissage() {
 		return this.tempsRemplissage;
 	}
-	private void setTempsRemplissage(int temps){
+	protected void setTempsRemplissage(int temps){
 		this.tempsRemplissage = temps;
 	}
 
 	public int getTempsVidageComplet() {
 		return this.tempsVidage;
 	}
-	private void setTempsVidageComplet(int temps){
+	protected void setTempsVidageComplet(int temps){
 		this.tempsVidage = temps;
 	}
 
 	public double getVitesseRemplissage(){
 		return this.vitesseRemplissage;
 	}
-	
+	public void setVitesseRemplissage(int tempsRemplissage, int capacite) {
+		this.vitesseRemplissage = (float)capacite/(float)tempsRemplissage;
+	}
+
 	public double getVitesseVidage(){
 		return this.vitesseVidage;
+	}
+	public void setVitesseVidage(int tempsVidage, int capacite) {
+		this.vitesseVidage = (float)capacite/(float)tempsVidage;
 	}
 
 
@@ -100,24 +106,24 @@ public class Roues extends Robot {
 
 	/* Possibilité de remplir sur la case donnée */
 	@Override
-	public boolean possibleRemplissage(Case cas) {
+	public boolean possibleRemplissage(Case cas, Carte carte) {
 		Direction direction = Direction.SUD;
-		Case voisin = this.getCarte().getVoisin(cas, direction);
+		Case voisin = carte.voisin(cas, direction);
 		if(voisin.getNature() == NatureTerrain.EAU) {
 			return true;
 		}
 		direction = Direction.NORD;
-		voisin = this.getCarte().getVoisin(cas, direction);
+		voisin = carte.voisin(cas, direction);
 		if(voisin.getNature() == NatureTerrain.EAU) {
 			return true;
 		}
 		direction = Direction.EST;
-		voisin = this.getCarte().getVoisin(cas, direction);
+		voisin = carte.voisin(cas, direction);
 		if(voisin.getNature() == NatureTerrain.EAU) {
 			return true;
 		}
 		direction = Direction.OUEST;
-		voisin = this.getCarte().getVoisin(cas, direction);
+		voisin = carte.voisin(cas, direction);
 		if(voisin.getNature() == NatureTerrain.EAU) {
 			return true;
 		}
@@ -127,7 +133,7 @@ public class Roues extends Robot {
 	/* Remplissage effectif */
 	@Override
 	public void remplirReservoir() {
-		this.setVolume(5000);
+		this.setCapacite(5000);
 	}
 
 	/*********************************************
@@ -137,9 +143,9 @@ public class Roues extends Robot {
 
 	/* Calcul du plus court chemin */
 	@Override
-	public Chemin plusCourt(Case dest, int date) {
-		Chemin chemin = new Chemin(this, date);
-		chemin.plusCourt(dest);
+	public Chemin plusCourt(Case dest, int date, Carte carte) {
+		Chemin chemin = new Chemin();
+		// chemin.plusCourt(dest);
 		return chemin;
 	}
 

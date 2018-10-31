@@ -19,8 +19,8 @@ public class Remplissage extends Evenement {
 	 */
 
 	/* Constructeur */
-	public Remplissage(int date, Simulateur sim, Robot rbt) {
-		super(date, sim, rbt);
+	public Remplissage(int date, Simulateur sim, Robot rbt, int duree) {
+		super(date, sim, rbt, duree);
 	}
 
 	/*********************************************

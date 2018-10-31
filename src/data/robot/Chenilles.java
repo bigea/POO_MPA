@@ -1,5 +1,7 @@
 package data.robot;
 
+import java.util.List;
+
 import chemin.Chemin;
 import data.Carte;
 import data.Case;
@@ -29,8 +31,8 @@ public class Chenilles extends Robot {
 		this.setVitesse(60);
 		this.setTempsRemplissage(5*60);
 		this.setTempsVidageComplet(20*8);
-		this.vitesseRemplissage =  (float)this.capacite/(float)this.getTempsRemplissage;
-		this.vitesseVidage =  (float)this.capacite/(float)this.getTempsVidageComplet;
+		this.vitesseRemplissage =  (float)this.capacite/(float)this.getTempsRemplissage();
+		this.vitesseVidage =  (float)this.capacite/(float)this.getTempsVidageComplet();
 	}
 
 	public void setVitesse(int vitesse) {
@@ -51,7 +53,7 @@ public class Chenilles extends Robot {
 		}
 	}
 
-	private void setCapacite(int capacite){
+	public void setCapacite(int capacite){
 		this.capacite = capacite;
 	}
 	public int getCapacite(){
@@ -61,23 +63,29 @@ public class Chenilles extends Robot {
 	public int getTempsRemplissage() {
 		return this.tempsRemplissage;
 	}
-	private void setTempsRemplissage(int temps){
+	public void setTempsRemplissage(int temps){
 		this.tempsRemplissage = temps;
 	}
 
 	public int getTempsVidageComplet() {
 		return this.tempsVidage;
 	}
-	private void setTempsVidageComplet(int temps){
+	public void setTempsVidageComplet(int temps){
 		this.tempsVidage = temps;
 	}
 
 	public double getVitesseRemplissage(){
 		return this.vitesseRemplissage;
 	}
+	public void setVitesseRemplissage(int tempsRemplissage, int capacite) {
+		this.vitesseRemplissage = (float)capacite/(float)tempsRemplissage;
+	}
 
 	public double getVitesseVidage(){
 		return this.vitesseVidage;
+	}
+	public void setVitesseVidage(int tempsVidage, int capacite) {
+		this.vitesseVidage = (float)capacite/(float)tempsVidage;
 	}
 
 
@@ -102,24 +110,24 @@ public class Chenilles extends Robot {
 	 */
 
 	/* Possibilité de remplir sur la case donnée */
-	public boolean possibleRemplissage(Case cas) {
+	public boolean possibleRemplissage(Case cas, Carte carte) {
 		Direction direction = Direction.SUD;
-		Case voisin = this.getCarte().getVoisin(cas, direction);
+		Case voisin = carte.voisin(cas, direction);
 		if(voisin.getNature() == NatureTerrain.EAU) {
 			return true;
 		}
 		direction = Direction.NORD;
-		voisin = this.getCarte().getVoisin(cas, direction);
+		voisin = carte.voisin(cas, direction);
 		if(voisin.getNature() == NatureTerrain.EAU) {
 			return true;
 		}
 		direction = Direction.EST;
-		voisin = this.getCarte().getVoisin(cas, direction);
+		voisin = carte.voisin(cas, direction);
 		if(voisin.getNature() == NatureTerrain.EAU) {
 			return true;
 		}
 		direction = Direction.OUEST;
-		voisin = this.getCarte().getVoisin(cas, direction);
+		voisin = carte.voisin(cas, direction);
 		if(voisin.getNature() == NatureTerrain.EAU) {
 			return true;
 		}
@@ -128,7 +136,7 @@ public class Chenilles extends Robot {
 
 	/* Remplissage effectif */
 	public void remplirReservoir() {
-		this.setVolume(2000);
+		this.setCapacite(2000);
 	}
 
 
