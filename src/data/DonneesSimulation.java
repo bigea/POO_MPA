@@ -80,14 +80,19 @@ public class DonneesSimulation {
 	public Robot[] getRobots() {
 		return this.robots;
 	}
-	public Robot[] getEaux() {
+
+	public Case[] getEaux() {
 		return this.eaux;
 	}
+
 	public int getNbIncendies() {
 		return this.nbIncendies;
 	}
 	public int getNbRobots() {
 		return this.nbRobots;
+	}
+	public int getNbEaux() {
+		return this.nbEaux;
 	}
 
 	/* Ajout d'un incendie */
@@ -98,5 +103,10 @@ public class DonneesSimulation {
 	/* Ajout d'un robot */
 	public void addRobot(Robot rob, int n) {
 		this.robots[n] = rob;
+	}
+
+	/* Ajout d'une case eau */
+	public void addEau(Case caseEau, int n) {
+		this.eaux[n] = caseEau;
 	}
 }

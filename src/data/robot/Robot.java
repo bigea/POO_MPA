@@ -56,9 +56,10 @@ public abstract class Robot {
 	public int getCapacite() {
 		return this.capacite;
 	}
-	public Carte getCarte() {
-		return this.carte;
-	}
+
+	// public Carte getCarte() {
+	// 	return this.carte;
+	// }
 
 	/* Mutateurs */
 	public void setPosition(Case cas) {
@@ -93,7 +94,7 @@ public abstract class Robot {
 	public abstract void deplacementCase(Case dest, Simulateur sim) {
 		/* Calcul du plus court dans chemin */
 		Chemin chemin = this.plusCourt(dest, sim.getDateSimulation());
-		ajoutSimulateurDeplacement(sim,chemin);
+		this.ajoutSimulateurDeplacement(sim,chemin);
 	}
 
 	/* Méthode de déplacement du robot vers une case voisine (ne peut être appelée seulement si la case dest est vosine) */
@@ -142,27 +143,57 @@ public abstract class Robot {
 	/*ordre de remplissage donné au robot*/ /*fonction qui remplacera remplir Reservoir*/
 	/*Cette fonction appelera remplirResevoir une fois le robot arrivé sur la zone d'eau*/
 	public  void ordreRemplissage(Simulateur sim) {
-	    if (this.possibleRemplissage(this.getCase())) {
-	      this.remplirReservoir();
-	    }
-		else {
-	      int date = sim.getDateSimulation();
-	      Chemin chemin = new Chemin(this, date);
-	      /* Chemin pour récupérer de l'eau */
-	      chemin.getEau();
-	      /* Ajout au simulateur du chemin */
-	      this.ajoutSimulateurDeplacement(sim, chemin);
-	      /* Date de fin du déplacement */
-	      date = chemin.getDates().get(chemin.getNbCase());
-	      /* Ajout du temps de remplissage */
-	      date = date + this.getTempsRemplissage();
-	      /* Ajout au simulateur du remplissage */
-	      this.ajoutSimulateurRemplissage(sim, date);
-	    }
+    int date = sim.getDateSimulation();
+    if (this.possibleRemplissage(this.getCase())) {
+      this.ajoutSimulateurRemplissage(sim, date + this.getTempsRemplissage());
+    } else {
+      Case destinationEau = this.choisirCaseEau(sim);
+      Carte carte = sim.getDonnees().getCarte();
+      Chemin chemin = this.plusCourt(destinationEau, date, carte);
+      /* Chemin pour récupérer de l'eau */
+      // chemin.getEau();
+      /* Ajout au simulateur du chemin */
+      this.ajoutSimulateurDeplacement(sim, chemin);
+      /* Date de fin du déplacement */
+      date = chemin.getDates().get(chemin.getNbDate()-1);
+      /* Ajout du temps de remplissage */
+      date = date + this.getTempsRemplissage();
+      /* Ajout au simulateur du remplissage */
+      this.ajoutSimulateurRemplissage(sim, date); // A revoir pourquoi donner la date de fin de remplissage [PHILEMON]
+    }
   }
 
+  /* Renvoie la case d'eau pour laquelle le trajet vers cele-ci est le plus rapide */
+  public Case choisirCaseEau(Simulateur sim) {
+		int minTemps = 0;
+		Case caseEauChoisie = this.position;
+		DonneesSimulation donnees = sim.getDonnees();
+    Carte carte = donnees.getCarte();
+		int date = sim.getDateSimulation();
+		Case[] eaux = donnees.getEaux();
+		int nbEaux = donnees.getNbEaux();
+		/* Pour chaque case d'eau on va calculer le plus court chemin et le temps que notre robot met pour le faire */
+		for (int i=0; i<nbEaux; i++) {
+			Case caseEau = eaux[i];
+			Chemin chemin = this.plusCourt(caseEau, date, carte);
+			int temps = chemin.tempsChemin(this);
+			if (i==0) {		// Initialisation de minTemps et de caseEauChoisie en i==0
+				minTemps = temps;
+				caseEauChoisie = caseEau;
+			}
+			if (temps < minTemps) {
+				minTemps=temps;
+				caseEauChoisie = caseEau;
+			}
+		}
+		return caseEauChoisie;
+	}
+
+	/* Calcule le plus court chemin vers une case donnée */
+	public abstract Chemin plusCourt(Case dest, int date, Carte carte);
+
 	/*Remplie le réservoir du robot. Private car on passe par ordreRemplissage*/
-	private abstract void remplirReservoir();
+	public abstract void remplirReservoir();
 
 	/*********************************************
 	 *
@@ -188,7 +219,7 @@ public abstract class Robot {
 		for(int i = 0; i<nbCase; i++) {
 			int date = dates.get(i);
 			Case deplacement = cases.get(i);
-			sim.ajouteEvenement(new EvenementDeplacementUnitaire(date, sim, this, deplacement));
+			sim.ajouteEvenement(new DeplacementUnitaire(date, sim, this, deplacement));
 		}
 	}
 

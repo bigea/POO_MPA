@@ -79,10 +79,20 @@ public class LecteurDonnees {
             int nbRobots = lecteur.nbRobots();
             //Création des objets robots dans un tableau
             Robot[] robots = lecteur.creeRobots(nbRobots, carte);
-            // On va compter le nombre de case d'eau
+            // On va compter le nombre de case d'eau et mettre chaque case eau dans une list de cases
             int nbCaseEau = 0;
+            List<Case> eaux = new ArrayList<Case>();
+            for (int i=0; i<carte.getNbLignes(); i++){
+              for (int j=0; j<carte.getNbColonnes(); j++){
+                Case currentCase = carte.getCase(i,j);
+                if (currentCase.getNature() == NatureTerrain.EAU) {
+                  nbCaseEau += 1;
+                  eaux.add(currentCase);
+                }
+              }
+            }
             // Nouvel objet DonneesSimulation (avec tableaux vides)
-            DonneesSimulation donnees = new DonneesSimulation(carte, nbIncendies, nbRobots);
+            DonneesSimulation donnees = new DonneesSimulation(carte, nbIncendies, nbRobots, nbCaseEau);
             // On remplie le tableau des incendies de donnees
             for(int i = 0; i < nbIncendies; i++) {
             	donnees.addIncendie(incendies[i], i);
@@ -90,6 +100,10 @@ public class LecteurDonnees {
             //On remplie le tableau des robots de donnees
             for(int i = 0; i < nbRobots; i++) {
             	donnees.addRobot(robots[i], i);
+            }
+            //On remplie le tableau des cases d'eau de donnees
+            for(int i = 0; i < nbCaseEau; i++) {
+            	donnees.addEaux(eaux.get(i), i);
             }
             scanner.close();
             return donnees;
@@ -456,7 +470,6 @@ public class LecteurDonnees {
                     + "Attendu: ligne colonne type [valeur_specifique]");
         }
     }
-
 
 
     /** Ignore toute (fin de) ligne commencant par '#' */

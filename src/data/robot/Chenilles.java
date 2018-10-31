@@ -127,7 +127,7 @@ public class Chenilles extends Robot {
 	}
 
 	/* Remplissage effectif */
-	public void remplirResevoir() {
+	public void remplirReservoir() {
 		this.setVolume(2000);
 	}
 

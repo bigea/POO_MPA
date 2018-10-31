@@ -24,6 +24,7 @@ public class Chemin {
 	// private int dateSimulation;
 	private int nbCase;
 	private List<Case> chemin;
+	private int nbDate;
 	private List<Integer> dates;
 	private int nbDate;
 
@@ -33,12 +34,10 @@ public class Chemin {
 	 */
 
 	public Chemin() {
-		// this.setDateSimulation(dateSimulation);
-		this.setCase();
-		this.setDates();
 		this.setNbCase(0);
 		this.setNbDate(0);
 		this.setChemin();
+		this.setNbDate(0);
 		this.setDates();
 	}
 
@@ -88,22 +87,30 @@ public class Chemin {
 		this.nbDate += 1;
     }
 
+	public int tempsChemin(Robot robot) {
+		int temps = this.dates.get(chemin.getNbDates()-1) - this.dates.get(0);
+		Case avantDerniereCase = this.chemin.get(this.nbCase-2);
+		Case derniereCase = this.chemin.get(this.nbCase-1);
+		temps = temps + calculTemps(avantDerniereCase, derniereCase, robot);
+		return temps;
+	}
+
 	/* Calcul du temps de déplacement
 	 * 		Dépend de la vitesse du robot et de la nature du terrain,
 	 * 		donc de la nature du terrain sur la moitié de la première
 	 * 		case et la moitié de la seconde case
 	 */
-	private int calculTemps(Case src, Case voisin, Robot rbt) {
+	private int calculTemps(Case src, Case voisin, Robot robot) {
 		/* Vitesse sur la case src en m/s*/
-		double vitesse_src = (rbt.getVitesse(src.getNature()))/3.6;
+		double vitesse_src = (robot.getVitesse(src.getNature()))/3.6;
 		/* Vitesse sur la case dest en m/s */
-		double vitesse_voisin = (rbt.getVitesse(voisin.getNature()))/3.6;
+		double vitesse_voisin = (robot.getVitesse(voisin.getNature()))/3.6;
 		/* Taille de la case, on prend comme distance la moitié */
-		int taille_case = rbt.getCarte().getTailleCases();
+		int taille_case = robot.getCarte().getTailleCases();
 		int distance = taille_case/2;
 		/* Calcul du temps sur les deux terrains */
 		double temps_src = distance/vitesse_src;
-		double temps_dest = distance/vitesse_dest;
+		double temps_voisin = distance/vitesse_voisin;
 		/* On renvoie le temps, arrondi au supérieur */
 		return (int) Math.round(temps_src+temps_dest);
 	}
