@@ -23,7 +23,7 @@ public class EvenementDeplacementDirection extends Evenement {
 	 */
 
 	/* Constructeur */
-	public EvenementDeplacementDirection(int date, Simulateur sim, Robot rbt, int duree, Direction direct) {
+	public EvenementDeplacementDirection(long date, Simulateur sim, Robot rbt, long duree, Direction direct) {
 		super(date, sim, rbt, duree);
 		this.setDirection(direct);
 	}

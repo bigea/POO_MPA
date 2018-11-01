@@ -23,7 +23,7 @@ public class EvenementDeplacementCase extends Evenement{
 	 */
 
 	/* Constructeur */
-	public EvenementDeplacementCase(int date, Simulateur sim, Robot rbt, int duree, Case dest) {
+	public EvenementDeplacementCase(long date, Simulateur sim, Robot rbt, long duree, Case dest) {
 		super(date, sim, rbt, duree);
 		this.setCase(dest);
 	}

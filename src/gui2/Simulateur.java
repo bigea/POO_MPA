@@ -45,7 +45,7 @@ public class Simulateur implements Simulable {
 
 
 	private GUISimulator gui;
-	private int dateSimulation;
+	private long dateSimulation;
 	private Scenario scenario;
 	private int nbLignes;
 	private int nbColonnes;
@@ -53,7 +53,7 @@ public class Simulateur implements Simulable {
 	private DonneesSimulation donnees;
 
 	/* On incrément de INCRE secondes à chaque fois */
-	private static final int INCRE = 500;
+	private static final int INCRE = 600;
 
 	/*********************************************
 	 *
@@ -63,7 +63,7 @@ public class Simulateur implements Simulable {
 	/* Constructeurs */
 
 	/* Constructeur quand on n'a pas de donnees */
-	public Simulateur(int date, int nbLignes, int nbColonnes, int tailleCase) {
+	public Simulateur(long date, int nbLignes, int nbColonnes, int tailleCase) {
 		this.nbLignes = nbLignes;
 		this.nbColonnes = nbColonnes;
 		this.tailleCase = 50;
@@ -76,7 +76,7 @@ public class Simulateur implements Simulable {
 
 
 	/* Constructeur quand on a des donnees */
-	public Simulateur(int date, DonneesSimulation donneesSim) {
+	public Simulateur(long date, DonneesSimulation donneesSim) {
 		this.donnees = donneesSim;
 		Carte carte = this.donnees.getCarte();
 		this.nbLignes = carte.getNbLignes();
@@ -92,17 +92,17 @@ public class Simulateur implements Simulable {
 
 
 	/* Mutateur */
-	public void setDateSimulation(int date) {
+	public void setDateSimulation(long date) {
 		this.dateSimulation = date;
 	}
 	/* Accesseur */
 	public GUISimulator getGui() {
 		return this.gui;
 	}
-	public int getDateSimulation() {
+	public long getDateSimulation() {
 		return this.dateSimulation;
 	}
-	public Evenement getEvenement(int date) throws Exception  {
+	public Evenement getEvenement(long date) throws Exception  {
 		return this.scenario.getEvenement(date);
 	}
 	public ArrayList<Evenement> getScenario(){
@@ -308,8 +308,8 @@ public class Simulateur implements Simulable {
 
 	/* Incrémente date et exécute tous les évènements jusqu'à cette date */
 	public void incrementeDate() {
-		int avant = this.dateSimulation;
-		int apres = this.dateSimulation+INCRE;
+		long avant = this.dateSimulation;
+		long apres = this.dateSimulation+INCRE;
 		this.scenario.execute(avant,apres);
 		this.dessinerDonnees();
 		// On incrémente de 60 secondes
