@@ -4,6 +4,7 @@ import java.util.zip.DataFormatException;
 
 import data.Case;
 import data.DonneesSimulation;
+import data.Incendie;
 import data.enumerate.Direction;
 import data.robot.Robot;
 import events.Evenement;
@@ -52,7 +53,7 @@ public class TestEvenementBis {
 
             /*On modifie la position initiale du drone*/
             Case case_initiale = donnees.getCarte().getCase(0, 0);
-            chenilles.setPosition(case_initiale);
+            drone.setPosition(case_initiale);
             int nbLignes = donnees.getCarte().getNbLignes();
             int nbColonnes = donnees.getCarte().getNbLignes();
             int tailleCases = donnees.getCarte().getTailleCases();
@@ -61,7 +62,11 @@ public class TestEvenementBis {
 
             /* TEST EVENEMENT DEPLACEMENT UNITAIRE */
             Case dest = donnees.getCarte().getCase(7, 7);
-            chenilles.deplacementCase(dest, simulateur2, 0);
+            // drone.deplacementCase(dest, simulateur2, 0);
+
+            Incendie incendie = donnees.getIncendies()[4];
+            drone.ordreIntervention(simulateur2, incendie);
+
             // for (int i=0; i<25; i++) {
             //     simulateur2.incrementeDate();
             // }

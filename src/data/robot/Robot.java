@@ -7,6 +7,7 @@ import chemin.Chemin;
 import data.Carte;
 import data.Case;
 import data.DonneesSimulation;
+import data.Incendie;
 import data.enumerate.NatureRobot;
 import data.enumerate.NatureTerrain;
 import events.EvenementDeplacementUnitaire;
@@ -155,22 +156,16 @@ public abstract class Robot {
             /* On recupere la case eau la plus proche en temps */
             Case destinationEau = this.choisirCaseEau(sim);
             /* On se déplace jusqu'à cette case */
-            Chemin chemin = this.deplacementCase(destinationEau, sim, sim.getDateSimulation());
-            // Carte carte = sim.getDonnees().getCarte();
-            // Chemin chemin = this.plusCourt(destinationEau, date, carte);
-            /* Ajout au simulateur du chemin */
-            // this.ajoutSimulateurDeplacement(sim, chemin);
+            Chemin chemin = this.deplacementCase(destinationEau, sim, date);
             /* Date de fin du déplacement */
             date = date + chemin.tempsChemin(this, sim.getDonnees().getCarte());
-            // /* Ajout du temps de remplissage */
-            // date = date + this.getTempsRemplissage();
             /* Ajout au simulateur du remplissage */
-            this.ajoutSimulateurRemplissage(sim, date, this.getTempsRemplissage()); // A revoir pourquoi donner la date de fin de remplissage [PHILEMON]
+            this.ajoutSimulateurRemplissage(sim, date, this.getTempsRemplissage());
         }
     }
 
-  /* Renvoie la case d'eau pour laquelle le trajet vers cele-ci est le plus rapide */
-  public Case choisirCaseEau(Simulateur sim) {
+    /* Renvoie la case d'eau pour laquelle le trajet vers cele-ci est le plus rapide */
+    public Case choisirCaseEau(Simulateur sim) {
 		long minTemps = 0;
 		Case caseEauChoisie = this.position;
 		DonneesSimulation donnees = sim.getDonnees();
@@ -193,7 +188,80 @@ public abstract class Robot {
 			}
 		}
 		return caseEauChoisie;
+    }
+
+    /*Remplie le réservoir du robot. Private car on passe par ordreRemplissage*/
+    public abstract void remplirReservoir();
+
+    /*********************************************
+     *
+     * METHODE D'INTERVENTION
+     */
+
+    public void ordreIntervention(Simulateur sim, Incendie incendie) {
+        long date = sim.getDateSimulation();
+        if (this.getPosition() == incendie.getPosition()) {
+            this.ajoutSimulateurIntervention(sim, date, sim.INCRE, incendie);
+        } else {
+            /* On se déplace jusqu'à l'incendie */
+            Chemin chemin = this.deplacementCase(incendie.getPosition(), sim, date);
+            /* Date de fin du déplacement */
+            date = date + chemin.tempsChemin(this, sim.getDonnees().getCarte());
+            /* Ajout au simulateur de l'intervention */
+            this.ajoutSimulateurIntervention(sim, date, this.getTempsVidageComplet(), incendie);
+        }
+        // Peut-être après on peut rajouter que si reservoir vide, va se remplir
+    }
+
+    /* Le robot intervient sur le feu */
+    public void intervenir(Simulateur sim, Incendie incendie) {
+        /* On déverse l'eau selon la taille de l'incendie et du réservoir */
+		int volInc = incendie.getLitrePourEteindre(); /*on récupère la quantité d'eau nécessaire pour éteindre l'incendie*/
+		int volRbt = this.getCapacite(); /*on récupère la quantité d'eau contenue dans le robot*/
+
+		int volEncoreNecessaire = volInc - volRbt;
+		/* Si eau dans réservoir robot insuffisant */
+		if(volEncoreNecessaire > 0) {
+			this.deverserEau(volRbt);
+			incendie.setVolume(volEncoreNecessaire);
+		}
+		/* Si eau dans réservoir robot suffisante */
+		else {
+			this.deverserEau(volInc);
+			incendie.setVolume(0);
+			Incendie[] incendies = sim.getDonnees().getIncendies();
+			int nbIncendie = sim.getDonnees().getNbIncendies();
+			int posIncendie = 0;
+			/* On trouve l'indice de l'incendie qu'on vient d'éteindre dans la liste de tous les incendies */
+			for (int i=0; i<nbIncendie; i++) {
+				if (incendies[i] == incendie) {
+					posIncendie = i;
+					i=nbIncendie;
+				}
+			}
+			/* On va recréer une nouvelle liste d'incendies en copiant tous ceux qu'on a sauf celui qu'on vient d'éteindre */
+			Incendie[] newIncendies = new Incendie[nbIncendie-1];
+			int jBis = 0;
+			for (int j=0; j<nbIncendie-1; j++) {
+				if (j!=posIncendie) {
+					newIncendies[j] = incendies[jBis];
+				} else {
+					newIncendies[j] = incendies[jBis+1];
+					jBis++;
+				}
+				jBis++;
+			}
+			sim.getDonnees().setNbIncendies(nbIncendie-1);
+			sim.getDonnees().setIncendies(newIncendies);
+		}
+    }
+
+    /* Déverser l'eau */
+    // public abstract void deverserEau(int vol);
+    public void deverserEau(int vol) {
+		this.setCapacite(this.getCapacite() - vol);
 	}
+
 
 /*FONCTION UTILE AU CALCUL DE PLUS COURT CHEMIN********************************************/
 
@@ -302,19 +370,6 @@ public abstract class Robot {
 
 /**********************************************************************************/
 
-
-	/*Remplie le réservoir du robot. Private car on passe par ordreRemplissage*/
-	public abstract void remplirReservoir();
-
-	/*********************************************
-	 *
-	 * METHODE D'INTERVENTION
-	 */
-
-	/* Déverser l'eau */
-	public abstract void deverserEau(int vol);
-
-
 	/*********************************************
 	 *
 	 * METHODE D'AJOUT AU SIMULATEUR
@@ -341,10 +396,15 @@ public abstract class Robot {
 		}
 	}
 
-	/* Ajout au simulateur d'un remplissage effectif */
+	/* Ajout au simulateur d'un remplissage */
 	public void ajoutSimulateurRemplissage(Simulateur sim, long date, long duree) {
 		// sim.ajouteEvenement(new EvenementRemplissageSurPlace(date, sim, this));
         sim.ajouteEvenement(new Remplissage(date, sim, this, duree));
 	}
+
+    /* Ajout au simulateur d'une intervention */
+    public void ajoutSimulateurIntervention(Simulateur sim, long date, long duree, Incendie incendie) {
+        sim.ajouteEvenement(new Intervention(date, sim, this, duree, incendie));
+    }
 
 }

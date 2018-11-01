@@ -100,9 +100,9 @@ public class Chenilles extends Robot {
 	 * METHODES D'INTERVENTION
 	 */
 
-	public void deverserEau(int vol) {
-		// TODO Auto-generated method stub
-	}
+	// public void deverserEau(int vol) {
+	// 	this.setCapacite(this.getCapacite() - vol);
+	// }
 
 	/*********************************************
 	 *

@@ -53,7 +53,7 @@ public class Simulateur implements Simulable {
 	private DonneesSimulation donnees;
 
 	/* On incrément de INCRE secondes à chaque fois */
-	private static final int INCRE = 600;
+	public static final int INCRE = 600;
 
 	/*********************************************
 	 *
@@ -67,7 +67,7 @@ public class Simulateur implements Simulable {
 		this.nbLignes = nbLignes;
 		this.nbColonnes = nbColonnes;
 		this.tailleCase = 50;
-		this.gui = new GUISimulator(this.nbLignes*this.tailleCase, this.nbColonnes*this.tailleCase, Color.BLACK);
+		this.gui = new GUISimulator(this.nbLignes*this.tailleCase, this.nbColonnes*this.tailleCase, Color.WHITE);
 		this.dateSimulation = date;
 		this.scenario = new Scenario();
 		this.gui.setSimulable(this);
