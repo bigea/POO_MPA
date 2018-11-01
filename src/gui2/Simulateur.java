@@ -67,7 +67,7 @@ public class Simulateur implements Simulable {
 		this.nbLignes = nbLignes;
 		this.nbColonnes = nbColonnes;
 		this.tailleCase = 50;
-		this.gui = new GUISimulator(this.nbLignes*this.tailleCase, this.nbColonnes*this.tailleCase, Color.WHITE);
+		this.gui = new GUISimulator(this.nbLignes*this.tailleCase, this.nbColonnes*this.tailleCase, Color.BLACK);
 		this.dateSimulation = date;
 		this.scenario = new Scenario();
 		this.gui.setSimulable(this);
@@ -82,7 +82,7 @@ public class Simulateur implements Simulable {
 		this.nbLignes = carte.getNbLignes();
 		this.nbColonnes = carte.getNbColonnes();
 		this.tailleCase = 800/this.nbLignes;
-		this.tailleCase = 50;
+		this.tailleCase = 100;
 		this.gui = new GUISimulator(1000, 800, Color.WHITE);
 		this.dateSimulation = date;
 		this.scenario = new Scenario();
@@ -171,27 +171,27 @@ public class Simulateur implements Simulable {
 			case EAU:
 				couleur_case = Color.BLUE;
 				// this.gui.addGraphicalElement(new Rectangle(jReel, iReel, Color.BLACK, couleur_case, this.tailleCase));
-				this.gui.addGraphicalElement(new ImageElement(jImage, iImage, path + "water.png", this.tailleCase-4, this.tailleCase-4, obs));
+				this.gui.addGraphicalElement(new ImageElement(jImage, iImage, path + "water.png", this.tailleCase, this.tailleCase, obs));
 				break;
 			case FORET:
 				couleur_case = Color.GREEN;
 				// this.gui.addGraphicalElement(new Rectangle(jReel, iReel, Color.BLACK, couleur_case, this.tailleCase));
-				this.gui.addGraphicalElement(new ImageElement(jImage, iImage, path + "tree.png", this.tailleCase-4, this.tailleCase-4, obs));
+				this.gui.addGraphicalElement(new ImageElement(jImage, iImage, path + "tree.png", this.tailleCase, this.tailleCase, obs));
 				break;
 			case ROCHE:
 				couleur_case = Color.GRAY;
 				// this.gui.addGraphicalElement(new Rectangle(jReel, iReel, Color.BLACK, couleur_case, this.tailleCase));
-				this.gui.addGraphicalElement(new ImageElement(jImage, iImage, path + "rock.png", this.tailleCase-4, this.tailleCase-4, obs));
+				this.gui.addGraphicalElement(new ImageElement(jImage, iImage, path + "rock.png", this.tailleCase, this.tailleCase, obs));
 				break;
 			case TERRAIN_LIBRE:
 				couleur_case = Color.WHITE;
 				// this.gui.addGraphicalElement(new Rectangle(jReel, iReel, Color.BLACK, couleur_case, this.tailleCase));
-				this.gui.addGraphicalElement(new ImageElement(jImage, iImage, path + "free.png", this.tailleCase-4, this.tailleCase-4, obs));
+				this.gui.addGraphicalElement(new ImageElement(jImage, iImage, path + "free.png", this.tailleCase, this.tailleCase, obs));
 				break;
 			case HABITAT:
 				couleur_case = Color.ORANGE;
 				// this.gui.addGraphicalElement(new Rectangle(jReel, iReel, Color.BLACK, couleur_case, this.tailleCase));
-				this.gui.addGraphicalElement(new ImageElement(jImage, iImage, path + "house.png", this.tailleCase-4, this.tailleCase-4, obs));
+				this.gui.addGraphicalElement(new ImageElement(jImage, iImage, path + "house.png", this.tailleCase, this.tailleCase, obs));
 				break;
 			default:
 				break;
@@ -233,22 +233,22 @@ public class Simulateur implements Simulable {
 		switch (robotType) {
 			case CHENILLES:
 				//this.gui.addGraphicalElement(new Oval(x, y, Color.GREEN, Color.GREEN, this.tailleCase/2, this.tailleCase/2));
-				this.gui.addGraphicalElement(new ImageElement(xImage, yImage, path + "chenilles.png", this.tailleCase-4, this.tailleCase-4, obs));
+				this.gui.addGraphicalElement(new ImageElement(xImage, yImage, path + "chenilles.png", this.tailleCase, this.tailleCase, obs));
 				// this.gui.addGraphicalElement(new Text(x, y, Color.BLACK, "CHENILLES"));
 				break;
 			case DRONE:
 				//this.gui.addGraphicalElement(new Oval(x, y, Color.BLACK, Color.BLACK, this.tailleCase/2, this.tailleCase/2));
-				this.gui.addGraphicalElement(new ImageElement(xImage, yImage, path + "drone.png", this.tailleCase-4, this.tailleCase-4, obs));
+				this.gui.addGraphicalElement(new ImageElement(xImage, yImage, path + "drones.png", this.tailleCase, this.tailleCase, obs));
 				// this.gui.addGraphicalElement(new Text(x, y, Color.WHITE, "DRONE"));
 				break;
 			case PATTES:
 				// this.gui.addGraphicalElement(new Oval(x, y, Color.MAGENTA, Color.MAGENTA, this.tailleCase/2, this.tailleCase/2));
-				this.gui.addGraphicalElement(new ImageElement(xImage, yImage, path + "pattes.png", this.tailleCase-4, this.tailleCase-4, obs));
+				this.gui.addGraphicalElement(new ImageElement(xImage, yImage, path + "pattes.png", this.tailleCase, this.tailleCase, obs));
 				// this.gui.addGraphicalElement(new Text(x, y, Color.BLACK, "PATTES"));
 				break;
 			case ROUES:
 				// this.gui.addGraphicalElement(new Oval(x, y, Color.YELLOW, Color.YELLOW, this.tailleCase/2, this.tailleCase/2));
-				this.gui.addGraphicalElement(new ImageElement(xImage, yImage, path + "roues.png", this.tailleCase-4, this.tailleCase-4, obs));
+				this.gui.addGraphicalElement(new ImageElement(xImage, yImage, path + "roues.png", this.tailleCase, this.tailleCase, obs));
 				// this.gui.addGraphicalElement(new Text(x, y, Color.BLACK, "ROUES"));
 				break;
 			default:
