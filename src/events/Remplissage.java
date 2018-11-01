@@ -19,8 +19,8 @@ public class Remplissage extends Evenement {
 	 */
 
 	/* Constructeur */
-	public Remplissage(long date, Simulateur sim, Robot rbt, long duree) {
-		super(date, sim, rbt, duree);
+	public Remplissage(long date, Simulateur sim, Robot rbt) {
+		super(date, sim, rbt);
 	}
 
 	/*********************************************

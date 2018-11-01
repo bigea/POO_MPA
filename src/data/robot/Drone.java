@@ -17,14 +17,15 @@ public class Drone extends Robot {
      * Classe Drone
      * 		Hiérarchie des classes avec Drone => Robot
      */
-
+	protected static final int capaciteMaximale = 10000;
 	/*********************************************
 	 *
 	 * METHODES DE BASE
 	 */
 
 	public Drone(Case pos) {
-		super(pos, NatureRobot.DRONE);
+		/* Valeurs par défault*/
+		super(pos, NatureRobot.DRONE, 0);
 		this.setCapacite(10000);
 		this.setVitesse(100);
 		this.setTempsRemplissage(30*60);
@@ -40,45 +41,6 @@ public class Drone extends Robot {
 			this.vitesse = vitesse;
 		}
 	}
-	public double getVitesse(NatureTerrain nt) {
-		return this.vitesse;
-	}
-
-	public void setCapacite(int capacite){
-		this.capacite = capacite;
-	}
-	public int getCapacite(){
-		return this.capacite;
-	}
-
-	public int getTempsRemplissage() {
-		return this.tempsRemplissage;
-	}
-	protected void setTempsRemplissage(int temps){
-		this.tempsRemplissage = temps;
-	}
-
-	public int getTempsVidageComplet() {
-		return this.tempsVidage;
-	}
-	protected void setTempsVidageComplet(int temps){
-		this.tempsVidage = temps;
-	}
-
-	public double getVitesseRemplissage(){
-		return this.vitesseRemplissage;
-	}
-    public void setVitesseRemplissage(int tempsRemplissage, int capacite) {
-		this.vitesseRemplissage = (float)capacite/(float)tempsRemplissage;
-	}
-
-    public double getVitesseVidage(){
-        return this.vitesseVidage;
-    }
-    public void setVitesseVidage(int tempsVidage, int capacite) {
-		this.vitesseVidage = (float)capacite/(float)tempsVidage;
-	}
-
 
 
 	@Override
@@ -135,7 +97,6 @@ public class Drone extends Robot {
 			 * 		qui nous rapproche le plus de la dest
 			 * 		en "ligne droite" sans se soucier de la nature du terrain
 			 */
-			 // System.out.println("HELLO DRONE");
 			if(src.getLigne() < dest.getLigne()) {
 				direction = Direction.SUD;
 			} else if (src.getLigne() > dest.getLigne()) {

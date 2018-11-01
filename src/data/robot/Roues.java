@@ -16,7 +16,7 @@ public class Roues extends Robot {
 	/**
 	 * Classe Roues (Robot Terrestre)
 	 */
-
+	protected static final int capaciteMaximale = 5000;
 	/*********************************************
 	 *
 	 * METHODES DE BASE
@@ -40,47 +40,6 @@ public class Roues extends Robot {
 			this.vitesse = vitesse;
 		}
 	}
-	public double getVitesse(NatureTerrain nt) {
-		return this.vitesse;
-	}
-
-	public void setCapacite(int capacite){
-		this.capacite = capacite;
-	}
-	public int getCapacite(){
-		return this.capacite;
-	}
-
-	public int getTempsRemplissage() {
-		return this.tempsRemplissage;
-	}
-	protected void setTempsRemplissage(int temps){
-		this.tempsRemplissage = temps;
-	}
-
-	public int getTempsVidageComplet() {
-		return this.tempsVidage;
-	}
-	protected void setTempsVidageComplet(int temps){
-		this.tempsVidage = temps;
-	}
-
-	public double getVitesseRemplissage(){
-		return this.vitesseRemplissage;
-	}
-	public void setVitesseRemplissage(int tempsRemplissage, int capacite) {
-		this.vitesseRemplissage = (float)capacite/(float)tempsRemplissage;
-	}
-
-	public double getVitesseVidage(){
-		return this.vitesseVidage;
-	}
-	public void setVitesseVidage(int tempsVidage, int capacite) {
-		this.vitesseVidage = (float)capacite/(float)tempsVidage;
-	}
-
-
-
 
 
 	@Override

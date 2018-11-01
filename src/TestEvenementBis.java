@@ -7,12 +7,10 @@ import data.DonneesSimulation;
 import data.enumerate.Direction;
 import data.robot.Robot;
 import events.Evenement;
-import events.EvenementDeplacementCase;
-import events.EvenementDeplacementDirection;
-import events.EvenementDeplacementUnitaire;
 import events.EvenementMessage;
 import gui2.Simulateur;
 import io.LecteurDonnees;
+import data.enumerate.NatureTerrain;
 
 
 
@@ -49,10 +47,11 @@ public class TestEvenementBis {
             Robot drone = donnees.getRobots()[0];
             Robot roues = donnees.getRobots()[1];
             Robot chenilles = donnees.getRobots()[2];
+            Robot pattes = donnees.getRobots()[3];
 
             /*On modifie la position initiale du drone*/
             Case case_initiale = donnees.getCarte().getCase(0, 0);
-            chenilles.setPosition(case_initiale);
+            pattes.setPosition(case_initiale);
             int nbLignes = donnees.getCarte().getNbLignes();
             int nbColonnes = donnees.getCarte().getNbLignes();
             int tailleCases = donnees.getCarte().getTailleCases();
@@ -60,8 +59,9 @@ public class TestEvenementBis {
             Simulateur simulateur2 = new Simulateur(0, donnees);
 
             /* TEST EVENEMENT DEPLACEMENT UNITAIRE */
-            Case dest = donnees.getCarte().getCase(7, 7);
-            chenilles.deplacementCase(dest, simulateur2, 0);
+            System.out.println(pattes.getVitesse(NatureTerrain.TERRAIN_LIBRE));
+            Case dest = donnees.getCarte().getCase(19, 19);
+            pattes.deplacementCase(dest, simulateur2, 0);
             // for (int i=0; i<25; i++) {
             //     simulateur2.incrementeDate();
             // }

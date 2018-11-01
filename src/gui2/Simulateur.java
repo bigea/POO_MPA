@@ -82,7 +82,7 @@ public class Simulateur implements Simulable {
 		this.nbLignes = carte.getNbLignes();
 		this.nbColonnes = carte.getNbColonnes();
 		this.tailleCase = 800/this.nbLignes;
-		this.tailleCase = 100;
+		this.tailleCase = 35;
 		this.gui = new GUISimulator(1000, 800, Color.WHITE);
 		this.dateSimulation = date;
 		this.scenario = new Scenario();
@@ -284,22 +284,6 @@ public class Simulateur implements Simulable {
 		this.dessinerTousLesIncendies(nbIncendies, incendies);
 		this.dessinerTousLesRobots(nbRobots, robots);
 	}
-
-	/*********************************************
-	 *
-	 * METHODES DE REDESSIN (MOUVEMENT)
-	 */
-
-	// private void bougerRobot(Robot robot, int newLig, int newCol) {
-	// 	Case actualPosition = robot.getPosition();
-	// 	int actualLig = actualPosition.getLigne();
-	// 	int actualCol = actualPosition.getColonne();
-	// 	//NatureRobot nature = robot.getNature();
-	// 	int x = this.tailleCase + actualCol*this.tailleCase;
-	// 	int y = this.tailleCase + actualLig*this.tailleCase;
-	// 	this.dessinerCase(actualPosition);
-	// 	this.dessinerRobot(newLig, newCol, robot);
-	// }
 
 	/*********************************************
 	 *

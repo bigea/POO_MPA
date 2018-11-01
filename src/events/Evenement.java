@@ -16,7 +16,6 @@ public abstract class Evenement {
 	private long date;
 	private Simulateur sim;
 	private Robot robot;
-	private long duree;
 
 	/*********************************************
 	 *
@@ -24,24 +23,16 @@ public abstract class Evenement {
 	 */
 
 	/* Constructeur */
-	public Evenement(long date, Simulateur sim, Robot robot, long duree) {
+	public Evenement(long date, Simulateur sim, Robot robot) {
 		this.setDate(date);
 		this.setRobot(robot);
 		this.sim = sim;
-		this.duree = duree;
 	}
 
 	/* Mutateurs */
 	public void setDate(long date) {
 		this.date = date;
 	}
-	public void setRobot(Robot robot) {
-		this.robot = robot;
-	}
-	public void setDuree(int duree) {
-		this.duree = duree;
-	}
-
 	/* Accesseur */
 	public long getDate() {
 		return this.date;

@@ -9,8 +9,6 @@ import data.Case;
 import data.DonneesSimulation;
 import data.enumerate.NatureRobot;
 import data.enumerate.NatureTerrain;
-import events.EvenementDeplacementUnitaire;
-import events.EvenementRemplissageSurPlace;
 import events.*;
 import gui2.Simulateur;
 import data.enumerate.Direction;
@@ -35,6 +33,7 @@ public abstract class Robot {
 	protected int tempsVidage; //temps en seconde
 	protected double vitesseRemplissage; //en l/s
 	protected double vitesseVidage; //en l/s
+	protected long dateDisponibilite;
 
 	/*********************************************
 	 *
@@ -42,8 +41,9 @@ public abstract class Robot {
 	 */
 
 	/* Constructeur */
-	public Robot(Case pos, NatureRobot nature) {
+	public Robot(Case pos, NatureRobot nature, long dateDisponibilite) {
 		this.setPosition(pos);
+		this.setDateSimulation(dateDisponibilite);
 		this.nature = nature;
 	}
 
@@ -57,38 +57,72 @@ public abstract class Robot {
 	public NatureRobot getNature() {
 		return this.nature;
 	}
-	public int getCapacite() {
-		return this.capacite;
-	}
-
-	// public Carte getCarte() {
-	// 	return this.carte;
-	// }
 
 	/* Mutateurs */
 	public void setPosition(Case cas) {
 		this.position = cas;
 	}
-	public void setCapacite(int vol) {
-		this.capacite = vol;
-	}
 
 	public abstract void setVitesse(int vitesse);
-	public abstract double getVitesse(NatureTerrain nt);
+	public double getVitesse(NatureTerrain nt) {
+		return this.vitesse;
+	}
 
-	public abstract int getTempsRemplissage();
-	protected abstract void setTempsRemplissage(int temps);
+	public void setCapacite(int capacite){
+		this.capacite = capacite;
+	}
+	public int getCapacite(){
+		return this.capacite;
+	}
 
-	public abstract int getTempsVidageComplet();
-	protected abstract void setTempsVidageComplet(int temps);
+	public int getTempsRemplissage() {
+		if(this.capacite == 0){
+			return this.tempsRemplissage;
+		}
+		else{
+			return (this.capaciteMaximale - this.capacite) / this.vitesseRemplissage;
+		}
+	}
+	public void setTempsRemplissage(int temps){
+		this.tempsRemplissage = temps;
+	}
 
-	public abstract double getVitesseRemplissage();
-	protected abstract void setVitesseRemplissage(int tempsRemplissage, int capacite);
+	public int getTempsVidageComplet() {
+		return this.tempsVidage;
+	}
+	public void setTempsVidageComplet(int temps){
+		this.tempsVidage = temps;
+	}
 
-	public abstract double getVitesseVidage();
-	protected abstract void setVitesseVidage(int tempsVidage, int capacite);
+	public double getVitesseRemplissage(){
+		return this.vitesseRemplissage;
+	}
+	public void setVitesseRemplissage(int tempsRemplissage, int capacite) {
+		this.vitesseRemplissage = (float)capacite/(float)tempsRemplissage;
+	}
 
+	public double getVitesseVidage(){
+		return this.vitesseVidage;
+	}
+	public void setVitesseVidage(int tempsVidage, int capacite) {
+		this.vitesseVidage = (float)capacite/(float)tempsVidage;
+	}
 
+	public long getDateDisponibilite() {
+		return this.dateDisponibilite;
+	}
+	public void setDateDisponibilite(int date){
+		this.dateDisponibilite = date;
+	}
+
+	public boolean estDisponible(long date){
+		if(date < this.getDateDisponibilite()){
+			return false;
+		}
+		else{
+			return true;
+		}
+	}
 	/*********************************************
 	 *
 	 * METHODES DE DEPLACEMENT
@@ -97,22 +131,10 @@ public abstract class Robot {
 	/* Déplacement du robot vers une case et ajout des évènements au simulateur */
 	public Chemin deplacementCase(Case dest, Simulateur sim, long date) {
 		/* Calcul du plus court dans chemin */
-        // date = sim.getDateSimulation(); // Valeur par défaut si pas donné en paramètre
-		Chemin chemin = this.plusCourt(dest, date, sim.getDonnees().getCarte());
-		// System.out.println("HELLO");
-		// System.out.println("chemin : " + chemin.toStringDate());
-		this.ajoutSimulateurDeplacement(sim,chemin);
-        return chemin;
+			Chemin chemin = this.plusCourt(dest, date, sim.getDonnees().getCarte());
+			this.ajoutSimulateurDeplacement(sim,chemin);
+			return chemin;
 	}
-
-	/* Méthode de déplacement du robot vers une case voisine (ne peut être appelée seulement si la case dest est vosine) */
-	// public void deplacementVoisin(Case dest, Simulateur sim) {
-	// 	long date = sim.getDateSimulation();
-	// 	Chemin chemin = new Chemin(this, date);
-	// 	date = date+chemin.calculTemps(this.getPosition(), dest);
-	// 	chemin.ajoutCaseQueue(dest, date);
-	// 	ajoutSimulateurDeplacement(sim, chemin);
-	// }
 
 	/* Déplacement possible selon la nature du robot */
 	public abstract boolean possibleDeplacement(Case voisin);
@@ -137,63 +159,6 @@ public abstract class Robot {
 		return (int) Math.round(tempsSrc+tempsVoisin);
 	}
 
-	/*********************************************
-	 *
-	 * METHODES DE REMPLISSAGE
-	 */
-
-	/* Possibilité de se remplir sur la position donnée */
-	public abstract boolean possibleRemplissage(Case cas, Carte carte);
-
-	/*ordre de remplissage donné au robot*/ /*fonction qui remplacera remplir Reservoir*/
-	/*Cette fonction appelera remplirResevoir une fois le robot arrivé sur la zone d'eau*/
-	public  void ordreRemplissage(Simulateur sim) {
-        long date = sim.getDateSimulation(); // Gerer
-        if (this.possibleRemplissage(this.getPosition(), sim.getDonnees().getCarte())) {
-            this.ajoutSimulateurRemplissage(sim, date, this.getTempsRemplissage());
-        } else {
-            /* On recupere la case eau la plus proche en temps */
-            Case destinationEau = this.choisirCaseEau(sim);
-            /* On se déplace jusqu'à cette case */
-            Chemin chemin = this.deplacementCase(destinationEau, sim, sim.getDateSimulation());
-            // Carte carte = sim.getDonnees().getCarte();
-            // Chemin chemin = this.plusCourt(destinationEau, date, carte);
-            /* Ajout au simulateur du chemin */
-            // this.ajoutSimulateurDeplacement(sim, chemin);
-            /* Date de fin du déplacement */
-            date = date + chemin.tempsChemin(this, sim.getDonnees().getCarte());
-            // /* Ajout du temps de remplissage */
-            // date = date + this.getTempsRemplissage();
-            /* Ajout au simulateur du remplissage */
-            this.ajoutSimulateurRemplissage(sim, date, this.getTempsRemplissage()); // A revoir pourquoi donner la date de fin de remplissage [PHILEMON]
-        }
-    }
-
-  /* Renvoie la case d'eau pour laquelle le trajet vers cele-ci est le plus rapide */
-  public Case choisirCaseEau(Simulateur sim) {
-		long minTemps = 0;
-		Case caseEauChoisie = this.position;
-		DonneesSimulation donnees = sim.getDonnees();
-        Carte carte = donnees.getCarte();
-		long date = sim.getDateSimulation();
-		Case[] eaux = donnees.getEaux();
-		int nbEaux = donnees.getNbEaux();
-		/* Pour chaque case d'eau on va calculer le plus court chemin et le temps que notre robot met pour le faire */
-		for (int i=0; i<nbEaux; i++) {
-			Case caseEau = eaux[i];
-			Chemin chemin = this.plusCourt(caseEau, date, carte);
-			long temps = chemin.tempsChemin(this, carte);
-			if (i==0) {		// Initialisation de minTemps et de caseEauChoisie en i==0
-				minTemps = temps;
-				caseEauChoisie = caseEau;
-			}
-			if (temps < minTemps) {
-				minTemps=temps;
-				caseEauChoisie = caseEau;
-			}
-		}
-		return caseEauChoisie;
-	}
 
 /*FONCTION UTILE AU CALCUL DE PLUS COURT CHEMIN********************************************/
 
@@ -212,7 +177,7 @@ public abstract class Robot {
 		}
 		poids[src.getColonne()][src.getLigne()] = 0;
 	}
-
+	/*Trouve le noeud de poids minimum parmis tous les noeuds*/
 	protected Case TrouveMin(List<Case> noeuds, long[][] poids){
 		long min = INFINI;
 		Case noeudChoisi = null;
@@ -224,7 +189,6 @@ public abstract class Robot {
 		}
 		return noeudChoisi;
 	}
-
 	/* Met à jour la distance entre le voisin et le noeud */
 	protected void majPoids(Case[][] predecesseurs, long[][] poids, Case src, Case voisin, Carte carte) {
 		int temps = this.calculTemps(src, voisin, carte);
@@ -235,7 +199,7 @@ public abstract class Robot {
 			predecesseurs[voisin.getColonne()][voisin.getLigne()] = src;
 		}
 	}
-
+	/*Algorithme qui nous permet de trouver le plus court chemin,*/
 	protected Chemin Dijkstra(Case dest, long date, Carte carte){
         /* Sauvegarde de la date de début */
         long dateDebut = date;
@@ -284,6 +248,7 @@ public abstract class Robot {
 		return chemin;
 	}
 
+	/*A partir du tableau des predecesseurs on récupère toutes les cases qui formeront le plus court chemin*/
 	protected Chemin recupPlusCourtChemin(Case[][] predecesseurs, long[][] poids, Case caseFinale, Case caseInitiale, Carte carte, long date){
 		Chemin chemin = new Chemin();
 		Case cas = caseFinale;
@@ -300,11 +265,61 @@ public abstract class Robot {
 		return chemin;
 	}
 
-/**********************************************************************************/
 
+	/*********************************************
+	 *
+	 * METHODES DE REMPLISSAGE
+	 */
 
 	/*Remplie le réservoir du robot. Private car on passe par ordreRemplissage*/
 	public abstract void remplirReservoir();
+
+	/* Possibilité de se remplir sur la position donnée */
+	public abstract boolean possibleRemplissage(Case cas, Carte carte);
+
+	/*ordre de remplissage donné au robot*/ /*fonction qui remplacera remplir Reservoir*/
+	/*Cette fonction appelera remplirResevoir une fois le robot arrivé sur la zone d'eau*/
+	public  void ordreRemplissage(Simulateur sim) {
+	    long date = sim.getDateSimulation(); // Gerer
+	    if (this.possibleRemplissage(this.getPosition(), sim.getDonnees().getCarte())) {
+	        this.ajoutSimulateurRemplissage(sim, date, this.getTempsRemplissage());
+	    } else {
+	        /* On recupere la case eau la plus proche en temps */
+	        Case destinationEau = this.choisirCaseEau(sim);
+	        /* On se déplace jusqu'à cette case */
+	        Chemin chemin = this.deplacementCase(destinationEau, sim, this.getDateDisponibilite());
+	        /* Date de fin du déplacement */
+	        date = date + chemin.tempsChemin(this, sim.getDonnees().getCarte());
+	        /* Ajout au simulateur du remplissage */
+	        this.ajoutSimulateurRemplissage(sim, date, this.getTempsRemplissage()); // A revoir pourquoi donner la date de fin de remplissage [PHILEMON]
+	    }
+	}
+
+	/* Renvoie la case d'eau pour laquelle le trajet vers cele-ci est le plus rapide */
+	public Case choisirCaseEau(Simulateur sim) {
+		long minTemps = 0;
+		Case caseEauChoisie = this.position;
+		DonneesSimulation donnees = sim.getDonnees();
+	    Carte carte = donnees.getCarte();
+		long date = sim.getDateSimulation();
+		Case[] eaux = donnees.getEaux();
+		int nbEaux = donnees.getNbEaux();
+		/* Pour chaque case d'eau on va calculer le plus court chemin et le temps que notre robot met pour le faire */
+		for (int i=0; i<nbEaux; i++) {
+			Case caseEau = eaux[i];
+			Chemin chemin = this.plusCourt(caseEau, date, carte);
+			long temps = chemin.tempsChemin(this, carte);
+			if (i==0) {		// Initialisation de minTemps et de caseEauChoisie en i==0
+				minTemps = temps;
+				caseEauChoisie = caseEau;
+			}
+			if (temps < minTemps) {
+				minTemps=temps;
+				caseEauChoisie = caseEau;
+			}
+		}
+		return caseEauChoisie;
+	}
 
 	/*********************************************
 	 *
@@ -337,14 +352,15 @@ public abstract class Robot {
                 duree = dates.get(0) + chemin.tempsChemin(this, sim.getDonnees().getCarte()) - date;
             }
             System.out.println("On ajoute un DeplacementUnitaire à la date : " + date);
-			sim.ajouteEvenement(new DeplacementUnitaire(date, sim, this, duree, deplacement));
+			this.setDateDisponibilite(this.getDateDisponibilite()+duree);
+			sim.ajouteEvenement(new DeplacementUnitaire(date, sim, this, deplacement));
 		}
 	}
 
 	/* Ajout au simulateur d'un remplissage effectif */
 	public void ajoutSimulateurRemplissage(Simulateur sim, long date, long duree) {
-		// sim.ajouteEvenement(new EvenementRemplissageSurPlace(date, sim, this));
-        sim.ajouteEvenement(new Remplissage(date, sim, this, duree));
+		this.setDateDisponibilite(this.getDateDisponibilite()+duree);
+        sim.ajouteEvenement(new Remplissage(date, sim, this));
 	}
 
 }

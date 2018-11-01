@@ -19,13 +19,14 @@ public class Chenilles extends Robot {
 	/**
 	 * Classe Chenilles (Robot Terrestre)
 	 */
-
+	 protected static final int capaciteMaximale = 2000;
 	/*********************************************
 	 *
 	 * METHODES DE BASE
 	 */
 
 	public Chenilles(Case pos) {
+		/* Valeurs par défault*/
 		super(pos, NatureRobot.CHENILLES);
 		this.setCapacite(2000);
 		this.setVitesse(60);
@@ -44,6 +45,7 @@ public class Chenilles extends Robot {
 			this.vitesse = vitesse;
 		}
 	}
+	@Override
 	public double getVitesse(NatureTerrain nt) {
 		switch(nt) {
 			case FORET:
@@ -51,41 +53,6 @@ public class Chenilles extends Robot {
 			default:
 				return this.vitesse;
 		}
-	}
-
-	public void setCapacite(int capacite){
-		this.capacite = capacite;
-	}
-	public int getCapacite(){
-		return this.capacite;
-	}
-
-	public int getTempsRemplissage() {
-		return this.tempsRemplissage;
-	}
-	public void setTempsRemplissage(int temps){
-		this.tempsRemplissage = temps;
-	}
-
-	public int getTempsVidageComplet() {
-		return this.tempsVidage;
-	}
-	public void setTempsVidageComplet(int temps){
-		this.tempsVidage = temps;
-	}
-
-	public double getVitesseRemplissage(){
-		return this.vitesseRemplissage;
-	}
-	public void setVitesseRemplissage(int tempsRemplissage, int capacite) {
-		this.vitesseRemplissage = (float)capacite/(float)tempsRemplissage;
-	}
-
-	public double getVitesseVidage(){
-		return this.vitesseVidage;
-	}
-	public void setVitesseVidage(int tempsVidage, int capacite) {
-		this.vitesseVidage = (float)capacite/(float)tempsVidage;
 	}
 
 
@@ -136,6 +103,7 @@ public class Chenilles extends Robot {
 
 	/* Remplissage effectif */
 	public void remplirReservoir() {
+
 		this.setCapacite(2000);
 	}
 
