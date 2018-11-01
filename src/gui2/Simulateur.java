@@ -170,25 +170,28 @@ public class Simulateur implements Simulable {
 		switch(nature_case){
 			case EAU:
 				couleur_case = Color.BLUE;
-				this.gui.addGraphicalElement(new Rectangle(jReel, iReel, Color.BLACK, couleur_case, this.tailleCase));
-//				this.gui.addGraphicalElement(new ImageElement(iImage, jImage, "/home/ensimag/unison_ensimag/S3/POO/TPL/POO_MPA/Ressources/wave.png", this.tailleCase-4, this.tailleCase-4, obs));
+				// this.gui.addGraphicalElement(new Rectangle(jReel, iReel, Color.BLACK, couleur_case, this.tailleCase));
+				this.gui.addGraphicalElement(new ImageElement(jImage, iImage, path + "water.png", this.tailleCase-4, this.tailleCase-4, obs));
 				break;
 			case FORET:
 				couleur_case = Color.GREEN;
-				this.gui.addGraphicalElement(new Rectangle(jReel, iReel, Color.BLACK, couleur_case, this.tailleCase));
+				// this.gui.addGraphicalElement(new Rectangle(jReel, iReel, Color.BLACK, couleur_case, this.tailleCase));
 				this.gui.addGraphicalElement(new ImageElement(jImage, iImage, path + "tree.png", this.tailleCase-4, this.tailleCase-4, obs));
 				break;
 			case ROCHE:
 				couleur_case = Color.GRAY;
-				this.gui.addGraphicalElement(new Rectangle(jReel, iReel, Color.BLACK, couleur_case, this.tailleCase));
+				// this.gui.addGraphicalElement(new Rectangle(jReel, iReel, Color.BLACK, couleur_case, this.tailleCase));
+				this.gui.addGraphicalElement(new ImageElement(jImage, iImage, path + "rock.png", this.tailleCase-4, this.tailleCase-4, obs));
 				break;
 			case TERRAIN_LIBRE:
 				couleur_case = Color.WHITE;
-				this.gui.addGraphicalElement(new Rectangle(jReel, iReel, Color.BLACK, couleur_case, this.tailleCase));
+				// this.gui.addGraphicalElement(new Rectangle(jReel, iReel, Color.BLACK, couleur_case, this.tailleCase));
+				this.gui.addGraphicalElement(new ImageElement(jImage, iImage, path + "free.png", this.tailleCase-4, this.tailleCase-4, obs));
 				break;
 			case HABITAT:
 				couleur_case = Color.ORANGE;
-				this.gui.addGraphicalElement(new Rectangle(jReel, iReel, Color.BLACK, couleur_case, this.tailleCase));
+				// this.gui.addGraphicalElement(new Rectangle(jReel, iReel, Color.BLACK, couleur_case, this.tailleCase));
+				this.gui.addGraphicalElement(new ImageElement(jImage, iImage, path + "house.png", this.tailleCase-4, this.tailleCase-4, obs));
 				break;
 			default:
 				break;
@@ -231,20 +234,22 @@ public class Simulateur implements Simulable {
 			case CHENILLES:
 				//this.gui.addGraphicalElement(new Oval(x, y, Color.GREEN, Color.GREEN, this.tailleCase/2, this.tailleCase/2));
 				this.gui.addGraphicalElement(new ImageElement(xImage, yImage, path + "chenilles.png", this.tailleCase-4, this.tailleCase-4, obs));
-				this.gui.addGraphicalElement(new Text(x, y, Color.BLACK, "CHENILLES"));
+				// this.gui.addGraphicalElement(new Text(x, y, Color.BLACK, "CHENILLES"));
 				break;
 			case DRONE:
 				//this.gui.addGraphicalElement(new Oval(x, y, Color.BLACK, Color.BLACK, this.tailleCase/2, this.tailleCase/2));
 				this.gui.addGraphicalElement(new ImageElement(xImage, yImage, path + "drone.png", this.tailleCase-4, this.tailleCase-4, obs));
-				this.gui.addGraphicalElement(new Text(x, y, Color.WHITE, "DRONE"));
+				// this.gui.addGraphicalElement(new Text(x, y, Color.WHITE, "DRONE"));
 				break;
 			case PATTES:
-				this.gui.addGraphicalElement(new Oval(x, y, Color.MAGENTA, Color.MAGENTA, this.tailleCase/2, this.tailleCase/2));
-				this.gui.addGraphicalElement(new Text(x, y, Color.BLACK, "PATTES"));
+				// this.gui.addGraphicalElement(new Oval(x, y, Color.MAGENTA, Color.MAGENTA, this.tailleCase/2, this.tailleCase/2));
+				this.gui.addGraphicalElement(new ImageElement(xImage, yImage, path + "pattes.png", this.tailleCase-4, this.tailleCase-4, obs));
+				// this.gui.addGraphicalElement(new Text(x, y, Color.BLACK, "PATTES"));
 				break;
 			case ROUES:
-				this.gui.addGraphicalElement(new Oval(x, y, Color.YELLOW, Color.YELLOW, this.tailleCase/2, this.tailleCase/2));
-				this.gui.addGraphicalElement(new Text(x, y, Color.BLACK, "ROUES"));
+				// this.gui.addGraphicalElement(new Oval(x, y, Color.YELLOW, Color.YELLOW, this.tailleCase/2, this.tailleCase/2));
+				this.gui.addGraphicalElement(new ImageElement(xImage, yImage, path + "roues.png", this.tailleCase-4, this.tailleCase-4, obs));
+				// this.gui.addGraphicalElement(new Text(x, y, Color.BLACK, "ROUES"));
 				break;
 			default:
 				break;
