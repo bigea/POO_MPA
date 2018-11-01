@@ -21,11 +21,11 @@ public class Chemin {
 	/* Valeur infini */
 	private static final int INFINI = 10000;
 
-	// private int dateSimulation;
+	// private long dateSimulation;
 	private int nbCase;
 	private List<Case> chemin;
 	private int nbDate;
-	private List<Integer> dates;
+	private List<Long> dates;
 
 	/*********************************************
 	 *
@@ -47,11 +47,11 @@ public class Chemin {
 	public void setChemin() {
 		this.chemin = new ArrayList<Case>();
 	}
-	public List<Integer> getDates() {
+	public List<Long> getDates() {
 		return this.dates;
 	}
 	public void setDates() { //stupide car ce n'est pas un setter
-		this.dates = new ArrayList<Integer>();
+		this.dates = new ArrayList<Long>();
 	}
 	public int getNbCase() {
 		return this.nbCase;
@@ -68,13 +68,13 @@ public class Chemin {
 	// public int getDateSimulation() {
 	// 	return dateSimulation;
 	// }
-	// public void setDateSimulation(int dateSimulaion) {
+	// public void setDateSimulation(long dateSimulaion) {
 	// 	this.dateSimulation = dateSimulaion;
 	// }
 
 
  	/* Ajout d'une case à la fin du chemin (en queue) */
-	// public void ajoutCase(Case cas, int date, Robot rbt, Carte carte) {
+	// public void ajoutCase(Case cas, long date, Robot rbt, Carte carte) {
 	// 	if(this.nbDate > 0 && this.nbCase > 0){
 	// 		int derniereDate = this.dates.get(this.nbDate-1);
 	// 		Case derniereCase = this.chemin.get(this.nbCase-1);
@@ -96,7 +96,7 @@ public class Chemin {
 		return sb;
 	}
 
-	public void ajoutCase(Case cas, int date, Robot rbt, Carte carte) {
+	public void ajoutCase(Case cas, long date, Robot rbt, Carte carte) {
 		this.dates.add(date);
 		// System.out.println(this.toStringDate());
 		this.chemin.add(cas);
@@ -104,8 +104,8 @@ public class Chemin {
 		this.nbDate += 1;
 	}
 
-	public int tempsChemin(Robot robot, Carte carte) {
-		int temps = this.dates.get(this.getNbDate()-1) - this.dates.get(0);
+	public long tempsChemin(Robot robot, Carte carte) {
+		long temps = this.dates.get(this.getNbDate()-1) - this.dates.get(0);
 		Case avantDerniereCase = this.chemin.get(this.nbCase-2);
 		Case derniereCase = this.chemin.get(this.nbCase-1);
 		temps = temps + robot.calculTemps(avantDerniereCase, derniereCase, carte);
@@ -124,7 +124,7 @@ public class Chemin {
 	 */
 	// public void plusCourt(Case dest) {
 	// 	/* Données nécessaires à l'algorithme */
-	// 	int date = this.getDateSimulation();
+	// 	long date = this.getDateSimulation();
 	// 	Robot rbt = this.getRobot();
 	// 	Carte carte = rbt.getCarte();
 	// 	int nbColonnes = carte.getNbColonnes();

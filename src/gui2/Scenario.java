@@ -41,7 +41,7 @@ public class Scenario {
 	}
 
 	/* Renvoi la position du premier évènement de cette date */
-	private int getPosition(int date) throws Exception {
+	private int getPosition(long date) throws Exception {
 		int pos = 0;
 		int nbEvents = this.sequence.size();
 		if(nbEvents == 0) {
@@ -62,7 +62,7 @@ public class Scenario {
 	}
 
 	/* Renvoie le premier évènement de cette date */
-	public Evenement getEvenement(int date){
+	public Evenement getEvenement(long date){
 		try{
 			this.sequence.get(this.getPosition(date));
 		} catch (Exception e) {
@@ -78,7 +78,7 @@ public class Scenario {
 
 	/* Ajout d'évènements (ordonné !) */
 	public void ajouteEvenement(Evenement event) {
-		int date = event.getDate();
+		long date = event.getDate();
 		int nbEvents = this.sequence.size();
 		int pos = 0;
 		if(nbEvents == 0) {
@@ -120,7 +120,7 @@ public class Scenario {
 	}
 
 	/* Exécution entre deux dates */
-	public void execute(int avant, int apres) {
+	public void execute(long avant, long apres) {
 		// Tant qu'on a pas dépassé la date
 		while(this.sequence.size() != 0 && this.sequence.get(0)!=null && this.sequence.get(0).getDate() < apres) {
 			try {

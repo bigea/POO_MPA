@@ -25,7 +25,7 @@ public abstract class Robot {
      * Classe Robot
      * 		Avec hérachie (sous-classes)
      */
-	private static final int INFINI = 32000;
+	private static final long INFINI = 32000;
 	/* Attributs */
 	private NatureRobot nature;
 	protected Case position;
@@ -95,7 +95,7 @@ public abstract class Robot {
 	 */
 
 	/* Déplacement du robot vers une case et ajout des évènements au simulateur */
-	public Chemin deplacementCase(Case dest, Simulateur sim, int date) {
+	public Chemin deplacementCase(Case dest, Simulateur sim, long date) {
 		/* Calcul du plus court dans chemin */
         // date = sim.getDateSimulation(); // Valeur par défaut si pas donné en paramètre
 		Chemin chemin = this.plusCourt(dest, date, sim.getDonnees().getCarte());
@@ -107,7 +107,7 @@ public abstract class Robot {
 
 	/* Méthode de déplacement du robot vers une case voisine (ne peut être appelée seulement si la case dest est vosine) */
 	// public void deplacementVoisin(Case dest, Simulateur sim) {
-	// 	int date = sim.getDateSimulation();
+	// 	long date = sim.getDateSimulation();
 	// 	Chemin chemin = new Chemin(this, date);
 	// 	date = date+chemin.calculTemps(this.getPosition(), dest);
 	// 	chemin.ajoutCaseQueue(dest, date);
@@ -148,7 +148,7 @@ public abstract class Robot {
 	/*ordre de remplissage donné au robot*/ /*fonction qui remplacera remplir Reservoir*/
 	/*Cette fonction appelera remplirResevoir une fois le robot arrivé sur la zone d'eau*/
 	public  void ordreRemplissage(Simulateur sim) {
-        int date = sim.getDateSimulation(); // Gerer
+        long date = sim.getDateSimulation(); // Gerer
         if (this.possibleRemplissage(this.getPosition(), sim.getDonnees().getCarte())) {
             this.ajoutSimulateurRemplissage(sim, date, this.getTempsRemplissage());
         } else {
@@ -171,18 +171,18 @@ public abstract class Robot {
 
   /* Renvoie la case d'eau pour laquelle le trajet vers cele-ci est le plus rapide */
   public Case choisirCaseEau(Simulateur sim) {
-		int minTemps = 0;
+		long minTemps = 0;
 		Case caseEauChoisie = this.position;
 		DonneesSimulation donnees = sim.getDonnees();
         Carte carte = donnees.getCarte();
-		int date = sim.getDateSimulation();
+		long date = sim.getDateSimulation();
 		Case[] eaux = donnees.getEaux();
 		int nbEaux = donnees.getNbEaux();
 		/* Pour chaque case d'eau on va calculer le plus court chemin et le temps que notre robot met pour le faire */
 		for (int i=0; i<nbEaux; i++) {
 			Case caseEau = eaux[i];
 			Chemin chemin = this.plusCourt(caseEau, date, carte);
-			int temps = chemin.tempsChemin(this, carte);
+			long temps = chemin.tempsChemin(this, carte);
 			if (i==0) {		// Initialisation de minTemps et de caseEauChoisie en i==0
 				minTemps = temps;
 				caseEauChoisie = caseEau;
@@ -198,12 +198,12 @@ public abstract class Robot {
 /*FONCTION UTILE AU CALCUL DE PLUS COURT CHEMIN********************************************/
 
 	/* calcul du plus court chemin */
-	protected Chemin plusCourt(Case dest, int date, Carte carte) {
+	protected Chemin plusCourt(Case dest, long date, Carte carte) {
 		Chemin chemin = Dijkstra(dest, date, carte);
 		return chemin;
 	}
 	/* Initialisation du graphe (poids infini) */
-	protected void Initialisation(Carte carte, Case src, List<Case> noeuds, int[][] poids){
+	protected void Initialisation(Carte carte, Case src, List<Case> noeuds, long[][] poids){
 		for(int l=0; l<carte.getNbLignes(); l++) {
 			for(int c=0; c<carte.getNbColonnes(); c++) {
 				poids[l][c] = INFINI;
@@ -213,8 +213,8 @@ public abstract class Robot {
 		poids[src.getColonne()][src.getLigne()] = 0;
 	}
 
-	protected Case TrouveMin(List<Case> noeuds, int[][] poids){
-		int min = INFINI;
+	protected Case TrouveMin(List<Case> noeuds, long[][] poids){
+		long min = INFINI;
 		Case noeudChoisi = null;
 		for(Case noeud : noeuds){
 			if(poids[noeud.getColonne()][noeud.getLigne()] < min){
@@ -226,19 +226,19 @@ public abstract class Robot {
 	}
 
 	/* Met à jour la distance entre le voisin et le noeud */
-	protected void majPoids(Case[][] predecesseurs, int[][] poids, Case src, Case voisin, Carte carte) {
+	protected void majPoids(Case[][] predecesseurs, long[][] poids, Case src, Case voisin, Carte carte) {
 		int temps = this.calculTemps(src, voisin, carte);
-		int poidsSrc = poids[src.getColonne()][src.getLigne()];
-		int poidsVoisin = poids[voisin.getColonne()][voisin.getLigne()];
+		long poidsSrc = poids[src.getColonne()][src.getLigne()];
+		long poidsVoisin = poids[voisin.getColonne()][voisin.getLigne()];
 		if(poidsVoisin > poidsSrc+temps) {
 			poids[voisin.getColonne()][voisin.getLigne()] = poidsSrc+temps;
 			predecesseurs[voisin.getColonne()][voisin.getLigne()] = src;
 		}
 	}
 
-	protected Chemin Dijkstra(Case dest, int date, Carte carte){
+	protected Chemin Dijkstra(Case dest, long date, Carte carte){
         /* Sauvegarde de la date de début */
-        int dateDebut = date;
+        long dateDebut = date;
 		/*création du tableau des predecesseurs*/
 		Case[][] predecesseurs = new Case[carte.getNbColonnes()][carte.getNbLignes()];
 		/*Données nécessaires à l'algorithme*/
@@ -246,7 +246,7 @@ public abstract class Robot {
 		/* Ensemble des cases */
 		ArrayList<Case> noeuds = new ArrayList<Case>();
 		/* Ensemble des poids */
-		int[][] poids = new int[carte.getNbColonnes()][carte.getNbLignes()];
+		long[][] poids = new long[carte.getNbColonnes()][carte.getNbLignes()];
 		/* Initialisation du graphe (poids infini) */
 		Initialisation(carte, src, noeuds, poids);
 
@@ -284,7 +284,7 @@ public abstract class Robot {
 		return chemin;
 	}
 
-	protected Chemin recupPlusCourtChemin(Case[][] predecesseurs, int[][] poids, Case caseFinale, Case caseInitiale, Carte carte, int date){
+	protected Chemin recupPlusCourtChemin(Case[][] predecesseurs, long[][] poids, Case caseFinale, Case caseInitiale, Carte carte, long date){
 		Chemin chemin = new Chemin();
 		Case cas = caseFinale;
 		ArrayList<Case> listeCases = new ArrayList<Case>();
@@ -325,12 +325,12 @@ public abstract class Robot {
 		/* On récupère les caractéristiques du chemin */
 		int nbCase = chemin.getNbCase();
 		List<Case> cases = chemin.getChemin();
-		List<Integer> dates = chemin.getDates();
+		List<Long> dates = chemin.getDates();
 		/* Ajout des évènements au simulateur */
 		for(int i = 0; i<nbCase; i++) {
-			int date = dates.get(i);
+			long date = dates.get(i);
 			Case deplacement = cases.get(i);
-            int duree = 0;
+            long duree = 0;
             if (i+1<nbCase) {
                 duree = dates.get(i+1) - date;
             } else {
@@ -342,7 +342,7 @@ public abstract class Robot {
 	}
 
 	/* Ajout au simulateur d'un remplissage effectif */
-	public void ajoutSimulateurRemplissage(Simulateur sim, int date, int duree) {
+	public void ajoutSimulateurRemplissage(Simulateur sim, long date, long duree) {
 		// sim.ajouteEvenement(new EvenementRemplissageSurPlace(date, sim, this));
         sim.ajouteEvenement(new Remplissage(date, sim, this, duree));
 	}

@@ -61,7 +61,7 @@ public class TestEvenementBis {
 
             /* TEST EVENEMENT DEPLACEMENT UNITAIRE */
             Case dest = donnees.getCarte().getCase(7, 7);
-            chenilles.deplacementCase(dest, simulateur2, 100);
+            chenilles.deplacementCase(dest, simulateur2, 0);
             // for (int i=0; i<25; i++) {
             //     simulateur2.incrementeDate();
             // }

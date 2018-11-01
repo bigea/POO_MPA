@@ -13,10 +13,10 @@ public abstract class Evenement {
 	 * 		héritée de sous-classes qui représenteront des évènements réels avec leurs propres propriétés
 	 */
 
-	private int date;
+	private long date;
 	private Simulateur sim;
 	private Robot robot;
-	private int duree;
+	private long duree;
 
 	/*********************************************
 	 *
@@ -24,7 +24,7 @@ public abstract class Evenement {
 	 */
 
 	/* Constructeur */
-	public Evenement(int date, Simulateur sim, Robot robot, int duree) {
+	public Evenement(long date, Simulateur sim, Robot robot, long duree) {
 		this.setDate(date);
 		this.setRobot(robot);
 		this.sim = sim;
@@ -32,7 +32,7 @@ public abstract class Evenement {
 	}
 
 	/* Mutateurs */
-	public void setDate(int date) {
+	public void setDate(long date) {
 		this.date = date;
 	}
 	public void setRobot(Robot robot) {
@@ -43,7 +43,7 @@ public abstract class Evenement {
 	}
 
 	/* Accesseur */
-	public int getDate() {
+	public long getDate() {
 		return this.date;
 	}
 	public Robot getRobot() {
@@ -52,7 +52,7 @@ public abstract class Evenement {
 	public Simulateur getSimulateur() {
 		return this.sim;
 	}
-	public int getDuree() {
+	public long getDuree() {
 		return this.duree;
 	}
 

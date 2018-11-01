@@ -22,7 +22,7 @@ public class EvenementIntervention extends Evenement {
 	 */
 
 	/* Constructeur */
-	public EvenementIntervention(int date, Simulateur sim, Robot rbt, int duree, Incendie inc) {
+	public EvenementIntervention(long date, Simulateur sim, Robot rbt, long duree, Incendie inc) {
 		super(date, sim, rbt, duree);
 		this.setIncendie(inc);
 	}

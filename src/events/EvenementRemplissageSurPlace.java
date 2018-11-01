@@ -19,7 +19,7 @@ public class EvenementRemplissageSurPlace extends Evenement {
 	 */
 
 	/* Constructeur */
-	public EvenementRemplissageSurPlace(int date, Simulateur sim, Robot rbt, int duree) {
+	public EvenementRemplissageSurPlace(long date, Simulateur sim, Robot rbt, long duree) {
 		super(date, sim, rbt, duree);
 		this.setRobot(rbt);
 	}
