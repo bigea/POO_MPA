@@ -53,7 +53,7 @@ public class Simulateur implements Simulable {
 	private DonneesSimulation donnees;
 
 	/* On incrément de INCRE secondes à chaque fois */
-	private static final int INCRE = 60;
+	private static final int INCRE = 500;
 
 	/*********************************************
 	 *
@@ -121,9 +121,9 @@ public class Simulateur implements Simulable {
 		return this.tailleCase;
 	}
 
-
 	public void next() {
 		this.incrementeDate();
+		System.out.println("après incrémentation, date est : " + this.dateSimulation);
 	}
 
 	public void restart() {

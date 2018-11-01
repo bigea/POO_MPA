@@ -152,6 +152,7 @@ public class Drone extends Robot {
 			 */
 			Case voisin = carte.voisin(src, direction);
 			chemin.ajoutCase(voisin, date, this, carte);
+            date += this.calculTemps(src, voisin, carte);
 			/* On réactualise la case qui est virtuellement la position du robot */
 			src = voisin;
 		}

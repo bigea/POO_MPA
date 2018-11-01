@@ -48,11 +48,11 @@ public class TestEvenementBis {
             DonneesSimulation donnees = LecteurDonnees.creeDonnees(args[0]);
             Robot drone = donnees.getRobots()[0];
             Robot roues = donnees.getRobots()[1];
-            Robot pattes = donnees.getRobots()[2];
+            Robot chenilles = donnees.getRobots()[2];
 
             /*On modifie la position initiale du drone*/
-            Case case_initiale = donnees.getCarte().getCase(1, 1);
-            drone.setPosition(case_initiale);
+            Case case_initiale = donnees.getCarte().getCase(0, 0);
+            chenilles.setPosition(case_initiale);
             int nbLignes = donnees.getCarte().getNbLignes();
             int nbColonnes = donnees.getCarte().getNbLignes();
             int tailleCases = donnees.getCarte().getTailleCases();
@@ -60,8 +60,12 @@ public class TestEvenementBis {
             Simulateur simulateur2 = new Simulateur(0, donnees);
 
             /* TEST EVENEMENT DEPLACEMENT UNITAIRE */
-            Case dest = donnees.getCarte().getCase(3, 4);
-            drone.deplacementCase(dest, simulateur2, 1);
+            Case dest = donnees.getCarte().getCase(7, 7);
+            chenilles.deplacementCase(dest, simulateur2, 100);
+            // for (int i=0; i<25; i++) {
+            //     simulateur2.incrementeDate();
+            // }
+            // chenilles.ordreRemplissage(simulateur2);
             // dest = donnees.getCarte().getCase(6, 6);
             // roues.deplacementCase(dest, simulateur2, 20);
 

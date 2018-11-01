@@ -141,14 +141,6 @@ public class Roues extends Robot {
 	 * METHODES DE DEPLACEMENT
 	 */
 
-	/* Calcul du plus court chemin */
-	@Override
-	public Chemin plusCourt(Case dest, int date, Carte carte) {
-		Chemin chemin = new Chemin();
-		// chemin.plusCourt(dest);
-		return chemin;
-	}
-
 	/* Indique si le déplacement est possible dans la case voisine */
 	@Override
 	public boolean possibleDeplacement(Case voisin) {
