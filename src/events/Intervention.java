@@ -27,6 +27,13 @@ public class Intervention extends Evenement {
 		this.setIncendie(inc);
 	}
 
+	@Override
+	public String toString() {
+		String chaine = new String();
+		chaine += "Intervention (" + this.getDate() + ", " + this.getRobot().getNature() + ", " + this.getIncendie() + ")";
+		return chaine;
+	}
+
 	/* Mutateurs */
 	public void setIncendie(Incendie inc) {
 		this.incendie = inc;

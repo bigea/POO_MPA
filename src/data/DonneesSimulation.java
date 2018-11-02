@@ -107,6 +107,34 @@ public class DonneesSimulation {
 		this.incendies[n] = inc;
 	}
 
+    /* Suppression d'un incendie */
+    public void supprimerIncendie(Incendie incendie) {
+        Incendie[] incendies = this.getIncendies();
+        int nbIncendie = this.getNbIncendies();
+        int indIncendie = 0;
+        /* On trouve l'indice de l'incendie qu'on veut supprimer dans la liste de tous les incendies */
+        for (int i=0; i<nbIncendie; i++) {
+            if (incendies[i] == incendie) {
+                indIncendie = i;
+                i=nbIncendie;
+            }
+        }
+        /* On va recréer une nouvelle liste d'incendies en copiant tous ceux qu'on a sauf celui qu'on vient d'éteindre */
+        Incendie[] newIncendies = new Incendie[nbIncendie-1];
+        int jBis = 0;
+        for (int j=0; j<nbIncendie-1; j++) {
+            if (j!=indIncendie) {
+                newIncendies[j] = incendies[jBis];
+            } else {
+                newIncendies[j] = incendies[jBis+1];
+                jBis++;
+            }
+            jBis++;
+        }
+        this.setNbIncendies(nbIncendie-1);
+        this.setIncendies(newIncendies);
+    }
+
 	/* Ajout d'un robot */
 	public void addRobot(Robot rob, int n) {
 		this.robots[n] = rob;

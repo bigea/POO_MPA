@@ -32,6 +32,8 @@ public class Chenilles extends Robot {
 		this.setVitesse(60);
 		this.setTempsRemplissage(5*60);
 		this.setTempsVidageComplet(20*8);
+		this.setTempsVidageUnitaire(8);
+		this.setVolumeVidageUnitaire(100);
 		this.vitesseRemplissage =  (double)this.capacite/(double)this.getTempsRemplissage();
 		this.vitesseVidage =  (double)this.capacite/(double)this.getTempsVidageComplet();
 	}

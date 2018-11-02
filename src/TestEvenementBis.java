@@ -63,11 +63,16 @@ public class TestEvenementBis {
 
             System.out.println(pattes.getVitesse(NatureTerrain.TERRAIN_LIBRE));
             Case dest = donnees.getCarte().getCase(19, 19);
-            chenilles.deplacementCase(dest, simulateur2, 0);
+            drone.deplacementCase(dest, simulateur2);
 
             /* TEST INTERVENTION */
             Incendie incendie = donnees.getIncendies()[6];
             System.out.println("incendie : " + incendie);
+            drone.ordreIntervention(simulateur2, incendie);
+
+            drone.ordreRemplissage(simulateur2);
+
+            incendie = donnees.getIncendies()[7];
             drone.ordreIntervention(simulateur2, incendie);
 
             // for (int i=0; i<25; i++) {

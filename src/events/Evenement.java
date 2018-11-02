@@ -29,6 +29,13 @@ public abstract class Evenement {
 		this.sim = sim;
 	}
 
+	@Override
+	public String toString() {
+		String chaine = new String();
+		chaine += "Evenement de date " + this.getDate();
+		return chaine;
+	}
+
 	/* Mutateurs */
 	public void setDate(long date) {
 		this.date = date;

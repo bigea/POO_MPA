@@ -23,6 +23,13 @@ public class Remplissage extends Evenement {
 		super(date, sim, rbt);
 	}
 
+	@Override
+	public String toString() {
+		String chaine = new String();
+		chaine += "Remplissage (" + this.getDate() + ", " + this.getRobot().getNature() + ")";
+		return chaine;
+	}
+
 	/*********************************************
 	 *
 	 * EXECUTION

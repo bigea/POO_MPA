@@ -24,7 +24,7 @@ public class Incendie {
 	/* Constructeur */
 	public Incendie(Case pos, int litrePourEteindre) {
 		this.setPosition(pos);
-		this.setVolume(litrePourEteindre);
+		this.setLitrePourEteindre(litrePourEteindre);
 	};
 
 	/* Accesseurs */
@@ -39,7 +39,7 @@ public class Incendie {
 	public void setPosition(Case pos) {
 		this.position = pos;
 	}
-	public void setVolume(int ltr) {
+	public void setLitrePourEteindre(int ltr) {
 		this.litrePourEteindre = ltr;
 	}
 }
