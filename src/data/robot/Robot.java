@@ -281,7 +281,8 @@ public abstract class Robot {
      */
 
     public void ordreIntervention(Simulateur sim, Incendie incendie) {
-        long date = sim.getDateSimulation();
+        // long date = sim.getDateSimulation();
+		long date = this.getDateDisponibilite();
         if (this.getPosition() == incendie.getPosition()) {
             this.ajoutSimulateurIntervention(sim, date, sim.INCRE, incendie);
         } else {
@@ -358,7 +359,8 @@ public abstract class Robot {
 	/*ordre de remplissage donné au robot*/ /*fonction qui remplacera remplir Reservoir*/
 	/*Cette fonction appelera remplirResevoir une fois le robot arrivé sur la zone d'eau*/
 	public  void ordreRemplissage(Simulateur sim) {
-	    long date = sim.getDateSimulation(); // Gerer
+	    // long date = sim.getDateSimulation(); // Gerer
+		long date = this.getDateDisponibilite();
 	    if (this.possibleRemplissage(this.getPosition(), sim.getDonnees().getCarte())) {
 	        this.ajoutSimulateurRemplissage(sim, date, this.getTempsRemplissage());
 	    } else {
