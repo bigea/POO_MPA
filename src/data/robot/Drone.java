@@ -17,7 +17,7 @@ public class Drone extends Robot {
      * Classe Drone
      * 		Hiérarchie des classes avec Drone => Robot
      */
-	protected static final int capaciteMaximale = 10000;
+
 	/*********************************************
 	 *
 	 * METHODES DE BASE
@@ -27,14 +27,15 @@ public class Drone extends Robot {
 		/* Valeurs par défault*/
 		super(pos, NatureRobot.DRONE, 0);
 		this.setCapacite(10000);
+        this.setCapaciteMaximale(10000);
 		this.setVitesse(100);
 		this.setTempsRemplissage(30*60);
 		this.setTempsVidageComplet(30);
-		this.vitesseRemplissage =  (float)this.capacite/(float)this.getTempsRemplissage();
+		this.vitesseRemplissage =  (double)this.capacite/(double)this.getTempsRemplissage();
 		/*Le drone n'a pas de vitesse de vidage car son intervention unitaire vide la totalité de son réservoir*/
 	}
 
-	public void setVitesse(int vitesse) {
+	public void setVitesse(double vitesse) {
 		if(vitesse > 150) {
 			this.vitesse = 150;
 		} else {
@@ -54,10 +55,10 @@ public class Drone extends Robot {
 	 * METHODES D'INTERVENTION
 	 */
 
-	public void deverserEau(int vol) {
-		// TODO Auto-generated method stub
-
-	}
+	// public void deverserEau(int vol) {
+	// 	// TODO Auto-generated method stub
+    //
+	// }
 
 
 	/*********************************************

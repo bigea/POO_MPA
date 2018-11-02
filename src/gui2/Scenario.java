@@ -101,6 +101,7 @@ public class Scenario {
 		// Tant qu'on a pas dépassé la date
 		while(this.sequence.size() != 0 && this.sequence.get(0)!=null && this.sequence.get(0).getDate() < apres) {
 			try {
+				System.out.println("on boucle");
 				// on exécute l'évènement
 				this.sequence.get(0).execute();
 				// on le supprime de la séquence

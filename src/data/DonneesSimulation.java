@@ -27,7 +27,7 @@ public class DonneesSimulation {
 		this.nbIncendies = nbIncendies;
 		this.nbRobots = nbRobots;
 		this.nbEaux = nbEaux;
-		this.incendies = new Incendie[nbIncendies];
+		this.setIncendies(new Incendie[nbIncendies]);
 		this.robots = new Robot[nbRobots];
 		this.eaux = new Case[nbEaux];
 	}
@@ -94,6 +94,13 @@ public class DonneesSimulation {
 	public int getNbEaux() {
 		return this.nbEaux;
 	}
+
+    public void setNbIncendies(int nbIncendies) {
+        this.nbIncendies = nbIncendies;
+    }
+    public void setIncendies(Incendie[] incendies) {
+        this.incendies = incendies;
+    }
 
 	/* Ajout d'un incendie */
 	public void addIncendie(Incendie inc, int n) {

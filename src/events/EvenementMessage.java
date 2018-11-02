@@ -21,7 +21,7 @@ public class EvenementMessage extends Evenement {
 
 	/* Constructeur */
 	public EvenementMessage(long date, Simulateur sim, String message) {
-		super(date, sim, null, 0);
+		super(date, sim, null);
 		this.setMessage(message);
 	}
 

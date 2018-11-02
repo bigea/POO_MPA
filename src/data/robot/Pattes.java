@@ -5,6 +5,7 @@ import data.Carte;
 import data.Case;
 import data.enumerate.NatureRobot;
 import data.enumerate.NatureTerrain;
+import gui2.Simulateur;
 
 /**
  * Classe Pattes
@@ -15,7 +16,7 @@ public class Pattes extends Robot {
 	/**
 	 * Classe Pattes (Robot Terrestre)
 	 */
-	 protected static final int capaciteMaximale = INFINI;
+
 	/*********************************************
 	 *
 	 * METHODES DE BASE
@@ -25,14 +26,15 @@ public class Pattes extends Robot {
 
 	public Pattes(Case pos) {
 		/* Valeurs par défault*/
-		super(pos, NatureRobot.PATTES);
+		super(pos, NatureRobot.PATTES, 0);
 		this.setCapacite(INFINI);
+		this.setCapaciteMaximale(INFINI);
 		this.setVitesse(30);
 		this.setTempsRemplissage(0);
 		this.setTempsVidageComplet(INFINI);
 		this.vitesseVidage =  10;
 	}
-	public void setVitesse(int vitesse) {
+	public void setVitesse(double vitesse) {
 		if (this.getPosition().getNature() == NatureTerrain.ROCHE) {
 			this.vitesse = 10;
 		} else {
@@ -67,11 +69,10 @@ public class Pattes extends Robot {
 	 * METHODES D'INTERVENTION
 	 */
 
-	@Override
-	public void deverserEau(int vol) {
-		// TODO Auto-generated method stub
-
-	}
+	// public void deverserEau(int vol) {
+	// 	// TODO Auto-generated method stub
+	//
+	// }
 
 
 	/*********************************************
@@ -80,7 +81,7 @@ public class Pattes extends Robot {
 	 */
 	 @Override
 	public  void ordreRemplissage(Simulateur sim) {
-
+		return;
 	}
 	public void remplirReservoir() {
 		this.setCapacite(INFINI);

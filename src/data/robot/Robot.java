@@ -7,6 +7,7 @@ import chemin.Chemin;
 import data.Carte;
 import data.Case;
 import data.DonneesSimulation;
+import data.Incendie;
 import data.enumerate.NatureRobot;
 import data.enumerate.NatureTerrain;
 import events.*;
@@ -28,12 +29,13 @@ public abstract class Robot {
 	private NatureRobot nature;
 	protected Case position;
 	protected int capacite; //en litre
-	protected int vitesse; //en km/h
+	protected double vitesse; //en km/h
 	protected int tempsRemplissage; //temps en seconde
 	protected int tempsVidage; //temps en seconde
 	protected double vitesseRemplissage; //en l/s
 	protected double vitesseVidage; //en l/s
 	protected long dateDisponibilite;
+    protected int capaciteMaximale;
 
 	/*********************************************
 	 *
@@ -43,7 +45,7 @@ public abstract class Robot {
 	/* Constructeur */
 	public Robot(Case pos, NatureRobot nature, long dateDisponibilite) {
 		this.setPosition(pos);
-		this.setDateSimulation(dateDisponibilite);
+		this.setDateDisponibilite(dateDisponibilite);
 		this.nature = nature;
 	}
 
@@ -63,7 +65,7 @@ public abstract class Robot {
 		this.position = cas;
 	}
 
-	public abstract void setVitesse(int vitesse);
+	public abstract void setVitesse(double vitesse);
 	public double getVitesse(NatureTerrain nt) {
 		return this.vitesse;
 	}
@@ -75,12 +77,19 @@ public abstract class Robot {
 		return this.capacite;
 	}
 
+    public int getCapaciteMaximale() {
+        return this.capaciteMaximale;
+    }
+    public void setCapaciteMaximale(int capaciteMaximale) {
+        this.capaciteMaximale = capaciteMaximale;
+    }
+
 	public int getTempsRemplissage() {
 		if(this.capacite == 0){
 			return this.tempsRemplissage;
 		}
 		else{
-			return (this.capaciteMaximale - this.capacite) / this.vitesseRemplissage;
+			return (int) (((double)(this.capaciteMaximale - this.capacite)) / this.vitesseRemplissage);
 		}
 	}
 	public void setTempsRemplissage(int temps){
@@ -98,20 +107,20 @@ public abstract class Robot {
 		return this.vitesseRemplissage;
 	}
 	public void setVitesseRemplissage(int tempsRemplissage, int capacite) {
-		this.vitesseRemplissage = (float)capacite/(float)tempsRemplissage;
+		this.vitesseRemplissage = (double)capacite/(double)tempsRemplissage;
 	}
 
 	public double getVitesseVidage(){
 		return this.vitesseVidage;
 	}
 	public void setVitesseVidage(int tempsVidage, int capacite) {
-		this.vitesseVidage = (float)capacite/(float)tempsVidage;
+		this.vitesseVidage = (double)capacite/(double)tempsVidage;
 	}
 
 	public long getDateDisponibilite() {
 		return this.dateDisponibilite;
 	}
-	public void setDateDisponibilite(int date){
+	public void setDateDisponibilite(long date){
 		this.dateDisponibilite = date;
 	}
 
@@ -266,6 +275,75 @@ public abstract class Robot {
 	}
 
 
+    /*********************************************
+     *
+     * METHODE D'INTERVENTION
+     */
+
+    public void ordreIntervention(Simulateur sim, Incendie incendie) {
+        long date = sim.getDateSimulation();
+        if (this.getPosition() == incendie.getPosition()) {
+            this.ajoutSimulateurIntervention(sim, date, sim.INCRE, incendie);
+        } else {
+            /* On se déplace jusqu'à l'incendie */
+            Chemin chemin = this.deplacementCase(incendie.getPosition(), sim, date);
+            /* Date de fin du déplacement */
+            date = date + chemin.tempsChemin(this, sim.getDonnees().getCarte());
+            /* Ajout au simulateur de l'intervention */
+            this.ajoutSimulateurIntervention(sim, date, sim.INCRE, incendie);
+        }
+        // Peut-être après on peut rajouter que si reservoir vide, va se remplir
+    }
+
+    /* Le robot intervient sur le feu */
+    public void intervenir(Simulateur sim, Incendie incendie) {
+        /* On déverse l'eau selon la taille de l'incendie et du réservoir */
+		int volInc = incendie.getLitrePourEteindre(); /*on récupère la quantité d'eau nécessaire pour éteindre l'incendie*/
+		int volRbt = this.getCapacite(); /*on récupère la quantité d'eau contenue dans le robot*/
+
+		int volEncoreNecessaire = volInc - volRbt;
+		/* Si eau dans réservoir robot insuffisant */
+		if(volEncoreNecessaire > 0) {
+			this.deverserEau(volRbt);
+			incendie.setVolume(volEncoreNecessaire);
+		}
+		/* Si eau dans réservoir robot suffisante */
+		else {
+			this.deverserEau(volInc);
+			incendie.setVolume(0);
+			Incendie[] incendies = sim.getDonnees().getIncendies();
+			int nbIncendie = sim.getDonnees().getNbIncendies();
+			int indIncendie = 0;
+			/* On trouve l'indice de l'incendie qu'on vient d'éteindre dans la liste de tous les incendies */
+			for (int i=0; i<nbIncendie; i++) {
+				if (incendies[i] == incendie) {
+					indIncendie = i;
+					i=nbIncendie;
+				}
+			}
+			/* On va recréer une nouvelle liste d'incendies en copiant tous ceux qu'on a sauf celui qu'on vient d'éteindre */
+			Incendie[] newIncendies = new Incendie[nbIncendie-1];
+			int jBis = 0;
+			for (int j=0; j<nbIncendie-1; j++) {
+				if (j!=indIncendie) {
+					newIncendies[j] = incendies[jBis];
+				} else {
+					newIncendies[j] = incendies[jBis+1];
+					jBis++;
+				}
+				jBis++;
+			}
+			sim.getDonnees().setNbIncendies(nbIncendie-1);
+			sim.getDonnees().setIncendies(newIncendies);
+		}
+    }
+
+    /* Déverser l'eau */
+    // public abstract void deverserEau(int vol);
+    public void deverserEau(int vol) {
+		this.setCapacite(this.getCapacite() - vol);
+	}
+
 	/*********************************************
 	 *
 	 * METHODES DE REMPLISSAGE
@@ -323,15 +401,6 @@ public abstract class Robot {
 
 	/*********************************************
 	 *
-	 * METHODE D'INTERVENTION
-	 */
-
-	/* Déverser l'eau */
-	public abstract void deverserEau(int vol);
-
-
-	/*********************************************
-	 *
 	 * METHODE D'AJOUT AU SIMULATEUR
 	 */
 
@@ -357,10 +426,16 @@ public abstract class Robot {
 		}
 	}
 
-	/* Ajout au simulateur d'un remplissage effectif */
+	/* Ajout au simulateur d'un remplissage */
 	public void ajoutSimulateurRemplissage(Simulateur sim, long date, long duree) {
 		this.setDateDisponibilite(this.getDateDisponibilite()+duree);
         sim.ajouteEvenement(new Remplissage(date, sim, this));
 	}
+
+    /* Ajout au simulateur d'une intervention */
+    public void ajoutSimulateurIntervention(Simulateur sim, long date, long duree, Incendie incendie) {
+        System.out.println("On ajoute un Intervention à la date : " + date);
+        sim.ajouteEvenement(new Intervention(date, sim, this, incendie));
+    }
 
 }

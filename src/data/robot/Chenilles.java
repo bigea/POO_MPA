@@ -19,7 +19,6 @@ public class Chenilles extends Robot {
 	/**
 	 * Classe Chenilles (Robot Terrestre)
 	 */
-	 protected static final int capaciteMaximale = 2000;
 	/*********************************************
 	 *
 	 * METHODES DE BASE
@@ -27,16 +26,17 @@ public class Chenilles extends Robot {
 
 	public Chenilles(Case pos) {
 		/* Valeurs par défault*/
-		super(pos, NatureRobot.CHENILLES);
+		super(pos, NatureRobot.CHENILLES, 0);
 		this.setCapacite(2000);
+		this.setCapaciteMaximale(2000);
 		this.setVitesse(60);
 		this.setTempsRemplissage(5*60);
 		this.setTempsVidageComplet(20*8);
-		this.vitesseRemplissage =  (float)this.capacite/(float)this.getTempsRemplissage();
-		this.vitesseVidage =  (float)this.capacite/(float)this.getTempsVidageComplet();
+		this.vitesseRemplissage =  (double)this.capacite/(double)this.getTempsRemplissage();
+		this.vitesseVidage =  (double)this.capacite/(double)this.getTempsVidageComplet();
 	}
 
-	public void setVitesse(int vitesse) {
+	public void setVitesse(double vitesse) {
 		if(vitesse > 80) {
 			this.vitesse = 80;
 		} else if (this.getPosition().getNature() == NatureTerrain.FORET) {
@@ -67,9 +67,9 @@ public class Chenilles extends Robot {
 	 * METHODES D'INTERVENTION
 	 */
 
-	public void deverserEau(int vol) {
-		// TODO Auto-generated method stub
-	}
+	// public void deverserEau(int vol) {
+	// 	this.setCapacite(this.getCapacite() - vol);
+	// }
 
 	/*********************************************
 	 *

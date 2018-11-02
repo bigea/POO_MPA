@@ -47,9 +47,6 @@ public abstract class Evenement {
 	public Simulateur getSimulateur() {
 		return this.sim;
 	}
-	public long getDuree() {
-		return this.duree;
-	}
 
 	/*********************************************
 	 *

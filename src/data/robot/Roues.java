@@ -16,24 +16,25 @@ public class Roues extends Robot {
 	/**
 	 * Classe Roues (Robot Terrestre)
 	 */
-	protected static final int capaciteMaximale = 5000;
+
 	/*********************************************
 	 *
 	 * METHODES DE BASE
 	 */
 
 	public Roues(Case pos) {
-		super(pos, NatureRobot.ROUES);
+		super(pos, NatureRobot.ROUES, 0);
 		this.setCapacite(5000);
+		this.setCapaciteMaximale(5000);
 		this.setVitesse(80);
 		this.setTempsRemplissage(10*60);
 		this.setTempsVidageComplet(50*5);
-		this.vitesseRemplissage =  (float)this.capacite/(float)this.getTempsRemplissage();
-		this.vitesseVidage =  (float)this.capacite/(float)this.getTempsVidageComplet();
+		this.vitesseRemplissage =  (double)this.capacite/(double)this.getTempsRemplissage();
+		this.vitesseVidage =  (double)this.capacite/(double)this.getTempsVidageComplet();
 	}
 
 
-	public void setVitesse(int vitesse) {
+	public void setVitesse(double vitesse) {
 		if (this.getPosition().getNature() != NatureTerrain.TERRAIN_LIBRE && this.getPosition().getNature() != NatureTerrain.HABITAT) {
 			this.vitesse = 0;
 		} else {
@@ -53,10 +54,9 @@ public class Roues extends Robot {
 	 * METHODES D'INTERVENTION
 	 */
 
-	@Override
-	public void deverserEau(int vol) {
-		// TODO Auto-generated method stub
-	}
+	// public void deverserEau(int vol) {
+	// 	// TODO Auto-generated method stub
+	// }
 
 	/*********************************************
 	 *
