@@ -33,6 +33,10 @@ public abstract class Evenement {
 	public void setDate(long date) {
 		this.date = date;
 	}
+	public void setRobot(Robot robot) {
+		this.robot = robot;
+	}
+
 	/* Accesseur */
 	public long getDate() {
 		return this.date;
