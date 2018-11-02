@@ -31,7 +31,9 @@ public abstract class Robot {
 	protected int capacite; //en litre
 	protected double vitesse; //en km/h
 	protected int tempsRemplissage; //temps en seconde
-	protected int tempsVidage; //temps en seconde
+	protected int tempsVidageComplet; //temps en seconde
+    protected int tempsVidageUnitaire;
+    protected int volumeVidageUnitaire;
 	protected double vitesseRemplissage; //en l/s
 	protected double vitesseVidage; //en l/s
 	protected long dateDisponibilite;
@@ -97,11 +99,25 @@ public abstract class Robot {
 	}
 
 	public int getTempsVidageComplet() {
-		return this.tempsVidage;
+		return this.tempsVidageComplet;
 	}
 	public void setTempsVidageComplet(int temps){
-		this.tempsVidage = temps;
+		this.tempsVidageComplet = temps;
 	}
+
+    public int getTempsVidageUnitaire() {
+        return this.tempsVidageUnitaire;
+    }
+    public void setTempsVidageUnitaire(int temps){
+        this.tempsVidageUnitaire = temps;
+    }
+
+    public int getVolumeVidageUnitaire() {
+        return this.volumeVidageUnitaire;
+    }
+    public void setVolumeVidageUnitaire(int volume){
+        this.volumeVidageUnitaire = volume;
+    }
 
 	public double getVitesseRemplissage(){
 		return this.vitesseRemplissage;
@@ -138,11 +154,15 @@ public abstract class Robot {
 	 */
 
 	/* Déplacement du robot vers une case et ajout des évènements au simulateur */
-	public Chemin deplacementCase(Case dest, Simulateur sim, long date) {
+	public Chemin deplacementCase(Case dest, Simulateur sim) {
 		/* Calcul du plus court dans chemin */
-			Chemin chemin = this.plusCourt(dest, date, sim.getDonnees().getCarte());
-			this.ajoutSimulateurDeplacement(sim,chemin);
-			return chemin;
+        long date = this.getDateDisponibilite();
+		Chemin chemin = this.plusCourt(dest, date, sim.getDonnees().getCarte());
+		this.ajoutSimulateurDeplacement(sim,chemin);
+        this.setPosition(dest);     // En réalité le robot n'est pas affiché à la position dest et ne doit pas l'être.
+        // Mais il ne le sera jamais car il y a toujours un evenement qui change sa position avant
+        // On a besoin de faire ça pour les calculs du plus court chemin qui suivront
+		return chemin;
 	}
 
 	/* Déplacement possible selon la nature du robot */
@@ -216,6 +236,17 @@ public abstract class Robot {
 		Case[][] predecesseurs = new Case[carte.getNbColonnes()][carte.getNbLignes()];
 		/*Données nécessaires à l'algorithme*/
 		Case src = this.getPosition();
+
+
+
+        // [PHILEMON] Faudrait peut etre avoir un paramètre du genre positionVirtuelle
+        // car par exemple si dans TestEvenementBis on lui dit de faire deplacementCase puis
+        // ordreIntervention, il faut que this.getPosition() ait changé pour le calcul du plus courtChemin
+        // pour l'intervention ...
+
+
+
+
 		/* Ensemble des cases */
 		ArrayList<Case> noeuds = new ArrayList<Case>();
 		/* Ensemble des poids */
@@ -261,6 +292,7 @@ public abstract class Robot {
 	protected Chemin recupPlusCourtChemin(Case[][] predecesseurs, long[][] poids, Case caseFinale, Case caseInitiale, Carte carte, long date){
 		Chemin chemin = new Chemin();
 		Case cas = caseFinale;
+        long dateDebut = date;
 		ArrayList<Case> listeCases = new ArrayList<Case>();
 		while(cas != caseInitiale){
 			listeCases.add(cas);
@@ -269,7 +301,7 @@ public abstract class Robot {
 		for(int i = listeCases.size()-1; i >=0; i--){
 			chemin.ajoutCase(listeCases.get(i), date, this, carte);
             System.out.println("poids : " + poids[listeCases.get(i).getColonne()][listeCases.get(i).getLigne()]);
-			date = poids[listeCases.get(i).getColonne()][listeCases.get(i).getLigne()];
+			date = dateDebut + poids[listeCases.get(i).getColonne()][listeCases.get(i).getLigne()];
 		}
 		return chemin;
 	}
@@ -281,17 +313,27 @@ public abstract class Robot {
      */
 
     public void ordreIntervention(Simulateur sim, Incendie incendie) {
-        // long date = sim.getDateSimulation();
-		long date = this.getDateDisponibilite();
+        long date = this.getDateDisponibilite();
         if (this.getPosition() == incendie.getPosition()) {
-            this.ajoutSimulateurIntervention(sim, date, sim.INCRE, incendie);
+            this.ajoutSimulateurIntervention(sim, date, this.getTempsVidageUnitaire(), incendie);
         } else {
             /* On se déplace jusqu'à l'incendie */
-            Chemin chemin = this.deplacementCase(incendie.getPosition(), sim, date);
+            Chemin chemin = this.deplacementCase(incendie.getPosition(), sim);
             /* Date de fin du déplacement */
             date = date + chemin.tempsChemin(this, sim.getDonnees().getCarte());
-            /* Ajout au simulateur de l'intervention */
-            this.ajoutSimulateurIntervention(sim, date, sim.INCRE, incendie);
+            /* Ajout au simulateur des interventions unitaires */
+            int sauvegardeCapacite = this.getCapacite();
+            int sauvegardeLitrePourEteindre = incendie.getLitrePourEteindre();
+            int tempsVidageUnitaire = this.getTempsVidageUnitaire();
+            int volumeVidageUnitaire = this.getVolumeVidageUnitaire();
+            while (incendie.getLitrePourEteindre()>0 && this.getCapacite()>0) {
+                this.ajoutSimulateurIntervention(sim, date, tempsVidageUnitaire, incendie);
+                this.deverserEau(volumeVidageUnitaire);
+                incendie.setLitrePourEteindre(incendie.getLitrePourEteindre() - volumeVidageUnitaire);
+                date = date + tempsVidageUnitaire;
+            }
+            this.setCapacite(sauvegardeCapacite);
+            incendie.setLitrePourEteindre(sauvegardeLitrePourEteindre);
         }
         // Peut-être après on peut rajouter que si reservoir vide, va se remplir
     }
@@ -300,42 +342,28 @@ public abstract class Robot {
     public void intervenir(Simulateur sim, Incendie incendie) {
         /* On déverse l'eau selon la taille de l'incendie et du réservoir */
 		int volInc = incendie.getLitrePourEteindre(); /*on récupère la quantité d'eau nécessaire pour éteindre l'incendie*/
-		int volRbt = this.getCapacite(); /*on récupère la quantité d'eau contenue dans le robot*/
+		int volRbt = this.getVolumeVidageUnitaire(); /*on récupère la quantité d'eau contenue dans le robot*/
 
 		int volEncoreNecessaire = volInc - volRbt;
 		/* Si eau dans réservoir robot insuffisant */
 		if(volEncoreNecessaire > 0) {
 			this.deverserEau(volRbt);
-			incendie.setVolume(volEncoreNecessaire);
+			incendie.setLitrePourEteindre(volEncoreNecessaire);
 		}
 		/* Si eau dans réservoir robot suffisante */
 		else {
-			this.deverserEau(volInc);
-			incendie.setVolume(0);
-			Incendie[] incendies = sim.getDonnees().getIncendies();
-			int nbIncendie = sim.getDonnees().getNbIncendies();
-			int indIncendie = 0;
-			/* On trouve l'indice de l'incendie qu'on vient d'éteindre dans la liste de tous les incendies */
-			for (int i=0; i<nbIncendie; i++) {
-				if (incendies[i] == incendie) {
-					indIncendie = i;
-					i=nbIncendie;
-				}
-			}
-			/* On va recréer une nouvelle liste d'incendies en copiant tous ceux qu'on a sauf celui qu'on vient d'éteindre */
-			Incendie[] newIncendies = new Incendie[nbIncendie-1];
-			int jBis = 0;
-			for (int j=0; j<nbIncendie-1; j++) {
-				if (j!=indIncendie) {
-					newIncendies[j] = incendies[jBis];
-				} else {
-					newIncendies[j] = incendies[jBis+1];
-					jBis++;
-				}
-				jBis++;
-			}
-			sim.getDonnees().setNbIncendies(nbIncendie-1);
-			sim.getDonnees().setIncendies(newIncendies);
+			this.deverserEau(volRbt);
+			incendie.setLitrePourEteindre(0);
+            /* On supprime l'incendie qu'on vient d'éteindre */
+            sim.getDonnees().supprimerIncendie(incendie);
+
+            // [PHILEMON]
+            // Remarque : on pourrait faire en sorte qu'on attende this.getTempsVidageUnitaire() avant de supprimer l'incendie
+            // car par exemple pour le cas du drone quand il se vide ca supprime direct l'incendie alors que normalementt,
+            // l'incendie est éteint après trente secondes
+            // Pour implémenter ça on pourrait par exemple créer un evenement DesaffichageIncendie à une date donnée.
+            // Faut choisir si on le fait ou pas.
+
 		}
     }
 
@@ -359,19 +387,18 @@ public abstract class Robot {
 	/*ordre de remplissage donné au robot*/ /*fonction qui remplacera remplir Reservoir*/
 	/*Cette fonction appelera remplirResevoir une fois le robot arrivé sur la zone d'eau*/
 	public  void ordreRemplissage(Simulateur sim) {
-	    // long date = sim.getDateSimulation(); // Gerer
-		long date = this.getDateDisponibilite();
+	    long date = this.getDateDisponibilite(); // Gerer
 	    if (this.possibleRemplissage(this.getPosition(), sim.getDonnees().getCarte())) {
 	        this.ajoutSimulateurRemplissage(sim, date, this.getTempsRemplissage());
 	    } else {
 	        /* On recupere la case eau la plus proche en temps */
 	        Case destinationEau = this.choisirCaseEau(sim);
 	        /* On se déplace jusqu'à cette case */
-	        Chemin chemin = this.deplacementCase(destinationEau, sim, this.getDateDisponibilite());
+	        Chemin chemin = this.deplacementCase(destinationEau, sim);
 	        /* Date de fin du déplacement */
 	        date = date + chemin.tempsChemin(this, sim.getDonnees().getCarte());
 	        /* Ajout au simulateur du remplissage */
-	        this.ajoutSimulateurRemplissage(sim, date, this.getTempsRemplissage()); // A revoir pourquoi donner la date de fin de remplissage [PHILEMON]
+	        this.ajoutSimulateurRemplissage(sim, date, this.getTempsRemplissage());
 	    }
 	}
 
@@ -381,7 +408,7 @@ public abstract class Robot {
 		Case caseEauChoisie = this.position;
 		DonneesSimulation donnees = sim.getDonnees();
 	    Carte carte = donnees.getCarte();
-		long date = sim.getDateSimulation();
+		long date = this.getDateDisponibilite();
 		Case[] eaux = donnees.getEaux();
 		int nbEaux = donnees.getNbEaux();
 		/* Pour chaque case d'eau on va calculer le plus court chemin et le temps que notre robot met pour le faire */
@@ -437,6 +464,7 @@ public abstract class Robot {
     /* Ajout au simulateur d'une intervention */
     public void ajoutSimulateurIntervention(Simulateur sim, long date, long duree, Incendie incendie) {
         System.out.println("On ajoute un Intervention à la date : " + date);
+        this.setDateDisponibilite(this.getDateDisponibilite()+duree);
         sim.ajouteEvenement(new Intervention(date, sim, this, incendie));
     }
 

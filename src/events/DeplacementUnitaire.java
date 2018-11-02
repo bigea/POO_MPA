@@ -25,6 +25,14 @@ public class DeplacementUnitaire extends Evenement{
          super(date, sim, rbt);
          this.setDestination(dest);
      }
+
+     @Override
+     public String toString() {
+         String chaine = new String();
+         chaine += "DeplacementUnitaire (" + this.getDate() + ", " + this.getRobot().getNature() + ")";
+         return chaine;
+     }
+
      /* Mutateurs */
      public void setDestination(Case dest) {
          this.destination = dest;

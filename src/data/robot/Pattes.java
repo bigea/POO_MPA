@@ -32,6 +32,8 @@ public class Pattes extends Robot {
 		this.setVitesse(30);
 		this.setTempsRemplissage(0);
 		this.setTempsVidageComplet(INFINI);
+		this.setTempsVidageUnitaire(1);
+		this.setVolumeVidageUnitaire(10);
 		this.vitesseVidage =  10;
 	}
 	public void setVitesse(double vitesse) {

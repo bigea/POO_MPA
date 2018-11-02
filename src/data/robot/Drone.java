@@ -31,6 +31,8 @@ public class Drone extends Robot {
 		this.setVitesse(100);
 		this.setTempsRemplissage(30*60);
 		this.setTempsVidageComplet(30);
+        this.setTempsVidageUnitaire(30);
+        this.setVolumeVidageUnitaire(10000);
 		this.vitesseRemplissage =  (double)this.capacite/(double)this.getTempsRemplissage();
 		/*Le drone n'a pas de vitesse de vidage car son intervention unitaire vide la totalité de son réservoir*/
 	}
