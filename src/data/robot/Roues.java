@@ -23,64 +23,24 @@ public class Roues extends Robot {
 	 */
 
 	public Roues(Case pos) {
-		super(pos, NatureRobot.ROUES);
+		super(pos, NatureRobot.ROUES, 0);
 		this.setCapacite(5000);
+		this.setCapaciteMaximale(5000);
 		this.setVitesse(80);
 		this.setTempsRemplissage(10*60);
 		this.setTempsVidageComplet(50*5);
-		this.vitesseRemplissage =  (float)this.capacite/(float)this.getTempsRemplissage();
-		this.vitesseVidage =  (float)this.capacite/(float)this.getTempsVidageComplet();
+		this.vitesseRemplissage =  (double)this.capacite/(double)this.getTempsRemplissage();
+		this.vitesseVidage =  (double)this.capacite/(double)this.getTempsVidageComplet();
 	}
 
 
-	public void setVitesse(int vitesse) {
+	public void setVitesse(double vitesse) {
 		if (this.getPosition().getNature() != NatureTerrain.TERRAIN_LIBRE && this.getPosition().getNature() != NatureTerrain.HABITAT) {
 			this.vitesse = 0;
 		} else {
 			this.vitesse = vitesse;
 		}
 	}
-	public double getVitesse(NatureTerrain nt) {
-		return this.vitesse;
-	}
-
-	public void setCapacite(int capacite){
-		this.capacite = capacite;
-	}
-	public int getCapacite(){
-		return this.capacite;
-	}
-
-	public int getTempsRemplissage() {
-		return this.tempsRemplissage;
-	}
-	protected void setTempsRemplissage(int temps){
-		this.tempsRemplissage = temps;
-	}
-
-	public int getTempsVidageComplet() {
-		return this.tempsVidage;
-	}
-	protected void setTempsVidageComplet(int temps){
-		this.tempsVidage = temps;
-	}
-
-	public double getVitesseRemplissage(){
-		return this.vitesseRemplissage;
-	}
-	public void setVitesseRemplissage(int tempsRemplissage, int capacite) {
-		this.vitesseRemplissage = (float)capacite/(float)tempsRemplissage;
-	}
-
-	public double getVitesseVidage(){
-		return this.vitesseVidage;
-	}
-	public void setVitesseVidage(int tempsVidage, int capacite) {
-		this.vitesseVidage = (float)capacite/(float)tempsVidage;
-	}
-
-
-
 
 
 	@Override

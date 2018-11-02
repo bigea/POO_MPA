@@ -5,6 +5,7 @@ import data.Carte;
 import data.Case;
 import data.enumerate.NatureRobot;
 import data.enumerate.NatureTerrain;
+import gui2.Simulateur;
 
 /**
  * Classe Pattes
@@ -24,21 +25,23 @@ public class Pattes extends Robot {
 	private static final int INFINI = 300000;
 
 	public Pattes(Case pos) {
-		super(pos, NatureRobot.PATTES);
+		/* Valeurs par défault*/
+		super(pos, NatureRobot.PATTES, 0);
 		this.setCapacite(INFINI);
+		this.setCapaciteMaximale(INFINI);
 		this.setVitesse(30);
 		this.setTempsRemplissage(0);
 		this.setTempsVidageComplet(INFINI);
 		this.vitesseVidage =  10;
-		/*Aucune vitesse de remplissage car le robot a un repertoire infini*/
 	}
-	public void setVitesse(int vitesse) {
+	public void setVitesse(double vitesse) {
 		if (this.getPosition().getNature() == NatureTerrain.ROCHE) {
 			this.vitesse = 10;
 		} else {
 			this.vitesse = vitesse;
 		}
 	}
+	@Override
 	public double getVitesse(NatureTerrain nt) {
 		switch(nt) {
 			case ROCHE:
@@ -47,51 +50,18 @@ public class Pattes extends Robot {
 				return this.vitesse;
 		}
 	}
-
-	public void setCapacite(int capacite){
-		this.capacite = capacite;
-	}
-	public int getCapacite(){
-		return this.capacite;
-	}
-
-	public int getTempsRemplissage() {
-		return this.tempsRemplissage;
-	}
-	protected void setTempsRemplissage(int temps){
-		this.tempsRemplissage = temps;
-	}
-
-	public int getTempsVidageComplet() {
-		return this.tempsVidage;
-	}
-	protected void setTempsVidageComplet(int temps){
-		this.tempsVidage = temps;
-	}
-
-	public double getVitesseVidage(){
-		return this.vitesseVidage;
-	}
-	public void setVitesseVidage(int tempsVidage, int capacite) {
-		this.vitesseVidage = (float)capacite/(float)tempsVidage;
-	}
-
-	public double getVitesseRemplissage(){
-		return this.vitesseRemplissage;
-	}
+	@Override
     public void setVitesseRemplissage(int tempsRemplissage, int capacite) {
 		this.vitesseRemplissage = INFINI;
 	}
-
-
-
-
-
+	@Override
+	public int getTempsRemplissage() {
+		return 0;
+	}
 	@Override
 	public String toString() {
 		return this.getPosition().getLigne()+" "+this.getPosition().getColonne()+" PATTES "+this.getVitesse(this.getPosition().getNature());
 	}
-
 
 
 	/*********************************************
@@ -109,7 +79,10 @@ public class Pattes extends Robot {
 	 *
 	 * METHODES DE REMPLISSAGE : ne se remplit jamais
 	 */
-
+	 @Override
+	public  void ordreRemplissage(Simulateur sim) {
+		return;
+	}
 	public void remplirReservoir() {
 		this.setCapacite(INFINI);
 	}

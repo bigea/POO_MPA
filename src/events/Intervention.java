@@ -22,8 +22,8 @@ public class Intervention extends Evenement {
 	 */
 
 	/* Constructeur */
-	public Intervention(long date, Simulateur sim, Robot rbt, long duree, Incendie inc) {
-		super(date, sim, rbt, duree);
+	public Intervention(long date, Simulateur sim, Robot rbt, Incendie inc) {
+		super(date, sim, rbt);
 		this.setIncendie(inc);
 	}
 

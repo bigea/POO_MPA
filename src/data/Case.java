@@ -22,8 +22,7 @@ public class Case{
 
 	/* Affichage */
 	public String toString() {
-		return this.getNature()+" ligne : "+this.ligne + "  Colonne : "+this.colonne ;
-    // return "(" + this.getLigne() + "," + this.getColonne() + ") : " + this.getNature() + "\n";
+		return this.getNature()+" y : "+this.ligne + "  x : "+this.colonne ;
 	}
 
 	/* Constructeur */

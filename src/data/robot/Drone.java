@@ -24,61 +24,24 @@ public class Drone extends Robot {
 	 */
 
 	public Drone(Case pos) {
-		super(pos, NatureRobot.DRONE);
+		/* Valeurs par défault*/
+		super(pos, NatureRobot.DRONE, 0);
 		this.setCapacite(10000);
+        this.setCapaciteMaximale(10000);
 		this.setVitesse(100);
 		this.setTempsRemplissage(30*60);
 		this.setTempsVidageComplet(30);
-		this.vitesseRemplissage =  (float)this.capacite/(float)this.getTempsRemplissage();
+		this.vitesseRemplissage =  (double)this.capacite/(double)this.getTempsRemplissage();
 		/*Le drone n'a pas de vitesse de vidage car son intervention unitaire vide la totalité de son réservoir*/
 	}
 
-	public void setVitesse(int vitesse) {
+	public void setVitesse(double vitesse) {
 		if(vitesse > 150) {
 			this.vitesse = 150;
 		} else {
 			this.vitesse = vitesse;
 		}
 	}
-	public double getVitesse(NatureTerrain nt) {
-		return this.vitesse;
-	}
-
-	public void setCapacite(int capacite){
-		this.capacite = capacite;
-	}
-	public int getCapacite(){
-		return this.capacite;
-	}
-
-	public int getTempsRemplissage() {
-		return this.tempsRemplissage;
-	}
-	protected void setTempsRemplissage(int temps){
-		this.tempsRemplissage = temps;
-	}
-
-	public int getTempsVidageComplet() {
-		return this.tempsVidage;
-	}
-	protected void setTempsVidageComplet(int temps){
-		this.tempsVidage = temps;
-	}
-
-	public double getVitesseRemplissage(){
-		return this.vitesseRemplissage;
-	}
-    public void setVitesseRemplissage(int tempsRemplissage, int capacite) {
-		this.vitesseRemplissage = (float)capacite/(float)tempsRemplissage;
-	}
-
-    public double getVitesseVidage(){
-        return this.vitesseVidage;
-    }
-    public void setVitesseVidage(int tempsVidage, int capacite) {
-		this.vitesseVidage = (float)capacite/(float)tempsVidage;
-	}
-
 
 
 	@Override
@@ -135,7 +98,6 @@ public class Drone extends Robot {
 			 * 		qui nous rapproche le plus de la dest
 			 * 		en "ligne droite" sans se soucier de la nature du terrain
 			 */
-			 // System.out.println("HELLO DRONE");
 			if(src.getLigne() < dest.getLigne()) {
 				direction = Direction.SUD;
 			} else if (src.getLigne() > dest.getLigne()) {

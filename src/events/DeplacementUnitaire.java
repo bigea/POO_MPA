@@ -21,8 +21,8 @@ public class DeplacementUnitaire extends Evenement{
      */
 
      /* Constructeur */
-     public DeplacementUnitaire(long date, Simulateur sim, Robot rbt, long duree, Case dest) {
-         super(date, sim, rbt, duree);
+     public DeplacementUnitaire(long date, Simulateur sim, Robot rbt, Case dest) {
+         super(date, sim, rbt);
          this.setDestination(dest);
      }
      /* Mutateurs */

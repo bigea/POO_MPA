@@ -65,7 +65,7 @@ exeEvenement:
 	java -classpath bin:bin/gui.jar TestEvenement cartes/carteSujet.map
 
 exeEvenementBis:
-	java -classpath bin:bin/gui.jar TestEvenementBis cartes/carteSujet.map
+	java -classpath bin:bin/gui.jar TestEvenementBis cartes/mushroomOfHell-20x20.map
 
 clean:
 	find . -name "*.class" -exec rm {}  \;

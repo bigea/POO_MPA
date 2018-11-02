@@ -94,7 +94,7 @@ public class Carte {
 	    return existe;
 	}
 
-	/* Accéder au voisin */
+	/* Renvoie le voisin de la case src selon une direction */
 	public Case voisin(Case src, Direction dir) {
     if (this.voisinExiste(src, dir)){
 	      int src_ligne = src.getLigne();
