@@ -53,11 +53,11 @@ public class Pattes extends Robot {
 		}
 	}
 	@Override
-    public void setVitesseRemplissage(int tempsRemplissage, int capacite) {
+    public void setVitesseRemplissage(long tempsRemplissage, int capacite) {
 		this.vitesseRemplissage = INFINI;
 	}
 	@Override
-	public int getTempsRemplissage() {
+	public long getTempsRemplissage() {
 		return 0;
 	}
 	@Override

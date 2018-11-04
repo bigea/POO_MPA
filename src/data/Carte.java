@@ -73,7 +73,7 @@ public class Carte {
 	}
 
 	/* Existence du voisin */
-	private boolean voisinExiste(Case src, Direction dir) {
+	public boolean voisinExiste(Case src, Direction dir) {
 	    int src_ligne = src.getLigne();
 	    int src_colonne = src.getColonne();
 	    boolean existe = false;

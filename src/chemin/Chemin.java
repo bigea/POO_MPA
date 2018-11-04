@@ -88,6 +88,18 @@ public class Chemin {
 	// 	this.nbDate += 1;
     // }
 
+	@Override
+	public String toString() {
+		String chaine = new String();
+		chaine += "[";
+		for (int i=0; i<this.getNbCase(); i++) {
+			Case cas = this.getChemin().get(i);
+			chaine += " (" + cas.getLigne() + "," + cas.getColonne() + ") ";
+		}
+		chaine += "]";
+		return chaine;
+	}
+
 	public StringBuffer toStringDate(){
 		StringBuffer sb = new StringBuffer();
 		for(int i=0; i<this.dates.size(); i++){
@@ -106,7 +118,12 @@ public class Chemin {
 
 	public long tempsChemin(Robot robot, Carte carte) {
 		long temps = this.dates.get(this.getNbDate()-1) - this.dates.get(0);
-		Case avantDerniereCase = this.chemin.get(this.nbCase-2);
+		Case avantDerniereCase;
+		if (this.getNbCase() > 1) {
+			avantDerniereCase = this.chemin.get(this.nbCase-2);
+		} else {
+			avantDerniereCase = robot.getPosition();
+		}
 		Case derniereCase = this.chemin.get(this.nbCase-1);
 		temps = temps + robot.calculTemps(avantDerniereCase, derniereCase, carte);
 		return temps;

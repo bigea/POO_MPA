@@ -3,9 +3,11 @@ package data.robot;
 import chemin.Chemin;
 import data.Carte;
 import data.Case;
+import data.DonneesSimulation;
 import data.enumerate.Direction;
 import data.enumerate.NatureRobot;
 import data.enumerate.NatureTerrain;
+import gui2.Simulateur;
 
 /**
  * Classe Robot Drone
@@ -126,5 +128,32 @@ public class Drone extends Robot {
 	/* Déplacement possible du drone partout */
 	public boolean possibleDeplacement(Case voisin) {
 		return true;
+	}
+
+    @Override
+    /* Renvoie la case d'eau pour laquelle le trajet vers cele-ci est le plus rapide */
+	public Case choisirCaseEau(Simulateur sim) {
+		long minTemps = 0;
+		Case caseEauChoisie = this.position;
+		DonneesSimulation donnees = sim.getDonnees();
+	    Carte carte = donnees.getCarte();
+		long date = this.getDateDisponibilite();
+		Case[] eaux = donnees.getEaux();
+		int nbEaux = donnees.getNbEaux();
+		/* Pour chaque case d'eau on va calculer le plus court chemin et le temps que notre robot met pour le faire */
+		for (int i=0; i<nbEaux; i++) {
+			Case caseEau = eaux[i];
+			Chemin chemin = this.plusCourt(caseEau, date, carte);
+			long temps = chemin.tempsChemin(this, carte);
+			if (i==0) {		// Initialisation de minTemps et de caseEauChoisie en i==0
+				minTemps = temps;
+				caseEauChoisie = caseEau;
+			}
+			if (temps < minTemps) {
+				minTemps=temps;
+				caseEauChoisie = caseEau;
+			}
+		}
+		return caseEauChoisie;
 	}
 }
