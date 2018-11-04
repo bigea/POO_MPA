@@ -30,7 +30,7 @@ public abstract class Robot {
 	protected Case position;
 	protected int capacite; //en litre
 	protected double vitesse; //en km/h
-	protected long tempsRemplissage; //temps en seconde
+	protected long tempsRemplissageComplet; //temps en seconde
 	protected long tempsVidageComplet; //temps en seconde
     protected long tempsVidageUnitaire;
     protected int volumeVidageUnitaire;
@@ -86,16 +86,17 @@ public abstract class Robot {
         this.capaciteMaximale = capaciteMaximale;
     }
 
-	public long getTempsRemplissage() {
-		if(this.capacite == 0){
-			return this.tempsRemplissage;
-		}
-		else{
-			return (long) (((double)(this.capaciteMaximale - this.capacite)) / this.vitesseRemplissage);
-		}
+	public long getTempsRemplissageComplet() {
+        return this.tempsRemplissageComplet;
+		// if(this.capacite == 0){
+		// 	return this.tempsRemplissageComplet;
+		// }
+		// else{
+		// 	return (long) (((double)(this.capaciteMaximale - this.capacite)) / this.vitesseRemplissage);
+		// }
 	}
-	public void setTempsRemplissage(long temps){
-		this.tempsRemplissage = temps;
+	public void setTempsRemplissageComplet(long temps){
+		this.tempsRemplissageComplet = temps;
 	}
 
 	public long getTempsVidageComplet() {
@@ -122,8 +123,8 @@ public abstract class Robot {
 	public double getVitesseRemplissage(){
 		return this.vitesseRemplissage;
 	}
-	public void setVitesseRemplissage(long tempsRemplissage, int capacite) {
-		this.vitesseRemplissage = (double)capacite/(double)tempsRemplissage;
+	public void setVitesseRemplissage(long tempsRemplissageComplet, int capacite) {
+		this.vitesseRemplissage = (double)capacite/(double)tempsRemplissageComplet;
 	}
 
 	public double getVitesseVidage(){
@@ -400,8 +401,7 @@ public abstract class Robot {
 	public  void ordreRemplissage(Simulateur sim) {
 	    long date = this.getDateDisponibilite(); // Gerer
 	    if (this.possibleRemplissage(this.getPosition(), sim.getDonnees().getCarte())) {
-            System.out.println("ajout remplissage de duree : " + this.getTempsRemplissage());
-	        this.ajoutSimulateurRemplissage(sim, date, this.getTempsRemplissage());
+	        this.ajoutSimulateurRemplissage(sim, date, this.getTempsRemplissageComplet());
 	    } else {
 	        /* On recupere la case eau la plus proche en temps */
 	        Case destinationEau = this.choisirCaseEau(sim);
@@ -410,8 +410,7 @@ public abstract class Robot {
 	        /* Date de fin du déplacement */
 	        date = date + chemin.tempsChemin(this, sim.getDonnees().getCarte());
 	        /* Ajout au simulateur du remplissage */
-            System.out.println("ajout remplissage de duree : " + this.getTempsRemplissage());
-	        this.ajoutSimulateurRemplissage(sim, date, this.getTempsRemplissage());
+	        this.ajoutSimulateurRemplissage(sim, date, this.getTempsRemplissageComplet());
 	    }
 	}
 

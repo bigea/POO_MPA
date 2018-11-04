@@ -49,7 +49,7 @@ public class TestEvenementBis {
             Robot drone = donnees.getRobots()[1];
             Robot pattes = donnees.getRobots()[2];
             Robot chenilles = donnees.getRobots()[3];
-            System.out.println("tempsRemplissage de Chenilles : " + drone.getTempsRemplissage());
+            System.out.println("tempsRemplissage de Chenilles : " + drone.getTempsRemplissageComplet());
 
             /*On modifie la position initiale du drone*/
             Case case_initiale = donnees.getCarte().getCase(1, 1);
