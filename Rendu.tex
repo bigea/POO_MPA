@@ -1,0 +1,122 @@
+\documentclass[12pt]{article}
+
+\usepackage{amsfonts, amsmath, amssymb, amstext, latexsym, amsthm}
+\usepackage{graphicx, epsfig}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{exscale}
+\usepackage{amsbsy}
+\usepackage{amsopn}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+
+\newcommand{\noi}{\noindent}
+\newcommand{\dsp}{\displaystyle}
+\newcommand{\iieme}{i^{\footnotesize \mbox{ème}}}
+\newcommand{\jieme}{j^{\footnotesize \mbox{ème}}}
+\newcommand{\jmunieme}{(j-1)^{\footnotesize \mbox{ème}}}
+\newcommand{\mybox}[1]{\fbox{$\displaystyle#1$}}
+
+\def\ligne#1{\leaders\hrule height #1\linethickness \hfill}
+% utilisation :
+% \ligne{5}
+
+%\renewcommand{\theequation}{\thesection.\arabic{equation}}
+%\numberwithin{equation}{section}
+
+
+\textheight 25cm
+\textwidth 16cm
+\oddsidemargin 0cm
+\evensidemargin 0cm
+\topmargin 0cm
+\hoffset -0mm
+\voffset -20mm
+
+
+\pagestyle{plain}
+
+\begin{document}
+
+\baselineskip7mm
+
+\noi ENSIMAG $2^{\mbox{ème}}$ année   \hfill Novembre 2018
+
+
+\vspace{1cm}
+
+
+\begin{center}
+{\Large \bf Simulation d'une équipe de robots pompiers
+
+\vspace{3mm}
+
+\normalsize TP de Programmation Orientée Objet
+
+\vspace{3mm}
+{\it \small Matthias Bouderbala, Fieschi Philémon et Alexis Bigé}
+}
+\end{center}
+
+\section{Introduction}
+
+Ce compte-rendu permet de résumer le contenu du code du projet. Le code a été écrit par les trois membres du groupe. Le code s'organise de la manière suivante dans le dossier {\tt src} :
+\begin{itemize}
+  \item le package {\tt data} : les classes de données (carte, robots, incendies...)
+  \item le package {\tt gui2} : le simulateur et son scénario, liés à {\tt gui.jar}
+  \item le package {\tt events} : les classes d'évènements
+  \item le package {\tt chemin} : la classe qui définit un chemin
+  \item le package {\tt io} : la lecture et creation de données
+  \item les tests de base
+\end{itemize}
+
+\section{Choix de conception}
+
+\subsection{Le choix des classes de données}
+Bien guidés par le sujet, nous avons implémenté les différentes classes de données : {\tt Carte Case DonneesSimulation Incendie}. Les méthodes ont été ajoutées au fur et à mesure selon les besoins pour les différentes étapes du projet.\\
+
+\subsection{Le choix des méthodes des robots}
+Le package {\tt robot} contient tous les types de robots, qui référence une classe principale {\tt Robot}. Cette dernière contient les méthodes de base pour les robots ainsi que celles, essentielles, pour les différentes actions des robots. Nous avons choisi de laisser le robot gérer ses déplacements, quand il reçoit un ordre : {\tt deplacementCase ordreRemplissage ordreIntervention}, il ajoute ensuite lui-même les évènements au simulateur en prenant en compte le temps d'action.\\
+Parmis ces méthodes, on pourra remarquer :
+\begin{itemize}
+  \item {\tt Dijkstra} : renvoie le plus court chemin selon l'algorithme de Dijkstra, implémenté à partir de la version décrite sur la page \\ {\tt  https://fr.wikipedia.org/wiki/Algorithme\_de\_Dijkstra}. Le choix de cet algorithme est réfléchi (Dijkstra est plutôt efficace) mais aussi poussé par notre connaissance de cette algorithme.
+  \item {\tt ordreIntervention} : gère le déplacement (si nécessaire) et l'intervention du robot sur un incendie dans le simulateur
+  \item {\tt intervenir} : gère l'intervention directe du robot sur un incendie (le robot a auparavant géré son déplacement)
+  \item {\tt ordreRemplissage} : gère le déplacement (si nécessaire) et le remplissage du robot dans le simulateur. Il utilise la méthode {\tt choisirCaseEau} qui permet d'obtenir la case où se déroulera le remplissage.
+\end{itemize}
+Toutes ces actions sont ainsi ajoutées au simulateur selon le temps que le robot prend, temps calculé selon la nature du robot, sa vitesse, la nature du terrain et en partant du principe que le robot parcourt la moitié de la case où il est et la moitié de la case où il va.
+
+\subsection{Le choix de la classe Chemin}
+Afin de faciliter la recherche d'un plus court chemin, nous avons implémenté une classe {\tt Chemin} qui contient deux {\tt List<>}:
+\begin{itemize}
+  \item {\tt List<Case>} : une liste de cases (ordonnées par construction selon la date du déplacement vers chaque case)
+  \item {\tt List<Long>} : une liste de dates (ordonnées par construction)
+\end{itemize}
+Avec des méthodes classiques pour ajouter ou récupérer des éléments dans Chemin, nous avons pu utiliser ce type de donnée pour implémenter la recherche d'un plus court chemin dans {\tt Robot}.
+
+\subsection{Le choix du simulateur et de l'implémentation des évènements}
+Notre classe {\tt Simulateur} contient un attribut de type {\tt Scenario} qui permet gérer la séquence d'évènements qui s'exécutent au cours du temps. Ce {\tt Scenario} contient simplement une {\tt ArrayList<Evenement>} qui permet de garder les évènements ordonnés par date et ainsi d'en ajouter continuellement au mileu ou à la suite.
+Hérités de la classe abstraite {\tt Evenement}, les classes {\tt DeplacementUnitaire EvenementMessage Intervention Remplissage} permettent d'effectuer les actions indiquées au robot. En effet, c'est le robot lui-même qui a ajouté ces évènements au simulateur, après avoir reçu des ordres.
+
+
+\section{Tests et résultats obtenus}
+
+\subsection{Premiers tests : la lecture des données et les classes de données}
+
+Nous avons choisi de tester nos classes et méthodes au fur et à mesure. En premier lieu, il fallait s'assurer du bon fonctionnement des méthodes des classes de données, dont la principale : {\tt DonneesSimulation}. Le fichier {\tt TestCreationDonnees.java} contient ainsi nos premiers tests sur ces classes de données. Nous n'avons pas eu de soucis particulier à ce niveau.
+
+\subsection{L'affichage graphique}
+
+\subsection{Les évènements}
+
+\subsection{L'organisation des évènements par les robots}
+
+\subsection{La stratégie}
+
+
+
+\section{Conclusion}
+
+
+
+\end{document}
