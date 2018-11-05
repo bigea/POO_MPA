@@ -62,17 +62,17 @@ public class Simulateur implements Simulable {
 
 	/* Constructeurs */
 
-	/* Constructeur quand on n'a pas de donnees */
-	public Simulateur(long date, int nbLignes, int nbColonnes, int tailleCase) {
-		this.nbLignes = nbLignes;
-		this.nbColonnes = nbColonnes;
-		this.tailleCase = 50;
-		this.gui = new GUISimulator(this.nbLignes*this.tailleCase, this.nbColonnes*this.tailleCase, Color.WHITE);
-		this.dateSimulation = date;
-		this.scenario = new Scenario();
-		this.gui.setSimulable(this);
-		this.dessinerBase();
-	}
+	// /* Constructeur quand on n'a pas de donnees */
+	// public Simulateur(long date, int nbLignes, int nbColonnes, int tailleCase) {
+	// 	this.nbLignes = nbLignes;
+	// 	this.nbColonnes = nbColonnes;
+	// 	this.tailleCase = 50;
+	// 	this.gui = new GUISimulator(this.nbLignes*this.tailleCase, this.nbColonnes*this.tailleCase, Color.WHITE);
+	// 	this.dateSimulation = date;
+	// 	this.scenario = new Scenario();
+	// 	this.gui.setSimulable(this);
+	// 	this.dessinerBase();
+	// }
 
 
 	/* Constructeur quand on a des donnees */

@@ -71,7 +71,7 @@ public class TestEvenementBis {
             System.out.println("incendie : " + incendie);
             chenilles.ordreIntervention(simulateur2, incendie);
 
-            chenilles.ordreRemplissage(simulateur2);
+            // chenilles.ordreRemplissage(simulateur2);
 
             incendie = donnees.getIncendies()[7];
             chenilles.ordreIntervention(simulateur2, incendie);

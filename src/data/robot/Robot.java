@@ -25,6 +25,13 @@ public abstract class Robot {
      * 		Avec hérachie (sous-classes)
      */
 	private static final long INFINI = 2147483647;
+
+    /* [PHILEMON]
+    * Attention, quelques attributs inutiles (genre vitesseVidage)
+    * Faudra faire le ménage
+    */
+
+
 	/* Attributs */
 	private NatureRobot nature;
 	protected Case position;
@@ -88,6 +95,16 @@ public abstract class Robot {
 
 	public long getTempsRemplissageComplet() {
         return this.tempsRemplissageComplet;
+
+        /* [PHILEMON]
+        * Problème dans la version commentée :
+        * en réalité, this.capacite n'est modifié qu'au moment où  l'événement Remplissage
+        * a lieu, et donc ici et pour tous les calculs, this.capacite est encore
+        * égal à this.capaciteMaximale. Ce qui pose problème pour savoir le temps de
+        * remplissage ... On voudrait savoir quelle quantité d'eau il a perdu
+        * Faut peut-être rajouter un paramètre capaciteFictive ou un truc du genre ...
+        */
+
 		// if(this.capacite == 0){
 		// 	return this.tempsRemplissageComplet;
 		// }
@@ -322,32 +339,35 @@ public abstract class Robot {
 
     public void ordreIntervention(Simulateur sim, Incendie incendie) {
         long date = this.getDateDisponibilite();
-        if (this.getPosition() == incendie.getPosition()) {
-            this.ajoutSimulateurIntervention(sim, date, this.getTempsVidageUnitaire(), incendie);
-        } else {
+        if (this.getPosition() != incendie.getPosition()) {
             if (this.possibleDeplacement(incendie.getPosition())) {
                 /* On se déplace jusqu'à l'incendie */
                 Chemin chemin = this.deplacementCase(incendie.getPosition(), sim);
                 /* Date de fin du déplacement */
                 date = date + chemin.tempsChemin(this, sim.getDonnees().getCarte());
-                /* Ajout au simulateur des interventions unitaires */
-                int sauvegardeCapacite = this.getCapacite();
-                int sauvegardeLitrePourEteindre = incendie.getLitrePourEteindre();
-                long tempsVidageUnitaire = this.getTempsVidageUnitaire();
-                int volumeVidageUnitaire = this.getVolumeVidageUnitaire();
-                while (incendie.getLitrePourEteindre()>0 && this.getCapacite()>0) {
-                    this.ajoutSimulateurIntervention(sim, date, tempsVidageUnitaire, incendie);
-                    this.deverserEau(volumeVidageUnitaire);
-                    incendie.setLitrePourEteindre(incendie.getLitrePourEteindre() - volumeVidageUnitaire);
-                    date = date + tempsVidageUnitaire;
-                }
-                this.setCapacite(sauvegardeCapacite);
-                incendie.setLitrePourEteindre(sauvegardeLitrePourEteindre);
+
             } else {
                 System.out.println("Intervention impossible pour ce robot");
             }
         }
-        // Peut-être après on peut rajouter que si reservoir vide, va se remplir
+        /* Ajout au simulateur des interventions unitaires */
+        int sauvegardeCapacite = this.getCapacite();
+        int sauvegardeLitrePourEteindre = incendie.getLitrePourEteindre();
+        long tempsVidageUnitaire = this.getTempsVidageUnitaire();
+        int volumeVidageUnitaire = this.getVolumeVidageUnitaire();
+        while (incendie.getLitrePourEteindre()>0 && this.getCapacite()>0) {
+            this.ajoutSimulateurIntervention(sim, date, tempsVidageUnitaire, incendie);
+            this.deverserEau(volumeVidageUnitaire);
+            incendie.setLitrePourEteindre(incendie.getLitrePourEteindre() - volumeVidageUnitaire);
+            date = date + tempsVidageUnitaire;
+        }
+        boolean fautRemplir = (this.getCapacite()<=0);
+        this.setCapacite(sauvegardeCapacite);
+        incendie.setLitrePourEteindre(sauvegardeLitrePourEteindre);
+        /* Si reservoir vide, va se remplir */
+        if (fautRemplir) {
+            this.ordreRemplissage(sim);
+        }
     }
 
     /* Le robot intervient sur le feu */
@@ -400,18 +420,16 @@ public abstract class Robot {
 	/*Cette fonction appelera remplirResevoir une fois le robot arrivé sur la zone d'eau*/
 	public  void ordreRemplissage(Simulateur sim) {
 	    long date = this.getDateDisponibilite(); // Gerer
-	    if (this.possibleRemplissage(this.getPosition(), sim.getDonnees().getCarte())) {
-	        this.ajoutSimulateurRemplissage(sim, date, this.getTempsRemplissageComplet());
-	    } else {
-	        /* On recupere la case eau la plus proche en temps */
+	    if (!this.possibleRemplissage(this.getPosition(), sim.getDonnees().getCarte())) {
+            /* On recupere la case eau la plus proche en temps */
 	        Case destinationEau = this.choisirCaseEau(sim);
 	        /* On se déplace jusqu'à cette case */
 	        Chemin chemin = this.deplacementCase(destinationEau, sim);
 	        /* Date de fin du déplacement */
 	        date = date + chemin.tempsChemin(this, sim.getDonnees().getCarte());
-	        /* Ajout au simulateur du remplissage */
-	        this.ajoutSimulateurRemplissage(sim, date, this.getTempsRemplissageComplet());
 	    }
+	    /* Ajout au simulateur du remplissage */
+	    this.ajoutSimulateurRemplissage(sim, date, this.getTempsRemplissageComplet());
 	}
 
 	/* Renvoie la case d'eau pour laquelle le trajet vers cele-ci est le plus rapide */

@@ -27,7 +27,6 @@ public class Chenilles extends Robot {
 	public Chenilles(Case pos) {
 		/* Valeurs par défault*/
 		super(pos, NatureRobot.CHENILLES, 0);
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		this.setCapacite(2000);
 		this.setCapaciteMaximale(2000);
 		this.setVitesse(60);
@@ -37,7 +36,6 @@ public class Chenilles extends Robot {
 		this.setVolumeVidageUnitaire(100);
 		this.vitesseRemplissage =  (double)this.capacite/(double)this.getTempsRemplissageComplet();
 		this.vitesseVidage =  (double)this.capacite/(double)this.getTempsVidageComplet();
-		System.out.println("dans constructeur, temps remplissage de chenilles est " + this.getTempsRemplissageComplet());
 	}
 
 	public void setVitesse(double vitesse) {
