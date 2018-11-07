@@ -1,17 +1,13 @@
 package strategie;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 
-import chemin.Chemin;
 import data.Carte;
-import data.Case;
 import data.DonneesSimulation;
 import data.Incendie;
-import data.enumerate.NatureRobot;
-import data.enumerate.NatureTerrain;
-import events.*;
 import gui2.Simulateur;
-import data.enumerate.Direction;
 import data.robot.*;
 
 /**
@@ -24,7 +20,7 @@ public class ChefElementaire {
     Simulateur sim;
     DonneesSimulation donnees;
     Carte carte;
-    Incendie[] incendies;
+    HashSet<Incendie> incendies;
     int nbIncendies;
     Robot[] robots;
     int nbRobots;
@@ -67,11 +63,11 @@ public class ChefElementaire {
         this.carte = carte;
     }
 
-    public Incendie[] getIncendies() {
+    public HashSet<Incendie> getIncendies() {
         return this.incendies;
     }
-    private void setIncendies(Incendie[] incendies) {
-        this.incendies = incendies;
+    private void setIncendies(HashSet<Incendie> hashSet) {
+        this.incendies = hashSet;
     }
 
     public int getNbIncendies() {
@@ -97,9 +93,10 @@ public class ChefElementaire {
 
     private void initAffectations() {
         this.affectations = new HashMap<Incendie,Robot>();
-        for (int i=0; i<this.nbIncendies; i++) {
-            this.affectations.put(this.incendies[i], null);
-        }
+		Iterator<Incendie> iter = this.incendies.iterator();
+		while(iter.hasNext()) {
+			this.affectations.put(iter.next(),null);
+		}
     }
 
 
@@ -109,20 +106,24 @@ public class ChefElementaire {
     */
 
     private boolean resteIncendiePasAffecte() {
-        for (int i=0; i<this.nbIncendies; i++) {
-            if (this.affectations.get(this.incendies[i]) == null) {
+		Iterator<Incendie> iter = this.incendies.iterator();
+		while(iter.hasNext()) {
+			Incendie inc = iter.next();
+			if (this.affectations.get(inc) == null) {
                 return true;
             }
-        }
+		}
         return false;
     }
 
     private Incendie incendieNonAffecte() {
-        for (int i=0; i<this.nbIncendies; i++) {
-            if (this.affectations.get(this.incendies[i]) == null) {
-                return incendies[i];
+		Iterator<Incendie> iter = this.incendies.iterator();
+		while(iter.hasNext()) {
+			Incendie inc = iter.next();
+			if (this.affectations.get(inc) == null) {
+                return inc;
             }
-        }
+		}
         return null;
     }
 

@@ -17,7 +17,7 @@ import strategie.ChefElementaire;
 
 
 /**
- * Test des évènements (organisation des évènements)
+ * Test Stratégie Elementaire (avec chef pompier élémentaire)
  */
 
 public class TestStrategieElementaire {

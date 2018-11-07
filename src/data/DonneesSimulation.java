@@ -1,5 +1,8 @@
 package data;
 
+import java.util.HashSet;
+import java.util.Iterator;
+
 import data.robot.Robot;
 
 /**
@@ -14,7 +17,7 @@ public class DonneesSimulation {
 
 	/* Attributs */
 	private Carte carte;
-	private Incendie[] incendies;
+	private HashSet<Incendie> incendies;
 	private Robot[] robots;
 	private Case[] eaux;
 	private int nbIncendies;
@@ -24,10 +27,10 @@ public class DonneesSimulation {
 	/* Constructeur */
 	public DonneesSimulation(Carte carte, int nbIncendies, int nbRobots, int nbEaux) {
 		this.carte = carte;
-		this.nbIncendies = nbIncendies;
+		this.nbIncendies = 0;
 		this.nbRobots = nbRobots;
 		this.nbEaux = nbEaux;
-		this.setIncendies(new Incendie[nbIncendies]);
+		this.setIncendies(new HashSet<Incendie>());
 		this.robots = new Robot[nbRobots];
 		this.eaux = new Case[nbEaux];
 	}
@@ -53,10 +56,11 @@ public class DonneesSimulation {
 		chaine += "\n";
 		int nbIncendies = this.getNbIncendies();
 		chaine += nbIncendies + "\n";
-		for(int i = 0; i < nbIncendies; i++) {
-    		chaine += this.getIncendies()[i].toString();
-    		chaine += "\n";
-        }
+		Iterator<Incendie> iter = this.getIncendies().iterator();
+		while(iter.hasNext()) {
+			chaine += iter.next().toString();
+			chaine += "\n";
+		}
 		chaine += "\n";
 		chaine += "# Robots";
 		chaine += "\n";
@@ -74,7 +78,7 @@ public class DonneesSimulation {
 	public Carte getCarte() {
 		return this.carte;
 	}
-	public Incendie[] getIncendies() {
+	public HashSet<Incendie> getIncendies() {
 		return this.incendies;
 	}
 	public Robot[] getRobots() {
@@ -95,44 +99,44 @@ public class DonneesSimulation {
 		return this.nbEaux;
 	}
 
-    public void setNbIncendies(int nbIncendies) {
-        this.nbIncendies = nbIncendies;
-    }
-    public void setIncendies(Incendie[] incendies) {
+    public void setIncendies(HashSet<Incendie> incendies) {
         this.incendies = incendies;
     }
 
 	/* Ajout d'un incendie */
-	public void addIncendie(Incendie inc, int n) {
-		this.incendies[n] = inc;
+	public void addIncendie(Incendie inc) {
+		this.incendies.add(inc);
+		this.nbIncendies += 1;
 	}
 
     /* Suppression d'un incendie */
     public void supprimerIncendie(Incendie incendie) {
-        Incendie[] incendies = this.getIncendies();
-        int nbIncendie = this.getNbIncendies();
-        int indIncendie = 0;
-        /* On trouve l'indice de l'incendie qu'on veut supprimer dans la liste de tous les incendies */
-        for (int i=0; i<nbIncendie; i++) {
-            if (incendies[i] == incendie) {
-                indIncendie = i;
-                i=nbIncendie;
-            }
-        }
-        /* On va recréer une nouvelle liste d'incendies en copiant tous ceux qu'on a sauf celui qu'on vient d'éteindre */
-        Incendie[] newIncendies = new Incendie[nbIncendie-1];
-        int jBis = 0;
-        for (int j=0; j<nbIncendie-1; j++) {
-            if (j!=indIncendie) {
-                newIncendies[j] = incendies[jBis];
-            } else {
-                newIncendies[j] = incendies[jBis+1];
-                jBis++;
-            }
-            jBis++;
-        }
-        this.setNbIncendies(nbIncendie-1);
-        this.setIncendies(newIncendies);
+    	this.incendies.remove(incendie);
+    	this.nbIncendies += 1;
+//        Incendie[] incendies = this.getIncendies();
+//        int nbIncendie = this.getNbIncendies();
+//        int indIncendie = 0;
+//        /* On trouve l'indice de l'incendie qu'on veut supprimer dans la liste de tous les incendies */
+//        for (int i=0; i<nbIncendie; i++) {
+//            if (incendies[i] == incendie) {
+//                indIncendie = i;
+//                i=nbIncendie;
+//            }
+//        }
+//        /* On va recréer une nouvelle liste d'incendies en copiant tous ceux qu'on a sauf celui qu'on vient d'éteindre */
+//        Incendie[] newIncendies = new Incendie[nbIncendie-1];
+//        int jBis = 0;
+//        for (int j=0; j<nbIncendie-1; j++) {
+//            if (j!=indIncendie) {
+//                newIncendies[j] = incendies[jBis];
+//            } else {
+//                newIncendies[j] = incendies[jBis+1];
+//                jBis++;
+//            }
+//            jBis++;
+//        }
+//        this.setNbIncendies(nbIncendie-1);
+//        this.setIncendies(newIncendies);
     }
 
 	/* Ajout d'un robot */

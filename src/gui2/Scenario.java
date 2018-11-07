@@ -48,7 +48,7 @@ public class Scenario {
 			// si tableau nul
 			throw new Exception("Evènement introuvable");
 		} else {
-			// on cherche ma position de l'évènement
+			// on cherche la position de l'évènement
 			while(this.sequence.get(pos).getDate() != date && pos < nbEvents) {
 				pos += 1;
 			}
