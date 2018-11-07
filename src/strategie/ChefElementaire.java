@@ -16,6 +16,7 @@ import data.robot.*;
 
 /**
  * Classe ChefElementaire
+ *    Pemet de définir la stratégie globale
  */
 
 public class ChefElementaire {
@@ -27,7 +28,7 @@ public class ChefElementaire {
     int nbIncendies;
     Robot[] robots;
     int nbRobots;
-    HashMap<Incendie,Robot> affectations;
+    HashMap<Incendie,Robot> affectations; // liste des incendies et de leur robots affectés
 
     /*********************************************
     *
@@ -147,13 +148,19 @@ public class ChefElementaire {
         return null;
     }
 
-    public void strategie() {
+    protected void strategie_unitaire() {
         if (this.resteIncendiePasAffecte() && this.resteRobotPasAffecte()) {
             Incendie incendieChoisi = this.incendieNonAffecte();
             Robot robotChoisi = this.choisirRobot(incendieChoisi);
             if (robotChoisi != null) {
                 robotChoisi.ordreIntervention(this.sim, incendieChoisi);
             }
+        }
+    }
+
+    public void strategie(){
+        while(this.resteIncendiePasAffecte() && this.resteRobotPasAffecte()){
+            this.strategie_unitaire();
         }
     }
 
