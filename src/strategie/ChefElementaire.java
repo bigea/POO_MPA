@@ -93,10 +93,10 @@ public class ChefElementaire {
 
     private void initAffectations() {
         this.affectations = new HashMap<Incendie,Robot>();
-		Iterator<Incendie> iter = this.incendies.iterator();
-		while(iter.hasNext()) {
-			this.affectations.put(iter.next(),null);
-		}
+    		Iterator<Incendie> iter = this.incendies.iterator();
+    		while(iter.hasNext()) {
+    			this.affectations.put(iter.next(),null);
+    		}
     }
 
 
@@ -106,24 +106,24 @@ public class ChefElementaire {
     */
 
     private boolean resteIncendiePasAffecte() {
-		Iterator<Incendie> iter = this.incendies.iterator();
-		while(iter.hasNext()) {
-			Incendie inc = iter.next();
-			if (this.affectations.get(inc) == null) {
-                return true;
-            }
-		}
+    		Iterator<Incendie> iter = this.incendies.iterator();
+    		while(iter.hasNext()) {
+    			Incendie inc = iter.next();
+    			if (this.affectations.get(inc) == null) {
+                    return true;
+          }
+    		}
         return false;
     }
 
     private Incendie incendieNonAffecte() {
-		Iterator<Incendie> iter = this.incendies.iterator();
-		while(iter.hasNext()) {
-			Incendie inc = iter.next();
-			if (this.affectations.get(inc) == null) {
-                return inc;
-            }
-		}
+    		Iterator<Incendie> iter = this.incendies.iterator();
+    		while(iter.hasNext()) {
+    			Incendie inc = iter.next();
+    			if (this.affectations.get(inc) == null) {
+                    return inc;
+          }
+    		}
         return null;
     }
 
@@ -150,19 +150,22 @@ public class ChefElementaire {
     }
 
     protected void strategie_unitaire() {
-        if (this.resteIncendiePasAffecte() && this.resteRobotPasAffecte()) {
-            Incendie incendieChoisi = this.incendieNonAffecte();
-            Robot robotChoisi = this.choisirRobot(incendieChoisi);
-            if (robotChoisi != null) {
-                robotChoisi.ordreIntervention(this.sim, incendieChoisi);
-            }
+        Incendie incendieChoisi = this.incendieNonAffecte();
+        Robot robotChoisi = this.choisirRobot(incendieChoisi);
+        if (robotChoisi != null) {
+            this.affectations.put(incendieChoisi, robotChoisi);
+            System.out.println("On ordonne au robot " + robotChoisi.getNature() + " d'intervenir sur l'incendie " + incendieChoisi);
+            robotChoisi.ordreIntervention(this.sim, incendieChoisi);
         }
     }
 
     public void strategie(){
-        while(this.resteIncendiePasAffecte() && this.resteRobotPasAffecte()){
-            this.strategie_unitaire();
-        }
+        // while (this.incendies.size()>0) {
+            while(this.resteIncendiePasAffecte() && this.resteRobotPasAffecte()){
+                this.strategie_unitaire();
+            }
+        //     wait();
+        // }
     }
 
 }

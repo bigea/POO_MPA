@@ -306,6 +306,7 @@ public class Simulateur implements Simulable {
 		this.dessinerDonnees();
 		// On incrémente de 60 secondes
 		this.dateSimulation += INCRE;
+		// notifyAll();
 	}
 
 	/* Simulation terminée */
