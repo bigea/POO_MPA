@@ -27,11 +27,11 @@ public class Roues extends Robot {
 		this.setCapacite(5000);
 		this.setCapaciteMaximale(5000);
 		this.setVitesse(80);
-		this.setTempsRemplissage(10*60);
+		this.setTempsRemplissageComplet(10*60);
 		this.setTempsVidageComplet(50*5);
 		this.setTempsVidageUnitaire(5);
 		this.setVolumeVidageUnitaire(100);
-		this.vitesseRemplissage =  (double)this.capacite/(double)this.getTempsRemplissage();
+		this.vitesseRemplissage =  (double)this.capacite/(double)this.getTempsRemplissageComplet();
 		this.vitesseVidage =  (double)this.capacite/(double)this.getTempsVidageComplet();
 	}
 

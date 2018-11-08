@@ -30,7 +30,7 @@ public class Pattes extends Robot {
 		this.setCapacite(INFINI);
 		this.setCapaciteMaximale(INFINI);
 		this.setVitesse(30);
-		this.setTempsRemplissage(0);
+		this.setTempsRemplissageComplet(0);
 		this.setTempsVidageComplet(INFINI);
 		this.setTempsVidageUnitaire(1);
 		this.setVolumeVidageUnitaire(10);
@@ -53,11 +53,11 @@ public class Pattes extends Robot {
 		}
 	}
 	@Override
-    public void setVitesseRemplissage(int tempsRemplissage, int capacite) {
+    public void setVitesseRemplissage(long tempsRemplissageComplet, int capacite) {
 		this.vitesseRemplissage = INFINI;
 	}
 	@Override
-	public int getTempsRemplissage() {
+	public long getTempsRemplissageComplet() {
 		return 0;
 	}
 	@Override

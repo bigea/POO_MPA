@@ -1,13 +1,14 @@
 /Invader.class
 /TestCreationDonnees.class
 /TestEvenement.class
+/TestEvenementBis.class
 /TestInvader.class
 /TestLecteurDonnees.class
 /TestSimulateur.class
+/TestStrategieElementaire.class
 /chemin/
-/data/
 /events/
 /gui2/
+/strategie/
+/data/
 /io/
-/script.sh
-/TestPlusCourtChemin.class

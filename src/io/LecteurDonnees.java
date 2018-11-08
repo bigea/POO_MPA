@@ -95,7 +95,7 @@ public class LecteurDonnees {
             DonneesSimulation donnees = new DonneesSimulation(carte, nbIncendies, nbRobots, nbCaseEau);
             // On remplie le tableau des incendies de donnees
             for(int i = 0; i < nbIncendies; i++) {
-            	donnees.addIncendie(incendies[i], i);
+            	donnees.addIncendie(incendies[i]);
             }
             //On remplie le tableau des robots de donnees
             for(int i = 0; i < nbRobots; i++) {

@@ -1,6 +1,7 @@
 package gui2;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import events.Evenement;
 import data.*;
@@ -62,17 +63,17 @@ public class Simulateur implements Simulable {
 
 	/* Constructeurs */
 
-	/* Constructeur quand on n'a pas de donnees */
-	public Simulateur(long date, int nbLignes, int nbColonnes, int tailleCase) {
-		this.nbLignes = nbLignes;
-		this.nbColonnes = nbColonnes;
-		this.tailleCase = 50;
-		this.gui = new GUISimulator(this.nbLignes*this.tailleCase, this.nbColonnes*this.tailleCase, Color.WHITE);
-		this.dateSimulation = date;
-		this.scenario = new Scenario();
-		this.gui.setSimulable(this);
-		this.dessinerBase();
-	}
+	// /* Constructeur quand on n'a pas de donnees */
+	// public Simulateur(long date, int nbLignes, int nbColonnes, int tailleCase) {
+	// 	this.nbLignes = nbLignes;
+	// 	this.nbColonnes = nbColonnes;
+	// 	this.tailleCase = 50;
+	// 	this.gui = new GUISimulator(this.nbLignes*this.tailleCase, this.nbColonnes*this.tailleCase, Color.WHITE);
+	// 	this.dateSimulation = date;
+	// 	this.scenario = new Scenario();
+	// 	this.gui.setSimulable(this);
+	// 	this.dessinerBase();
+	// }
 
 
 	/* Constructeur quand on a des donnees */
@@ -212,9 +213,11 @@ public class Simulateur implements Simulable {
 		//this.gui.addGraphicalElement(new Rectangle(x, y, Color.BLACK, Color.RED, this.tailleCase));
 	}
 
-	private void dessinerTousLesIncendies(int nbIncendies, Incendie[] incendies) {
-		for (int i=0; i<nbIncendies; i++){
-			Case position = incendies[i].getPosition();
+	private void dessinerTousLesIncendies(int nbIncendies, HashSet<Incendie> incendies) {
+		Iterator<Incendie> iter = incendies.iterator();
+		while(iter.hasNext()) {
+			Incendie inc = iter.next();
+			Case position = inc.getPosition();
 			int lig = position.getLigne();
 			int col = position.getColonne();
 			this.dessinerIncendie(lig, col);
@@ -268,7 +271,7 @@ public class Simulateur implements Simulable {
 
 	private void dessinerDonnees() {
 		Carte carte = this.donnees.getCarte();
-		Incendie[] incendies = this.donnees.getIncendies();
+		HashSet<Incendie> incendies = this.donnees.getIncendies();
 		Robot[] robots = this.donnees.getRobots();
 		//int nbLignes = carte.getNbLignes();
 		//int nbColonnes = carte.getNbColonnes();

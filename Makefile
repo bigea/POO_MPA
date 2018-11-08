@@ -44,6 +44,9 @@ testEvenement:
 testEvenementBis:
 	javac -d bin -classpath bin/gui.jar -sourcepath src src/TestEvenementBis.java
 
+testStrategieElementaire:
+	javac -d bin -classpath bin/gui.jar -sourcepath src src/TestStrategieElementaire.java
+
 # Execution:
 # on peut taper directement la ligne de commande :
 #   > java -classpath bin:bin/gui.jar TestInvader
@@ -66,6 +69,9 @@ exeEvenement:
 
 exeEvenementBis:
 	java -classpath bin:bin/gui.jar TestEvenementBis cartes/mushroomOfHell-20x20.map
+
+exeStrategieElementaire:
+	java -classpath bin:bin/gui.jar TestStrategieElementaire cartes/mushroomOfHell-20x20.map
 
 clean:
 	find . -name "*.class" -exec rm {}  \;

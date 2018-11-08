@@ -30,11 +30,11 @@ public class Chenilles extends Robot {
 		this.setCapacite(2000);
 		this.setCapaciteMaximale(2000);
 		this.setVitesse(60);
-		this.setTempsRemplissage(5*60);
-		this.setTempsVidageComplet(20*8);
+		this.setTempsRemplissageComplet(300);
+		this.setTempsVidageComplet(160);
 		this.setTempsVidageUnitaire(8);
 		this.setVolumeVidageUnitaire(100);
-		this.vitesseRemplissage =  (double)this.capacite/(double)this.getTempsRemplissage();
+		this.vitesseRemplissage =  (double)this.capacite/(double)this.getTempsRemplissageComplet();
 		this.vitesseVidage =  (double)this.capacite/(double)this.getTempsVidageComplet();
 	}
 
@@ -80,25 +80,35 @@ public class Chenilles extends Robot {
 
 	/* Possibilité de remplir sur la case donnée */
 	public boolean possibleRemplissage(Case cas, Carte carte) {
-		Direction direction = Direction.SUD;
-		Case voisin = carte.voisin(cas, direction);
-		if(voisin.getNature() == NatureTerrain.EAU) {
-			return true;
+		Case voisin;
+		Direction direction;
+		if (cas.getLigne() < carte.getNbLignes()-1) {
+			direction = Direction.SUD;
+			voisin = carte.voisin(cas, direction);
+			if(voisin.getNature() == NatureTerrain.EAU) {
+				return true;
+			}
 		}
-		direction = Direction.NORD;
-		voisin = carte.voisin(cas, direction);
-		if(voisin.getNature() == NatureTerrain.EAU) {
-			return true;
+		if (cas.getLigne() > 0) {
+			direction = Direction.NORD;
+			voisin = carte.voisin(cas, direction);
+			if(voisin.getNature() == NatureTerrain.EAU) {
+				return true;
+			}
 		}
-		direction = Direction.EST;
-		voisin = carte.voisin(cas, direction);
-		if(voisin.getNature() == NatureTerrain.EAU) {
-			return true;
+		if (cas.getColonne() < carte.getNbColonnes()-1) {
+			direction = Direction.EST;
+			voisin = carte.voisin(cas, direction);
+			if(voisin.getNature() == NatureTerrain.EAU) {
+				return true;
+			}
 		}
-		direction = Direction.OUEST;
-		voisin = carte.voisin(cas, direction);
-		if(voisin.getNature() == NatureTerrain.EAU) {
-			return true;
+		if (cas.getColonne() > 0) {
+			direction = Direction.OUEST;
+			voisin = carte.voisin(cas, direction);
+			if(voisin.getNature() == NatureTerrain.EAU) {
+				return true;
+			}
 		}
 		return false;
 	}
