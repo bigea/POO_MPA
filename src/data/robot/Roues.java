@@ -1,6 +1,5 @@
 package data.robot;
 
-import chemin.Chemin;
 import data.Carte;
 import data.Case;
 import data.enumerate.Direction;

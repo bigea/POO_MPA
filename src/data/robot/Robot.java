@@ -47,7 +47,7 @@ public abstract class Robot {
 	protected double vitesseVidage; //en l/s
 	protected long dateDisponibilite;
     protected int capaciteMaximale;
-    protected ChefElementaire chef;
+    protected Chef chef;
 
 	/*********************************************
 	 *
@@ -162,10 +162,10 @@ public abstract class Robot {
 		this.dateDisponibilite = date;
 	}
 
-    public void setChef(ChefElementaire chef) {
+    public void setChef(Chef chef) {
         this.chef = chef;
     }
-    public ChefElementaire getChef() {
+    public Chef getChef() {
         return this.chef;
     }
 

@@ -47,7 +47,7 @@ public class Simulateur implements Simulable {
 	private int tailleCase;
 	private DonneesSimulation donnees;
 	private DonneesSimulation donneesInitiales;
-	private ChefElementaire chef;
+	private Chef chef;
 
 	/* On incrément de INCRE secondes à chaque fois */
 	public static final int INCRE = 80;
@@ -95,7 +95,7 @@ public class Simulateur implements Simulable {
 		this.dateSimulation = date;
 	}
 
-	public void setChef(ChefElementaire chef) {
+	public void setChef(Chef chef) {
 		this.chef = chef;
 	}
 
@@ -124,7 +124,7 @@ public class Simulateur implements Simulable {
 	public int getTailleCase() {
 		return this.tailleCase;
 	}
-	public ChefElementaire getChef() {
+	public Chef getChef() {
 		return this.chef;
 	}
 
