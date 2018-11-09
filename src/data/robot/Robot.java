@@ -2,6 +2,7 @@ package data.robot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
 
 import chemin.Chemin;
 import data.Carte;
@@ -12,6 +13,7 @@ import data.enumerate.NatureRobot;
 import data.enumerate.NatureTerrain;
 import events.*;
 import gui2.Simulateur;
+import strategie.*;
 import data.enumerate.Direction;
 
 /**
@@ -45,6 +47,7 @@ public abstract class Robot {
 	protected double vitesseVidage; //en l/s
 	protected long dateDisponibilite;
     protected int capaciteMaximale;
+    protected ChefElementaire chef;
 
 	/*********************************************
 	 *
@@ -56,6 +59,7 @@ public abstract class Robot {
 		this.setPosition(pos);
 		this.setDateDisponibilite(dateDisponibilite);
 		this.nature = nature;
+        this.chef = null;
 	}
 
 	/* Affichage */
@@ -157,6 +161,13 @@ public abstract class Robot {
 	public void setDateDisponibilite(long date){
 		this.dateDisponibilite = date;
 	}
+
+    public void setChef(ChefElementaire chef) {
+        this.chef = chef;
+    }
+    public ChefElementaire getChef() {
+        return this.chef;
+    }
 
 	public boolean estDisponible(long date){
 		if(date < this.getDateDisponibilite()){
@@ -325,7 +336,6 @@ public abstract class Robot {
 		}
 		for(int i = listeCases.size()-1; i >=0; i--){
 			chemin.ajoutCase(listeCases.get(i), date, this, carte);
-            System.out.println("poids : " + poids[listeCases.get(i).getColonne()][listeCases.get(i).getLigne()]);
 			date = dateDebut + poids[listeCases.get(i).getColonne()][listeCases.get(i).getLigne()];
 		}
 		return chemin;
@@ -397,6 +407,9 @@ public abstract class Robot {
             // Faut choisir si on le fait ou pas.
 
 		}
+        HashMap<Incendie,Robot> affectations = this.chef.getAffectations();
+        affectations.remove(incendie);
+        this.chef.setAffectations(affectations);
     }
 
     /* Déverser l'eau */
@@ -483,7 +496,7 @@ public abstract class Robot {
             } else {
                 duree = dates.get(0) + chemin.tempsChemin(this, sim.getDonnees().getCarte()) - date;
             }
-            System.out.println("On ajoute un DeplacementUnitaire à la date : " + date);
+            System.out.println("[" + this.getNature() + "]-" + "DeplacementUnitaire, date : " + date + ", case (" + deplacement.getLigne() + ";" + deplacement.getColonne() +")");
 			this.setDateDisponibilite(this.getDateDisponibilite()+duree);
 			sim.ajouteEvenement(new DeplacementUnitaire(date, sim, this, deplacement));
 		}
@@ -492,13 +505,13 @@ public abstract class Robot {
 	/* Ajout au simulateur d'un remplissage */
 	public void ajoutSimulateurRemplissage(Simulateur sim, long date, long duree) {
 		this.setDateDisponibilite(this.getDateDisponibilite()+duree);
-        System.out.println("On ajoute un Remplissage à la date : " + date + " de durée " + duree +"; Et la date de dispo est " + this.getDateDisponibilite());
+        System.out.println("[" + this.getNature() + "]-" + "Remplissage, date : " + date + " de durée " + duree +"; Et la date de dispo est " + this.getDateDisponibilite());
         sim.ajouteEvenement(new Remplissage(date, sim, this));
 	}
 
     /* Ajout au simulateur d'une intervention */
     public void ajoutSimulateurIntervention(Simulateur sim, long date, long duree, Incendie incendie) {
-        System.out.println("On ajoute un Intervention à la date : " + date);
+        System.out.println("[" + this.getNature() + "]-" + "Intervention, date : " + date + ", incendie (" + incendie.getPosition().getLigne() + ";" + incendie.getPosition().getColonne() +")");
         this.setDateDisponibilite(this.getDateDisponibilite()+duree);
         sim.ajouteEvenement(new Intervention(date, sim, this, incendie));
     }

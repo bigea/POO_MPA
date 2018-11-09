@@ -32,16 +32,16 @@ public class TestStrategieElementaire {
             Robot roues = donnees.getRobots()[0];
             Robot drone = donnees.getRobots()[1];
             Robot pattes = donnees.getRobots()[2];
-            Robot chenilles = donnees.getRobots()[3];
+            // Robot chenilles = donnees.getRobots()[3];
             int nbLignes = donnees.getCarte().getNbLignes();
             int nbColonnes = donnees.getCarte().getNbLignes();
             int tailleCases = donnees.getCarte().getTailleCases();
             /* Création d'un simulateur et ajout des évènements */
-            Simulateur simulateur = new Simulateur(0, donnees);
+            Simulateur simulateur = new Simulateur(donnees);
 
             /* TEST STRATEGIE */
             ChefElementaire chef = new ChefElementaire(simulateur);
-            chef.strategie();
+            chef.commencerStrategie();
 
         } catch (FileNotFoundException e) {
             System.out.println("fichier " + args[0] + " inconnu ou illisible");

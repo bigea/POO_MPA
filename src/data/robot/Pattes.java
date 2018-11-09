@@ -34,7 +34,7 @@ public class Pattes extends Robot {
 		this.setTempsVidageComplet(INFINI);
 		this.setTempsVidageUnitaire(1);
 		this.setVolumeVidageUnitaire(10);
-		this.vitesseVidage =  10;
+		this.vitesseVidage = 10;
 	}
 	public void setVitesse(double vitesse) {
 		if (this.getPosition().getNature() == NatureTerrain.ROCHE) {

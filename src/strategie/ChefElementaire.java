@@ -1,7 +1,7 @@
 package strategie;
 
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import data.Carte;
@@ -17,10 +17,12 @@ import data.robot.*;
 
 public class ChefElementaire {
 
+    private static final long INFINI = 2147483647;
+
     Simulateur sim;
     DonneesSimulation donnees;
     Carte carte;
-    HashSet<Incendie> incendies;
+    ArrayList<Incendie> incendies;
     int nbIncendies;
     Robot[] robots;
     int nbRobots;
@@ -63,11 +65,11 @@ public class ChefElementaire {
         this.carte = carte;
     }
 
-    public HashSet<Incendie> getIncendies() {
+    public ArrayList<Incendie> getIncendies() {
         return this.incendies;
     }
-    private void setIncendies(HashSet<Incendie> hashSet) {
-        this.incendies = hashSet;
+    private void setIncendies(ArrayList<Incendie> incendies) {
+        this.incendies = incendies;
     }
 
     public int getNbIncendies() {
@@ -91,6 +93,13 @@ public class ChefElementaire {
         this.nbRobots = nbRobots;
     }
 
+    public HashMap<Incendie,Robot> getAffectations() {
+        return this.affectations;
+    }
+    public void setAffectations(HashMap<Incendie,Robot> affectations) {
+        this.affectations = affectations;
+    }
+
     private void initAffectations() {
         this.affectations = new HashMap<Incendie,Robot>();
     		Iterator<Incendie> iter = this.incendies.iterator();
@@ -99,6 +108,11 @@ public class ChefElementaire {
     		}
     }
 
+    private void initChef() {
+        for (int i=0; i<this.getNbRobots(); i++) {
+            this.robots[i].setChef(this);
+        }
+    }
 
     /*********************************************
     *
@@ -106,24 +120,25 @@ public class ChefElementaire {
     */
 
     private boolean resteIncendiePasAffecte() {
-    		Iterator<Incendie> iter = this.incendies.iterator();
-    		while(iter.hasNext()) {
-    			Incendie inc = iter.next();
-    			if (this.affectations.get(inc) == null) {
-                    return true;
-          }
-    		}
+        if (this.incendies.size()==0) {
+            return false;
+        }
+        for (int i=0; i<this.incendies.size(); i++) {
+            Incendie inc = this.incendies.get(i);
+            if (this.affectations.get(inc) == null) {
+                return true;
+            }
+        }
         return false;
     }
 
     private Incendie incendieNonAffecte() {
-    		Iterator<Incendie> iter = this.incendies.iterator();
-    		while(iter.hasNext()) {
-    			Incendie inc = iter.next();
-    			if (this.affectations.get(inc) == null) {
-                    return inc;
-          }
-    		}
+        for (int i=0; i<this.incendies.size(); i++) {
+            Incendie inc = this.incendies.get(i);
+            if (this.affectations.get(inc) == null) {
+                return inc;
+            }
+        }
         return null;
     }
 
@@ -142,30 +157,41 @@ public class ChefElementaire {
         long dateCourante = this.sim.getDateSimulation();
         for (int i=0; i<this.nbRobots; i++) {
             Robot robot = this.robots[i];
-            if (robot.estDisponible(dateCourante) && robot.possibleDeplacement(incendie.getPosition())) {
-                return robot;
+            if (robot.possibleDeplacement(incendie.getPosition())) {
+                if (robot.estDisponible(dateCourante)) {
+                    return robot;
+                }
+            } else {
+                robot.setDateDisponibilite(INFINI);
             }
         }
         return null;
     }
 
-    protected void strategie_unitaire() {
+    protected void strategieUnitaire() {
         Incendie incendieChoisi = this.incendieNonAffecte();
         Robot robotChoisi = this.choisirRobot(incendieChoisi);
-        if (robotChoisi != null) {
+        if (robotChoisi != null && incendieChoisi != null) {
+            System.out.println("incendie " + incendieChoisi + " affecté à " + robotChoisi);
             this.affectations.put(incendieChoisi, robotChoisi);
-            System.out.println("On ordonne au robot " + robotChoisi.getNature() + " d'intervenir sur l'incendie " + incendieChoisi);
             robotChoisi.ordreIntervention(this.sim, incendieChoisi);
         }
     }
 
     public void strategie(){
-        // while (this.incendies.size()>0) {
+        if (this.incendies.size()>0) {
             while(this.resteIncendiePasAffecte() && this.resteRobotPasAffecte()){
-                this.strategie_unitaire();
+                this.strategieUnitaire();
             }
-        //     wait();
-        // }
+        } else {
+            System.out.println("On a fini !");
+        }
+    }
+
+    public void commencerStrategie() {
+        this.initChef();
+        this.sim.setChef(this);
+        this.strategie();
     }
 
 }

@@ -66,15 +66,26 @@ public class TestEvenementBis {
             Case dest = donnees.getCarte().getCase(16, 16);
             chenilles.deplacementCase(dest, simulateur2);
 
+            // for (int i=0; i<50; i++) {
+            //     try {
+            //       Thread.sleep(500);
+            //     } catch(InterruptedException ex) {
+            //       Thread.currentThread().interrupt();
+            //     }
+            //     simulateur2.next();
+            // }
+            //
+            // simulateur2.restart();
+
             /* TEST INTERVENTION */
-            Incendie incendie = donnees.getIncendies()[6];
-            System.out.println("incendie : " + incendie);
-            chenilles.ordreIntervention(simulateur2, incendie);
-
-            // chenilles.ordreRemplissage(simulateur2);
-
-            incendie = donnees.getIncendies()[7];
-            chenilles.ordreIntervention(simulateur2, incendie);
+            // Incendie incendie = donnees.getIncendies().get(6);
+            // System.out.println("incendie : " + incendie);
+            // chenilles.ordreIntervention(simulateur2, incendie);
+            //
+            // // chenilles.ordreRemplissage(simulateur2);
+            //
+            // incendie = donnees.getIncendies().get(7);
+            // chenilles.ordreIntervention(simulateur2, incendie);
 
             // for (int i=0; i<25; i++) {
             //     simulateur2.incrementeDate();

@@ -71,7 +71,7 @@ exeEvenementBis:
 	java -classpath bin:bin/gui.jar TestEvenementBis cartes/mushroomOfHell-20x20.map
 
 exeStrategieElementaire:
-	java -classpath bin:bin/gui.jar TestStrategieElementaire cartes/mushroomOfHell-20x20.map
+	java -classpath bin:bin/gui.jar TestStrategieElementaire cartes/desertOfDeath-20x20.map
 
 clean:
 	find . -name "*.class" -exec rm {}  \;

@@ -1,6 +1,6 @@
 package data;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import data.robot.Robot;
@@ -17,7 +17,7 @@ public class DonneesSimulation {
 
 	/* Attributs */
 	private Carte carte;
-	private HashSet<Incendie> incendies;
+	private ArrayList<Incendie> incendies;
 	private Robot[] robots;
 	private Case[] eaux;
 	private int nbIncendies;
@@ -30,7 +30,7 @@ public class DonneesSimulation {
 		this.nbIncendies = 0;
 		this.nbRobots = nbRobots;
 		this.nbEaux = nbEaux;
-		this.setIncendies(new HashSet<Incendie>());
+		this.setIncendies(new ArrayList<Incendie>());
 		this.robots = new Robot[nbRobots];
 		this.eaux = new Case[nbEaux];
 	}
@@ -78,7 +78,7 @@ public class DonneesSimulation {
 	public Carte getCarte() {
 		return this.carte;
 	}
-	public HashSet<Incendie> getIncendies() {
+	public ArrayList<Incendie> getIncendies() {
 		return this.incendies;
 	}
 	public Robot[] getRobots() {
@@ -99,7 +99,7 @@ public class DonneesSimulation {
 		return this.nbEaux;
 	}
 
-    public void setIncendies(HashSet<Incendie> incendies) {
+    public void setIncendies(ArrayList<Incendie> incendies) {
         this.incendies = incendies;
     }
 
@@ -112,7 +112,8 @@ public class DonneesSimulation {
     /* Suppression d'un incendie */
     public void supprimerIncendie(Incendie incendie) {
     	this.incendies.remove(incendie);
-    	this.nbIncendies += 1;
+        // this.incendies.trimToSize();
+    	this.nbIncendies -= 1;
 //        Incendie[] incendies = this.getIncendies();
 //        int nbIncendie = this.getNbIncendies();
 //        int indIncendie = 0;
