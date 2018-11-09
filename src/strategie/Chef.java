@@ -17,7 +17,7 @@ import data.robot.*;
 
 public abstract class Chef {
 
-    private static final long INFINI = 2147483647;
+    protected static final long INFINI = 2147483647;
 
     protected Simulateur sim;
     protected DonneesSimulation donnees;

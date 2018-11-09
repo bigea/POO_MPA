@@ -47,6 +47,9 @@ testEvenementBis:
 testStrategieElementaire:
 	javac -d bin -classpath bin/gui.jar -sourcepath src src/TestStrategieElementaire.java
 
+testStrategieAvancee:
+	javac -d bin -classpath bin/gui.jar -sourcepath src src/TestStrategieAvance.java
+
 # Execution:
 # on peut taper directement la ligne de commande :
 #   > java -classpath bin:bin/gui.jar TestInvader
@@ -72,6 +75,9 @@ exeEvenementBis:
 
 exeStrategieElementaire:
 	java -classpath bin:bin/gui.jar TestStrategieElementaire cartes/desertOfDeath-20x20.map
+
+exeStrategieAvancee:
+	java -classpath bin:bin/gui.jar TestStrategieAvance cartes/desertOfDeath-20x20.map
 
 clean:
 	find . -name "*.class" -exec rm {}  \;

@@ -91,7 +91,7 @@ public class Drone extends Robot {
 
 	/* Calcul du plus court chemin */
 	@Override
-	protected Chemin plusCourt(Case dest, long date, Carte carte) {
+	public Chemin plusCourt(Case dest, long date, Carte carte) {
 		Case src = this.getPosition();
 		Chemin chemin = new Chemin();
 		/* Tant qu'on a pas atteint la destination */

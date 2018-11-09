@@ -185,7 +185,7 @@ public abstract class Robot {
 	/* Déplacement du robot vers une case et ajout des évènements au simulateur */
 	public Chemin deplacementCase(Case dest, Simulateur sim) {
         if (this.possibleDeplacement(dest)) {
-            /* Calcul du plus court dans chemin */
+            /* Calcul du plus court chemin */
             long date = this.getDateDisponibilite();
     		Chemin chemin = this.plusCourt(dest, date, sim.getDonnees().getCarte());
     		this.ajoutSimulateurDeplacement(sim,chemin);
@@ -226,7 +226,7 @@ public abstract class Robot {
 /*FONCTION UTILE AU CALCUL DE PLUS COURT CHEMIN********************************************/
 
 	/* calcul du plus court chemin */
-	protected Chemin plusCourt(Case dest, long date, Carte carte) {
+	public Chemin plusCourt(Case dest, long date, Carte carte) {
 		Chemin chemin = Dijkstra(dest, date, carte);
 		return chemin;
 	}
