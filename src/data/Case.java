@@ -18,6 +18,7 @@ public class Case{
 	/* Attributs */
 	private int ligne;
 	private int colonne;
+	// private Coordonnee coordonnee;
 	private NatureTerrain nature;
 
 	/* Affichage */

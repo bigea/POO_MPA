@@ -1,7 +1,7 @@
 package data.robot;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import chemin.Chemin;
 import data.Carte;
@@ -176,7 +176,10 @@ public abstract class Robot {
         if (this.possibleDeplacement(dest)) {
             /* Calcul du plus court dans chemin */
             long date = this.getDateDisponibilite();
+			long startTime = System.currentTimeMillis();
     		Chemin chemin = this.plusCourt(dest, date, sim.getDonnees().getCarte());
+			long endTime = System.currentTimeMillis();
+			System.out.println("temps plus court chemin du robot "+this.nature+" de " + this.position +" à"+ dest +" :"+ (endTime-startTime));
     		this.ajoutSimulateurDeplacement(sim,chemin);
             this.setPosition(dest);     // En réalité le robot n'est pas affiché à la position dest et ne doit pas l'être.
             // Mais il ne le sera jamais car il y a toujours un evenement qui change sa position avant
@@ -220,7 +223,7 @@ public abstract class Robot {
 		return chemin;
 	}
 	/* Initialisation du graphe (poids infini) */
-	protected void Initialisation(Carte carte, Case src, List<Case> noeuds, long[][] poids){
+	protected void Initialisation(Carte carte, Case src, ArrayList<Case> noeuds, long[][] poids){
 		for(int l=0; l<carte.getNbLignes(); l++) {
 			for(int c=0; c<carte.getNbColonnes(); c++) {
 				poids[l][c] = INFINI;
@@ -253,25 +256,26 @@ public abstract class Robot {
 	}
 	/*Algorithme qui nous permet de trouver le plus court chemin,*/
 	protected Chemin Dijkstra(Case dest, long date, Carte carte){
+		//hashmap pour tableau prédécesseurs
+		//hashset pour tableau de noeud
+		//hashmap pour les poids
+
         /* Sauvegarde de la date de début */
         long dateDebut = date;
 		/*création du tableau des predecesseurs*/
+
 		Case[][] predecesseurs = new Case[carte.getNbColonnes()][carte.getNbLignes()];
 		/*Données nécessaires à l'algorithme*/
 		Case src = this.getPosition();
-
-
 
         // [PHILEMON] Faudrait peut etre avoir un paramètre du genre positionVirtuelle
         // car par exemple si dans TestEvenementBis on lui dit de faire deplacementCase puis
         // ordreIntervention, il faut que this.getPosition() ait changé pour le calcul du plus courtChemin
         // pour l'intervention ...
 
-
-
-
 		/* Ensemble des cases */
 		ArrayList<Case> noeuds = new ArrayList<Case>();
+
 		/* Ensemble des poids */
 		long[][] poids = new long[carte.getNbColonnes()][carte.getNbLignes()];
 		/* Initialisation du graphe (poids infini) */
