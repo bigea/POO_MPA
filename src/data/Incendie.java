@@ -42,4 +42,15 @@ public class Incendie {
 	public void setLitrePourEteindre(int ltr) {
 		this.litrePourEteindre = ltr;
 	}
+
+    @Override
+    public boolean equals(Object o) {
+        Incendie inc = (Incendie)o;
+        return this.position.equals(inc.getPosition());
+    }
+
+    @Override
+    public int hashCode() {
+        return this.position.getLigne() * 5 + this.position.getColonne();
+    }
 }

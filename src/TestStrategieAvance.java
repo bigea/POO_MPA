@@ -4,15 +4,15 @@ import java.util.zip.DataFormatException;
 import data.DonneesSimulation;
 import gui2.Simulateur;
 import io.LecteurDonnees;
-import strategie.ChefElementaire;
+import strategie.ChefAvance;
 
 
 
 /**
- * Test Stratégie Elementaire (avec chef pompier élémentaire)
+ * TestStratégieAvance (avec chef pompier avancé)
  */
 
-public class TestStrategieElementaire {
+public class TestStrategieAvance {
 
     public static void main(String[] args) {
     	/* TEST EVENEMENT */
@@ -25,7 +25,7 @@ public class TestStrategieElementaire {
             Simulateur simulateur = new Simulateur(donnees);
 
             /* TEST STRATEGIE */
-            ChefElementaire chef = new ChefElementaire(simulateur);
+            ChefAvance chef = new ChefAvance(simulateur);
             chef.commencerStrategie();
 
         } catch (FileNotFoundException e) {

@@ -1,8 +1,5 @@
 package data.robot;
 
-import java.util.List;
-
-import chemin.Chemin;
 import data.Carte;
 import data.Case;
 import data.enumerate.Direction;

@@ -7,8 +7,11 @@
 /TestSimulateur.class
 /TestStrategieElementaire.class
 /chemin/
-/events/
-/gui2/
-/strategie/
 /data/
+/events/
+/gui/
+/gui2/
 /io/
+/script.sh
+/strategie/
+/TestStrategieAvance.class

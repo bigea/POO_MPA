@@ -1,20 +1,14 @@
 package gui2;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 import events.Evenement;
 import data.*;
 import data.enumerate.NatureRobot;
 import data.enumerate.NatureTerrain;
 import data.robot.Robot;
-/*
-import data.Carte;
-import data.Case;
-import data.DonneesSimulation;
-import data.Incendie;
 
-*/
+import strategie.*;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -52,9 +46,11 @@ public class Simulateur implements Simulable {
 	private int nbColonnes;
 	private int tailleCase;
 	private DonneesSimulation donnees;
+	private DonneesSimulation donneesInitiales;
+	private Chef chef;
 
 	/* On incrément de INCRE secondes à chaque fois */
-	public static final int INCRE = 6;
+	public static final int INCRE = 80;
 
 	/*********************************************
 	 *
@@ -77,18 +73,20 @@ public class Simulateur implements Simulable {
 
 
 	/* Constructeur quand on a des donnees */
-	public Simulateur(long date, DonneesSimulation donneesSim) {
+	public Simulateur(DonneesSimulation donneesSim) {
 		this.donnees = donneesSim;
+		this.donneesInitiales = donneesSim;
 		Carte carte = this.donnees.getCarte();
 		this.nbLignes = carte.getNbLignes();
 		this.nbColonnes = carte.getNbColonnes();
 		this.tailleCase = 800/this.nbLignes;
 		this.tailleCase = 35;
-		this.gui = new GUISimulator(1000, 800, Color.WHITE);
-		this.dateSimulation = date;
+		this.gui = new GUISimulator(this.nbColonnes*this.tailleCase, this.nbLignes*this.tailleCase, Color.WHITE);
+		this.dateSimulation = 0;
 		this.scenario = new Scenario();
 		this.gui.setSimulable(this);
 		this.dessinerDonnees();
+		this.chef = null;
 	}
 
 
@@ -96,6 +94,11 @@ public class Simulateur implements Simulable {
 	public void setDateSimulation(long date) {
 		this.dateSimulation = date;
 	}
+
+	public void setChef(Chef chef) {
+		this.chef = chef;
+	}
+
 	/* Accesseur */
 	public GUISimulator getGui() {
 		return this.gui;
@@ -121,14 +124,23 @@ public class Simulateur implements Simulable {
 	public int getTailleCase() {
 		return this.tailleCase;
 	}
+	public Chef getChef() {
+		return this.chef;
+	}
 
 	public void next() {
 		this.incrementeDate();
 		System.out.println("après incrémentation, date est : " + this.dateSimulation);
+		if (this.chef != null) {
+			this.chef.strategie();
+		}
 	}
 
 	public void restart() {
-
+		// this.gui.reset();
+		// this.setDateSimulation(0);
+		// this.donnees = this.donneesInitiales;
+		// this.dessinerDonnees();
 	}
 
 	/*********************************************
@@ -213,7 +225,7 @@ public class Simulateur implements Simulable {
 		//this.gui.addGraphicalElement(new Rectangle(x, y, Color.BLACK, Color.RED, this.tailleCase));
 	}
 
-	private void dessinerTousLesIncendies(int nbIncendies, HashSet<Incendie> incendies) {
+	private void dessinerTousLesIncendies(int nbIncendies, ArrayList<Incendie> incendies) {
 		Iterator<Incendie> iter = incendies.iterator();
 		while(iter.hasNext()) {
 			Incendie inc = iter.next();
@@ -271,7 +283,7 @@ public class Simulateur implements Simulable {
 
 	private void dessinerDonnees() {
 		Carte carte = this.donnees.getCarte();
-		HashSet<Incendie> incendies = this.donnees.getIncendies();
+		ArrayList<Incendie> incendies = this.donnees.getIncendies();
 		Robot[] robots = this.donnees.getRobots();
 		//int nbLignes = carte.getNbLignes();
 		//int nbColonnes = carte.getNbColonnes();

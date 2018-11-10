@@ -5,7 +5,6 @@ import java.util.List;
 
 import data.Carte;
 import data.Case;
-import data.enumerate.Direction;
 import data.robot.Robot;
 
 /**

@@ -1,6 +1,5 @@
 package data.robot;
 
-import chemin.Chemin;
 import data.Carte;
 import data.Case;
 import data.enumerate.Direction;
@@ -68,25 +67,35 @@ public class Roues extends Robot {
 	/* Possibilité de remplir sur la case donnée */
 	@Override
 	public boolean possibleRemplissage(Case cas, Carte carte) {
-		Direction direction = Direction.SUD;
-		Case voisin = carte.voisin(cas, direction);
-		if(voisin.getNature() == NatureTerrain.EAU) {
-			return true;
+		Case voisin;
+		Direction direction;
+		if (cas.getLigne() < carte.getNbLignes()-1) {
+			direction = Direction.SUD;
+			voisin = carte.voisin(cas, direction);
+			if(voisin.getNature() == NatureTerrain.EAU) {
+				return true;
+			}
 		}
-		direction = Direction.NORD;
-		voisin = carte.voisin(cas, direction);
-		if(voisin.getNature() == NatureTerrain.EAU) {
-			return true;
+		if (cas.getLigne() > 0) {
+			direction = Direction.NORD;
+			voisin = carte.voisin(cas, direction);
+			if(voisin.getNature() == NatureTerrain.EAU) {
+				return true;
+			}
 		}
-		direction = Direction.EST;
-		voisin = carte.voisin(cas, direction);
-		if(voisin.getNature() == NatureTerrain.EAU) {
-			return true;
+		if (cas.getColonne() < carte.getNbColonnes()-1) {
+			direction = Direction.EST;
+			voisin = carte.voisin(cas, direction);
+			if(voisin.getNature() == NatureTerrain.EAU) {
+				return true;
+			}
 		}
-		direction = Direction.OUEST;
-		voisin = carte.voisin(cas, direction);
-		if(voisin.getNature() == NatureTerrain.EAU) {
-			return true;
+		if (cas.getColonne() > 0) {
+			direction = Direction.OUEST;
+			voisin = carte.voisin(cas, direction);
+			if(voisin.getNature() == NatureTerrain.EAU) {
+				return true;
+			}
 		}
 		return false;
 	}

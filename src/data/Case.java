@@ -20,6 +20,7 @@ public class Case{
 	private int colonne;
 	// private Coordonnee coordonnee;
 	private NatureTerrain nature;
+    private int positionAbsolue;
 
 	/* Affichage */
 	public String toString() {
@@ -27,10 +28,11 @@ public class Case{
 	}
 
 	/* Constructeur */
-	public Case(int ligne, int colonne, NatureTerrain nature) {
+	public Case(int ligne, int colonne, NatureTerrain nature, int positionAbsolue) {
 		this.setLigne(ligne);
 		this.setColonne(colonne);
 		this.setNature(nature);
+        this.positionAbsolue = positionAbsolue;
 	}
 
 	/* Accesseurs */
@@ -43,6 +45,9 @@ public class Case{
 	public NatureTerrain getNature() {
 		return this.nature;
 	}
+    public int getPositionAbsolue() {
+        return this.positionAbsolue;
+    }
 
 	/* Mutateurs */
 	public void setLigne(int nl) {
@@ -54,6 +59,9 @@ public class Case{
 	public void setNature(NatureTerrain nt) {
 		this.nature = nt;
 	}
+    public void setPositionAbsolue(int posAbs) {
+        this.positionAbsolue = posAbs;
+    }
 
 	public boolean equals(Case cas){
 		return (this.getLigne() == cas.getLigne() && this.getColonne() == cas.getColonne());

@@ -293,7 +293,7 @@ public class LecteurDonnees {
             Carte carte = new Carte(tailleCases, nbLignes, nbColonnes);
             for (int lig = 0; lig < nbLignes; lig++) {
                 for (int col = 0; col < nbColonnes; col++) {
-                    carte.setCase(creeCase(lig, col));
+                    carte.setCase(creeCase(lig, col, nbColonnes));
                 }
             }
             return carte;
@@ -308,14 +308,15 @@ public class LecteurDonnees {
      * Lit et construit un objet case
      * @throws DataFormatException
      */
-    private Case creeCase(int lig, int col) throws DataFormatException {
+    private Case creeCase(int lig, int col, int nbColonnes) throws DataFormatException {
         ignorerCommentaires();
         try {
             String chaineNature = scanner.next();
             System.out.println(chaineNature);
             verifieLigneTerminee();
             NatureTerrain nature = NatureTerrain.valueOf(chaineNature);
-            Case cas = new Case(lig, col, nature);
+            int posAbs = lig * nbColonnes + col;
+            Case cas = new Case(lig, col, nature, posAbs);
             return cas;
         } catch (NoSuchElementException e) {
             throw new DataFormatException("format de case invalide. "
