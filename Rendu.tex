@@ -54,34 +54,35 @@
 \normalsize TP de Programmation Orientée Objet
 
 \vspace{3mm}
-{\it \small Matthias Bouderbala, Fieschi Philémon et Alexis Bigé}
+{\it \small Matthias Bouderbala, Philémon Fieschi et Alexis Bigé}
 }
 \end{center}
 
 \section{Introduction}
 
-Ce compte-rendu permet de résumer le contenu du code du projet. Le code a été écrit par les trois membres du groupe. Le code s'organise de la manière suivante dans le dossier {\tt src} :
+Ce compte-rendu permet de résumer le contenu du code du projet. Le code a été écrit par les trois membres du groupe. Il s'organise de la manière suivante dans le dossier {\tt src} :
 \begin{itemize}
   \item le package {\tt data} : les classes de données (carte, robots, incendies...)
   \item le package {\tt gui2} : le simulateur et son scénario, liés à {\tt gui.jar}
   \item le package {\tt events} : les classes d'évènements
   \item le package {\tt chemin} : la classe qui définit un chemin
-  \item le package {\tt io} : la lecture et creation de données
+  \item le package {\tt io} : la lecture et création de données
+  \item le package {\tt strategie} : les chefs pompiers (élémentaire et avancé)
   \item les tests de base
 \end{itemize}
 
 \section{Choix de conception}
 
 \subsection{Le choix des classes de données}
-Bien guidés par le sujet, nous avons implémenté les différentes classes de données : {\tt Carte Case DonneesSimulation Incendie}. Les méthodes ont été ajoutées au fur et à mesure selon les besoins pour les différentes étapes du projet.\\
+Bien guidés par le sujet, nous avons implémenté les différentes classes de données : {\tt Carte ; Case ; DonneesSimulation ; Incendie}. Les méthodes ont été ajoutées au fur et à mesure selon les besoins pour les différentes étapes du projet.\\
 
 \subsection{Le choix des méthodes des robots}
-Le package {\tt robot} contient tous les types de robots, qui référence une classe principale {\tt Robot}. Cette dernière contient les méthodes de base pour les robots ainsi que celles, essentielles, pour les différentes actions des robots. Nous avons choisi de laisser le robot gérer ses déplacements, quand il reçoit un ordre : {\tt deplacementCase ordreRemplissage ordreIntervention}, il ajoute ensuite lui-même les évènements au simulateur en prenant en compte le temps d'action.\\
+Le package {\tt robot} contient tous les types de robots, qui référencent une classe principale {\tt Robot}. Cette dernière contient les méthodes de base pour les robots ainsi que celles, essentielles, pour les différentes actions des robots. Nous avons choisi de laisser le robot gérer ses déplacements, quand il reçoit un ordre : {\tt deplacementCase ; ordreRemplissage ; ordreIntervention}, il ajoute ensuite lui-même les évènements au simulateur en prenant en compte le temps d'action.\\
 Parmis ces méthodes, on pourra remarquer :
 \begin{itemize}
-  \item {\tt Dijkstra} : renvoie le plus court chemin selon l'algorithme de Dijkstra, implémenté à partir de la version décrite sur la page \\ {\tt  https://fr.wikipedia.org/wiki/Algorithme\_de\_Dijkstra}. Le choix de cet algorithme est réfléchi (Dijkstra est plutôt efficace) mais aussi poussé par notre connaissance de cette algorithme.
-  \item {\tt ordreIntervention} : gère le déplacement (si nécessaire) et l'intervention du robot sur un incendie dans le simulateur
-  \item {\tt intervenir} : gère l'intervention directe du robot sur un incendie (le robot a auparavant géré son déplacement)
+  \item {\tt Dijkstra} : renvoie le plus court chemin selon l'algorithme de Dijkstra, implémenté à partir de la version décrite sur la page \\ {\tt  https://fr.wikipedia.org/wiki/Algorithme\_de\_Dijkstra}. Nous avons choisi cet algorithme parce que nous l'avons vu l'an dernier et savons qu'il est plutôt efficace.
+  \item {\tt ordreIntervention} : gère le déplacement (si nécessaire) et l'intervention du robot sur un incendie dans le simulateur.
+  \item {\tt intervenir} : gère l'intervention directe du robot sur un incendie (le robot a auparavant géré son déplacement).
   \item {\tt ordreRemplissage} : gère le déplacement (si nécessaire) et le remplissage du robot dans le simulateur. Il utilise la méthode {\tt choisirCaseEau} qui permet d'obtenir la case où se déroulera le remplissage.
 \end{itemize}
 Toutes ces actions sont ainsi ajoutées au simulateur selon le temps que le robot prend, temps calculé selon la nature du robot, sa vitesse, la nature du terrain et en partant du principe que le robot parcourt la moitié de la case où il est et la moitié de la case où il va.
@@ -89,14 +90,22 @@ Toutes ces actions sont ainsi ajoutées au simulateur selon le temps que le robo
 \subsection{Le choix de la classe Chemin}
 Afin de faciliter la recherche d'un plus court chemin, nous avons implémenté une classe {\tt Chemin} qui contient deux {\tt List<>}:
 \begin{itemize}
-  \item {\tt List<Case>} : une liste de cases (ordonnées par construction selon la date du déplacement vers chaque case)
-  \item {\tt List<Long>} : une liste de dates (ordonnées par construction)
+  \item {\tt List<Case>} : une liste de cases (ordonnées selon la date du déplacement).
+  \item {\tt List<Long>} : une liste de dates (ordonnées).
 \end{itemize}
-Avec des méthodes classiques pour ajouter ou récupérer des éléments dans Chemin, nous avons pu utiliser ce type de donnée pour implémenter la recherche d'un plus court chemin dans {\tt Robot}.
+Avec des méthodes classiques pour ajouter ou récupérer des éléments dans Chemin, nous avons pu utiliser ce type de données pour implémenter la recherche d'un plus court chemin dans {\tt Robot}.
 
 \subsection{Le choix du simulateur et de l'implémentation des évènements}
-Notre classe {\tt Simulateur} contient un attribut de type {\tt Scenario} qui permet gérer la séquence d'évènements qui s'exécutent au cours du temps. Ce {\tt Scenario} contient simplement une {\tt ArrayList<Evenement>} qui permet de garder les évènements ordonnés par date et ainsi d'en ajouter continuellement au mileu ou à la suite.
-Hérités de la classe abstraite {\tt Evenement}, les classes {\tt DeplacementUnitaire EvenementMessage Intervention Remplissage} permettent d'effectuer les actions indiquées au robot. En effet, c'est le robot lui-même qui a ajouté ces évènements au simulateur, après avoir reçu des ordres.
+Notre classe {\tt Simulateur} contient un attribut de type {\tt Scenario} qui permet de gérer la séquence d'évènements qui s'exécutent au cours du temps. Ce {\tt Scenario} contient simplement une {\tt ArrayList<Evenement>} qui permet de garder les évènements ordonnés par date et ainsi d'en ajouter continuellement au mileu ou à la suite.
+Héritées de la classe abstraite {\tt Evenement}, les classes {\tt DeplacementUnitaire ; EvenementMessage ; Intervention ; Remplissage} permettent d'effectuer les actions indiquées au robot. En effet, c'est le robot lui-même qui a ajouté ces évènements au simulateur, après avoir reçu des ordres.
+
+\subsection{Le choix de la stratégie}
+Nous avons implémenté deux stratégies, à l'aide de deux chefs pompiers, sous-classes de {\tt Chef}, où sont implémentées les principales méthodes liées à la connaissance de la carte en temps réelle (incendies restants, robots occupés...):
+\begin{itemize}
+  \item {\tt ChefElementaire} : la plus grosse partie du travail était déjà effectuée auparavant avec la gestion des évènements par les robots.
+  \item {\tt ChefAvance} : le chef associe à chaque robot l'incendie le plus proche, et si tous les robots sont occupés, le chef attend un peu avant de recommencer
+\end{itemize}
+Pour cette dernière stratégie, nous avions fait l'inverse (le robot le plus proche pour chaque incendie), mais cela n'apportait pas grand chose par rapport à la stratégie élémentaire.
 
 
 \section{Tests et résultats obtenus}
@@ -107,16 +116,20 @@ Nous avons choisi de tester nos classes et méthodes au fur et à mesure. En pre
 
 \subsection{L'affichage graphique}
 
+Notre affichage, géré dans la classe {\tt Simulateur}, était plutôt basique au départ, avant d'être progressivement amélioré avec des fichiers {\tt .png} faits à la main. Il est certain que le projet ne repose pas sur la qualité de l'affichage, mais il nous paraissait évident d'implémenter une interface qui soit agréable à visionner.
+
 \subsection{Les évènements}
 
-\subsection{L'organisation des évènements par les robots}
+Au départ, nous avions implémenté davantage d'évènements, en différenciant par exemple s'il s'agissait d'un déplacement vers une case voisine ou non, dans une direction particulière, etc... \\
+Cela nous était utile pour tester le simulateur et l'organisation des évènements (voir les tests évènements {\tt .java}).\\
+Puis, nous avons gardé seulement les évènements utiles lorsque le robot a du gérer ses déplacements après avoir reçu un ordre.
 
 \subsection{La stratégie}
-
+Nous n'avons pas eu de soucis particuliers pour tester les deux stratégies, avec deux fichiers de test : {\tt TestStrategieElementaire} et {\tt TestStrategieAvancee}. Les tests nous ont permis d'améliorer un maximum la stratégie avancée, qui au début n'était pas très différente de notre stratégie élémentaire.
 
 
 \section{Conclusion}
 
-
+Ce projet nous a permis de nous améliorer en Java, de travailler certaines notions comme l'héritage, dans une situation concrète. Nous avons pu effectuer ce projet en équipe malgré l'absence d'heures communes et des emplois du temps différents : nous sommes un ISI, un SEOC et un MMIS.\\
 
 \end{document}

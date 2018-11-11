@@ -11,15 +11,6 @@ import data.robot.Robot;
  * Classe Chemin
  */
 public class Chemin {
-	/**
-	* Classe Chemin :
-	* 		Séquence de cases et de dates
-	* 		Contient les méthodes d'ajout de case dans la création du plus court chemin
-	*/
-
-	/* Valeur infini */
-	private static final int INFINI = 10000;
-
 	private int nbCase;
 	private List<Case> chemin;
 	private int nbDate;
