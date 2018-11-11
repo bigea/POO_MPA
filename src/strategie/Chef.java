@@ -107,7 +107,7 @@ public abstract class Chef {
     			this.affectations.put(iter.next(),null);
     		}
     }
-    
+
     /* Le Chef est le chef de tous les robots */
     private void initChef() {
         for (int i=0; i<this.getNbRobots(); i++) {
@@ -182,7 +182,7 @@ public abstract class Chef {
         Incendie incendieChoisi = this.incendieNonAffecte();
         Robot robotChoisi = this.choisirRobot(incendieChoisi);
         if (robotChoisi != null && incendieChoisi != null) {
-            System.out.println("incendie " + incendieChoisi + " affecté à " + robotChoisi);
+            // System.out.println("incendie " + incendieChoisi + " affecté à " + robotChoisi);
             this.affectations.put(incendieChoisi, robotChoisi);
             robotChoisi.ordreIntervention(this.sim, incendieChoisi);
         }
