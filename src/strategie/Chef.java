@@ -145,7 +145,20 @@ public abstract class Chef {
         }
         return false;
     }
-
+    
+    
+    /* Retourne le nombre d'incendies non affectés */
+    protected int nbIncendieNonAffecte() {
+    	int total = 0;
+        for (int i=0; i<this.incendies.size(); i++) {
+            Incendie inc = this.incendies.get(i);
+            if (this.affectations.get(inc) == null) {
+                total +=1 ;
+            }
+        }
+        return total;
+    }
+    
     /* Retourne l'incendie non affecté */
     protected Incendie incendieNonAffecte() {
         for (int i=0; i<this.incendies.size(); i++) {
