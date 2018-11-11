@@ -107,11 +107,23 @@ public abstract class Chef {
     			this.affectations.put(iter.next(),null);
     		}
     }
-    
+
     /* Le Chef est le chef de tous les robots */
     private void initChef() {
         for (int i=0; i<this.getNbRobots(); i++) {
             this.robots[i].setChef(this);
+        }
+        for (int j=0; j<this.nbRobots; j++) {
+            Robot robot = this.robots[j];
+            boolean possibleIntervention = false;
+            for (int i=0; i<this.incendies.size(); i++) {
+                if (robot.possibleDeplacement(this.incendies.get(i).getPosition())) {
+                    possibleIntervention = true;
+                }
+            }
+            if (!possibleIntervention) {
+                robot.setDateDisponibilite(INFINI);
+            }
         }
     }
 
@@ -164,13 +176,13 @@ public abstract class Chef {
         long dateCourante = this.sim.getDateSimulation();
         for (int i=0; i<this.nbRobots; i++) {
             Robot robot = this.robots[i];
-            if (robot.possibleDeplacement(incendie.getPosition())) {
-                if (robot.estDisponible(dateCourante)) {
-                    return robot;
-                }
-            } else {
-                robot.setDateDisponibilite(INFINI);
+            // if (robot.possibleDeplacement(incendie.getPosition())) {
+            if (robot.estDisponible(dateCourante) && robot.possibleDeplacement(incendie.getPosition())) {
+                return robot;
             }
+            // } else {
+            //     robot.setDateDisponibilite(INFINI);
+            // }
         }
         return null;
     }

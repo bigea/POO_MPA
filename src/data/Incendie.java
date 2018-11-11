@@ -51,6 +51,6 @@ public class Incendie {
 
     @Override
     public int hashCode() {
-        return this.position.getLigne() * 5 + this.position.getColonne();
+        return this.position.getPositionAbsolue();
     }
 }

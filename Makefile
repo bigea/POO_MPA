@@ -48,7 +48,7 @@ testStrategieElementaire:
 	javac -d bin -classpath bin/gui.jar -sourcepath src src/TestStrategieElementaire.java
 
 testStrategieAvancee:
-	javac -d bin -classpath bin/gui.jar -sourcepath src src/TestStrategieAvance.java
+	javac -d bin -classpath bin/gui.jar -sourcepath src src/TestStrategieAvancee.java
 
 # Execution:
 # on peut taper directement la ligne de commande :
@@ -74,10 +74,10 @@ exeEvenementBis:
 	java -classpath bin:bin/gui.jar TestEvenementBis cartes/mushroomOfHell-20x20.map
 
 exeStrategieElementaire:
-	java -classpath bin:bin/gui.jar TestStrategieElementaire cartes/desertOfDeath-20x20.map
+	java -classpath bin:bin/gui.jar TestStrategieElementaire cartes/carteSujet.map
 
 exeStrategieAvancee:
-	java -classpath bin:bin/gui.jar TestStrategieAvance cartes/desertOfDeath-20x20.map
+	java -classpath bin:bin/gui.jar TestStrategieAvancee cartes/carteSujet.map
 
 clean:
 	find . -name "*.class" -exec rm {}  \;

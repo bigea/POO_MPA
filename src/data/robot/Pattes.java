@@ -81,7 +81,7 @@ public class Pattes extends Robot {
 	 * METHODES DE REMPLISSAGE : ne se remplit jamais
 	 */
 	 @Override
-	public  void ordreRemplissage(Simulateur sim) {
+	public  void ordreRemplissage(Simulateur sim, long date) {
 		return;
 	}
 	public void remplirReservoir() {

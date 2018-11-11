@@ -96,7 +96,6 @@ public class Drone extends Robot {
 		Chemin chemin = new Chemin();
 		/* Tant qu'on a pas atteint la destination */
 		Direction direction = null;
-		System.out.println(src.equals(dest));
 		while(!src.equals(dest)) {
 			/* 	On choisit simplement la direction
 			 * 		qui nous rapproche le plus de la dest

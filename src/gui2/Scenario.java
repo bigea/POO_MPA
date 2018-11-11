@@ -3,6 +3,7 @@ package gui2;
 import java.util.ArrayList;
 
 import events.Evenement;
+import data.robot.Robot;
 // import gui2.Simulateur;
 import gui.GUISimulator;
 import gui.Rectangle;
@@ -97,6 +98,18 @@ public class Scenario {
 			if (ajoute==false) {
 				this.sequence.add(pos, event);
 				ajoute = true;
+			}
+		}
+	}
+
+	/* Enlève tous les evenements liés au robot commencant à partir de date */
+	public void supprimeEvenements(Robot robot, long date) {
+		System.out.println("On supprime des evenements ! pour robot " + robot.getNature() + " à partir de date " + date);
+		int nbEvents = this.sequence.size();
+		for (int i=0; i< nbEvents; i++) {
+			if (this.sequence.get(i).getDate() >= date && this.sequence.get(i).getRobot().equals(robot)) {
+				this.sequence.remove(i);
+				this.sequence.trimToSize();
 			}
 		}
 	}

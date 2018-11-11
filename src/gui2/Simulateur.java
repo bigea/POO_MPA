@@ -130,10 +130,10 @@ public class Simulateur implements Simulable {
 
 	public void next() {
 		this.incrementeDate();
-		System.out.println("après incrémentation, date est : " + this.dateSimulation);
 		if (this.chef != null) {
 			this.chef.strategie();
 		}
+		System.out.println("après incrémentation, date est : " + this.dateSimulation);
 	}
 
 	public void restart() {
@@ -308,6 +308,11 @@ public class Simulateur implements Simulable {
 	/* Ajout d'un évènement au simulateur */
 	public void ajouteEvenement(Evenement event) {
 		this.scenario.ajouteEvenement(event);
+	}
+
+	/* Enlève tous les evenements liés à ce robot commencant à partir de date */
+	public void supprimeEvenements(Robot robot, long date) {
+		this.scenario.supprimeEvenements(robot, date);
 	}
 
 	/* Incrémente date et exécute tous les évènements jusqu'à cette date */

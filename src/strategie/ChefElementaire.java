@@ -9,7 +9,7 @@ import gui2.Simulateur;
 
 public class ChefElementaire extends Chef {
 
-    
+
     /*********************************************
     *
     * METHODES DE BASE
@@ -33,7 +33,7 @@ public class ChefElementaire extends Chef {
                 this.strategieUnitaire();
             }
         } else {
-            System.out.println("On a fini !");
+            System.out.println("Tous les incendies sont éteints en " + this.sim.getDateSimulation() + " secondes ! Bravo ! ");
         }
     }
 
