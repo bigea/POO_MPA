@@ -25,7 +25,9 @@ public abstract class Robot {
     /**
      * Classe Robot
      * 		Avec hérachie (sous-classes)
+     * 		Contient de nombreux attributs liés aux temps des différentes actions
      */
+	
 	private static final long INFINI = 2147483647;
 
     /* [PHILEMON]

@@ -11,19 +11,23 @@ public class Carte {
 
     /**
      * Classe Carte (matrice mxn) représentée par :
-     * 		Matrice de Case
-     * 		Taille Côté des cases
+     * 		- Matrice de Case
+     * 		- Taille Côté des cases
      *
      * Méthodes pour accéder à une case en fonction de ses coordonnées,
-     * ou por trouver le voisin d'une case dans une direction donnée
+     * ou pour trouver le voisin d'une case dans une direction donnée
      */
 
-	/* Attributs */
 	private int tailleCases;
 	private int nbLignes;
 	private int nbColonnes;
 	private Case[][] matrice;
 
+	/*********************************************
+	 *
+	 * METHODES DE BASE
+	 */
+	
 	/* Affichage */
 	public String toString() {
 		return this.getNbLignes()+" "+this.getNbColonnes()+" "+this.getTailleCases();
@@ -71,7 +75,12 @@ public class Carte {
 	public void setCase(Case cas) {
 		matrice[cas.getLigne()][cas.getColonne()] = cas;
 	}
-
+	
+	/*********************************************
+	 *
+	 * METHODES SUR LES VOISINS
+	 */
+	
 	/* Existence du voisin */
 	public boolean voisinExiste(Case src, Direction dir) {
 	    int src_ligne = src.getLigne();

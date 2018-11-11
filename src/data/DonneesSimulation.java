@@ -15,7 +15,6 @@ public class DonneesSimulation {
      * Classe DonneesSimulation : classe principale regroupant toutes les données du problème
      */
 
-	/* Attributs */
 	private Carte carte;
 	private ArrayList<Incendie> incendies;
 	private Robot[] robots;
@@ -24,6 +23,11 @@ public class DonneesSimulation {
 	private int nbRobots;
 	private int nbEaux;
 
+	/*********************************************
+	 *
+	 * METHODES DE BASE
+	 */
+	
 	/* Constructeur */
 	public DonneesSimulation(Carte carte, int nbIncendies, int nbRobots, int nbEaux) {
 		this.carte = carte;
@@ -35,7 +39,7 @@ public class DonneesSimulation {
 		this.eaux = new Case[nbEaux];
 	}
 
-	/* Affichage comme dans le fichier d'origine*/
+	/* Affichage comme dans le fichier d'origine (pour les TESTS) */
 	public String toString() {
 		String chaine = this.getCarte().toString();
 		int nbLignes = this.getCarte().getNbLignes();
@@ -112,32 +116,7 @@ public class DonneesSimulation {
     /* Suppression d'un incendie */
     public void supprimerIncendie(Incendie incendie) {
     	this.incendies.remove(incendie);
-        // this.incendies.trimToSize();
     	this.nbIncendies -= 1;
-//        Incendie[] incendies = this.getIncendies();
-//        int nbIncendie = this.getNbIncendies();
-//        int indIncendie = 0;
-//        /* On trouve l'indice de l'incendie qu'on veut supprimer dans la liste de tous les incendies */
-//        for (int i=0; i<nbIncendie; i++) {
-//            if (incendies[i] == incendie) {
-//                indIncendie = i;
-//                i=nbIncendie;
-//            }
-//        }
-//        /* On va recréer une nouvelle liste d'incendies en copiant tous ceux qu'on a sauf celui qu'on vient d'éteindre */
-//        Incendie[] newIncendies = new Incendie[nbIncendie-1];
-//        int jBis = 0;
-//        for (int j=0; j<nbIncendie-1; j++) {
-//            if (j!=indIncendie) {
-//                newIncendies[j] = incendies[jBis];
-//            } else {
-//                newIncendies[j] = incendies[jBis+1];
-//                jBis++;
-//            }
-//            jBis++;
-//        }
-//        this.setNbIncendies(nbIncendie-1);
-//        this.setIncendies(newIncendies);
     }
 
 	/* Ajout d'un robot */

@@ -5,16 +5,18 @@ import data.robot.Robot;
 import gui2.Simulateur;
 
 /**
- * Classe EvenementDeplacementCase
+ * Classe DeplacementUnitaire
  */
 
 public class DeplacementUnitaire extends Evenement{
     /**
-	 * Classe EvenementDeplacementCase :
+	 * Classe DeplacementUnitaire :
 	 * 		hérite du modèle Evenement et effectue le déplacement du robot
-	 * 		Jusqu'à une case quelconque
+	 * 		Jusqu'à une case voisine
 	 */
+	
     private Case destination;
+    
     /*********************************************
      *
      * METHODES DE BASE
@@ -42,6 +44,7 @@ public class DeplacementUnitaire extends Evenement{
      public Case getDestination() {
          return this.destination;
      }
+     
      /*********************************************
       *
       * EXECUTION

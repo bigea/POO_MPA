@@ -14,6 +14,8 @@ public class Pattes extends Robot {
 
 	/**
 	 * Classe Pattes (Robot Terrestre)
+	 * 	 	Sous-classe de Robot
+	 * 		Contient toutes les méthodes particulières à ce robot
 	 */
 
 	/*********************************************
@@ -63,17 +65,6 @@ public class Pattes extends Robot {
 	public String toString() {
 		return this.getPosition().getLigne()+" "+this.getPosition().getColonne()+" PATTES "+this.getVitesse(this.getPosition().getNature());
 	}
-
-
-	/*********************************************
-	 *
-	 * METHODES D'INTERVENTION
-	 */
-
-	// public void deverserEau(int vol) {
-	// 	// TODO Auto-generated method stub
-	//
-	// }
 
 
 	/*********************************************

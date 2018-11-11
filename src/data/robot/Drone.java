@@ -17,7 +17,8 @@ public class Drone extends Robot {
 
     /**
      * Classe Drone
-     * 		Hiérarchie des classes avec Drone => Robot
+     * 	 	Sous-classe de Robot
+	 * 		Contient toutes les méthodes particulières à ce robot
      */
 
 	/*********************************************
@@ -47,24 +48,12 @@ public class Drone extends Robot {
 		}
 	}
 
-
 	@Override
 	public String toString() {
 		return this.getPosition().getLigne()+" "+this.getPosition().getColonne()+" DRONE "+this.getVitesse(this.getPosition().getNature());
 	}
 
-
-	/*********************************************
-	 *
-	 * METHODES D'INTERVENTION
-	 */
-
-	// public void deverserEau(int vol) {
-	// 	// TODO Auto-generated method stub
-    //
-	// }
-
-
+	
 	/*********************************************
 	 *
 	 * METHODES DE REMPLISSAGE

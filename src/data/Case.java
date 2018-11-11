@@ -15,12 +15,16 @@ public class Case{
      * 		Nature du terrain
      */
 
-	/* Attributs */
 	private int ligne;
 	private int colonne;
 	private NatureTerrain nature;
     private int positionAbsolue;
 
+	/*********************************************
+	 *
+	 * METHODES DE BASE
+	 */
+    
 	/* Affichage */
 	public String toString() {
 		return this.getNature()+" y : "+this.ligne + "  x : "+this.colonne ;
@@ -62,6 +66,7 @@ public class Case{
         this.positionAbsolue = posAbs;
     }
 
+    /* Egalité entre deux case */
 	public boolean equals(Case cas){
 		return (this.getLigne() == cas.getLigne() && this.getColonne() == cas.getColonne());
 	}

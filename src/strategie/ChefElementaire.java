@@ -4,11 +4,14 @@ import gui2.Simulateur;
 
 /**
  * Classe ChefElementaire
- *    Pemet de définir la stratégie globale
  */
 
 public class ChefElementaire extends Chef {
 
+	/**
+	 * Classe ChefElementaire
+	 *    Pemet de définir la stratégie globale
+	 */
 
     /*********************************************
     *

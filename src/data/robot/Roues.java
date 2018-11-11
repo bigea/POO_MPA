@@ -14,6 +14,8 @@ public class Roues extends Robot {
 
 	/**
 	 * Classe Roues (Robot Terrestre)
+	 * 	 	Sous-classe de Robot
+	 * 		Contient toutes les méthodes particulières à ce robot
 	 */
 
 	/*********************************************
@@ -49,15 +51,6 @@ public class Roues extends Robot {
 		return this.getPosition().getLigne()+" "+this.getPosition().getColonne()+" ROUES "+this.getVitesse(this.getPosition().getNature());
 	}
 
-
-	/*********************************************
-	 *
-	 * METHODES D'INTERVENTION
-	 */
-
-	// public void deverserEau(int vol) {
-	// 	// TODO Auto-generated method stub
-	// }
 
 	/*********************************************
 	 *

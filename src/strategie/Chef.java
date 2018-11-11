@@ -12,10 +12,15 @@ import data.robot.*;
 
 /**
  * Classe Chef
- *    Pemet de définir la stratégie, avec un chef pompier
  */
 
 public abstract class Chef {
+
+	/**
+	 * Classe Chef
+	 *    Pemet de définir la stratégie, avec un chef pompier
+	 *    Possède toutes les données de la carte et une HashMap d'affectation entre les incendies et les robotss
+	 */
 
     protected static final long INFINI = 2147483647;
 

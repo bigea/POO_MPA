@@ -15,7 +15,10 @@ public class Chenilles extends Robot {
 
 	/**
 	 * Classe Chenilles (Robot Terrestre)
+	 * 		Sous-classe de Robot
+	 * 		Contient toutes les méthodes particulières à ce robot
 	 */
+	
 	/*********************************************
 	 *
 	 * METHODES DE BASE
@@ -54,21 +57,10 @@ public class Chenilles extends Robot {
 		}
 	}
 
-
 	@Override
 	public String toString() {
 		return this.getPosition().getLigne()+" "+this.getPosition().getColonne()+" CHENILLES "+this.getVitesse(this.getPosition().getNature());
 	}
-
-
-	/*********************************************
-	 *
-	 * METHODES D'INTERVENTION
-	 */
-
-	// public void deverserEau(int vol) {
-	// 	this.setCapacite(this.getCapacite() - vol);
-	// }
 
 	/*********************************************
 	 *
@@ -112,7 +104,6 @@ public class Chenilles extends Robot {
 
 	/* Remplissage effectif */
 	public void remplirReservoir() {
-
 		this.setCapacite(2000);
 	}
 

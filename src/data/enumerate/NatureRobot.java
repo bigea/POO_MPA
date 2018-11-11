@@ -9,4 +9,20 @@ public enum NatureRobot {
 	PATTES,
 	ROUES,
 	CHENILLES;
+	
+	private String nom = "";
+
+	/*********************************************
+	 * 
+	 * METHODES DE BASE
+	 */
+	
+	/* Constructeur */
+	public void Nature(String nom){
+		this.nom = nom;
+	}
+	/* Accesseur */
+	public String toString() {
+		return this.nom;
+	}
 }

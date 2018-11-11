@@ -8,11 +8,14 @@ import gui2.Simulateur;
 
 /**
  * Classe ChefAvance
- *    Pemet de définir la stratégie globale plus avancée
  */
 
 public class ChefAvance extends Chef {
 
+	/**
+	 * Classe ChefAvance
+	 *    Pemet de définir la stratégie globale plus avancée
+	 */
 
     /*********************************************
     *
@@ -29,7 +32,7 @@ public class ChefAvance extends Chef {
     */
 
     /* Méthode de stratégie
-     * 		pour chaque incendie non affecté, on prend le robot le plus proche et lui ordonne d'intervenir sur cet incendie
+     * 		pour chaque robot, on prend l'incendie non affecté le plus proche
      */
     public void strategie() {
     	long dateMin;
