@@ -15,6 +15,7 @@ import events.*;
 import gui2.Simulateur;
 import strategie.*;
 import data.enumerate.Direction;
+import tools.Tuple;
 
 /**
  * Classe Robot
@@ -50,6 +51,7 @@ public abstract class Robot {
 	protected long dateDisponibilite;
     protected int capaciteMaximale;
     protected Chef chef;
+	protected HashMap<Tuple<Case, Case>, Chemin> tableauChemins;
 
 	/*********************************************
 	 *
@@ -62,6 +64,8 @@ public abstract class Robot {
 		this.setDateDisponibilite(dateDisponibilite);
 		this.nature = nature;
         this.chef = null;
+		this.tableauChemins = new HashMap<Tuple<Case, Case>, Chemin>();
+		System.out.println("je suis passé dans le constructeur robot");
 	}
 
 	/* Affichage */
@@ -197,7 +201,7 @@ public abstract class Robot {
             /* Calcul du plus court chemin */
     		Chemin chemin = this.plusCourt(dest, date, sim.getDonnees().getCarte());
 			long endTime = System.currentTimeMillis();
-			System.out.println("temps plus court chemin du robot "+this.nature+" de " + this.position +" à"+ dest +" :"+ (endTime-startTime));
+			// System.out.println("temps plus court chemin du robot "+this.nature+" de " + this.position +" à"+ dest +" :"+ (endTime-startTime));
     		this.ajoutSimulateurDeplacement(sim,chemin);
             this.setPosition(dest);     // En réalité le robot n'est pas affiché à la position dest et ne doit pas l'être.
             // Mais il ne le sera jamais car il y a toujours un evenement qui change sa position avant
@@ -233,11 +237,59 @@ public abstract class Robot {
 	}
 
 
-/*FONCTION UTILE AU CALCUL DE PLUS COURT CHEMIN********************************************/
+/*FONCTION UTILE AU CALCUL DU PLUS COURT CHEMIN********************************************/
+
+	/*remplissage du tableau de mémorisation des plus courts chemins*/
+	/*On stocke juste l'aller et le retour dans le tableau et pas les chemins intermédiaires (trop long)*/
+	// protected void remplissageTabPlusCourtChemin(Chemin chemin, Case src, Case dst, Carte carte){
+	// 	Tuple<Case, Case> srcDst = new Tuple<Case, Case>(src, dst);
+	// 	this.tableauChemins.put(srcDst, chemin); // On ajoute l'aller
+	// 	Chemin cheminRetour = new Chemin();
+	// 	for(int i=chemin.getNbCase()-1; i>=0; i--){ //On ajoute les cases dans le chemin retour
+	// 		cheminRetour.ajoutCase(chemin.getChemin().get(i), chemin.getDates().get(i), this, carte);
+	// 	}
+	// 	Tuple<Case, Case> dstSrc = new Tuple<Case, Case>(dst, src);
+	// 	this.tableauChemins.put(dstSrc, cheminRetour);//On ajoute le retour
+	// 	// System.out.println("[DANS LA TABLE] à la clé " + srcDst.toString() + ", il y a : " +this.tableauChemins.get(srcDst));
+	//
+	// }
 
 	/* calcul du plus court chemin */
 	public Chemin plusCourt(Case dest, long date, Carte carte) {
-		Chemin chemin = Dijkstra(dest, date, carte);
+		Tuple<Case, Case> srcDst = new Tuple<Case, Case>(this.position, dest);
+		Chemin chemin;
+		/**/
+		// System.out.println("Le tableau est vide ? : " + this.tableauChemins.isEmpty());
+		System.out.println("["+ this +"] déplacement demandé de " + this.position + " à " + dest );
+		System.out.println("[TABLE] valeur à la clé ["+ this.tableauChemins.get(srcDst) + "]");
+		// System.out.println("[DANS LA TABLE] à la clé " + srcDst.toString() + ", il y a : " +this.tableauChemins.get(srcDst));
+		/**/
+		if(this.tableauChemins.get(srcDst) != null){
+			System.out.println("Mon changement a SERVIIIIIIIIIIIIIIIIIIIIIII");
+			chemin = this.tableauChemins.get(srcDst);
+			/* on modifie les dates du chemin*/
+			long dateCase = date;
+			for(int i=0; i<chemin.getNbCase(); i++){
+				chemin.ajoutDate(dateCase);
+				if(i != chemin.getNbCase()-1){
+					dateCase += this.calculTemps(chemin.getChemin().get(i), chemin.getChemin().get(i+1), carte);
+				}
+			}
+		}
+		else{
+			chemin = Dijkstra(dest, date, carte);
+			// remplissageTabPlusCourtChemin(chemin, this.position, dest, carte);
+			this.tableauChemins.put(srcDst, chemin); // On ajoute l'aller
+			Chemin cheminRetour = new Chemin();
+			for(int i=chemin.getNbCase()-1; i>=0; i--){ //On ajoute les cases dans le chemin retour
+				cheminRetour.ajoutCase(chemin.getChemin().get(i), chemin.getDates().get(i), this, carte);
+			}
+			Tuple<Case, Case> dstSrc = new Tuple<Case, Case>(dest, this.position);
+			this.tableauChemins.put(dstSrc, cheminRetour);//On ajoute le retour
+			System.out.println("[TABLE] [" + srcDst.toString() + "]" +"--> " +this.tableauChemins.get(srcDst));
+			System.out.println("[TABLE] [" + dstSrc.toString() + "]" +"--> " +this.tableauChemins.get(dstSrc));
+
+		}
 		return chemin;
 	}
 	/* Initialisation du graphe (poids infini) */

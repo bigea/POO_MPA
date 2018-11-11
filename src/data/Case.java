@@ -25,7 +25,7 @@ public class Case{
 	 *
 	 * METHODES DE BASE
 	 */
-    
+
 	/* Affichage */
 	public String toString() {
 		return this.getNature()+" y : "+this.ligne + "  x : "+this.colonne ;
@@ -72,4 +72,7 @@ public class Case{
 		return (this.getLigne() == cas.getLigne() && this.getColonne() == cas.getColonne());
 	}
 
+	public int hashCode(){
+		return this.positionAbsolue;
+	}
 }

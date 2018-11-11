@@ -27,7 +27,7 @@ public class Carte {
 	 *
 	 * METHODES DE BASE
 	 */
-	
+
 	/* Affichage */
 	public String toString() {
 		return this.getNbLignes()+" "+this.getNbColonnes()+" "+this.getTailleCases();
@@ -75,12 +75,12 @@ public class Carte {
 	public void setCase(Case cas) {
 		matrice[cas.getLigne()][cas.getColonne()] = cas;
 	}
-	
+
 	/*********************************************
 	 *
 	 * METHODES SUR LES VOISINS
 	 */
-	
+
 	/* Existence du voisin */
 	public boolean voisinExiste(Case src, Direction dir) {
 	    int src_ligne = src.getLigne();

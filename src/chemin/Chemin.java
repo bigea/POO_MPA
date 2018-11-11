@@ -91,6 +91,10 @@ public class Chemin {
 		this.nbDate += 1;
 	}
 
+	public void ajoutDate(long date){
+		this.dates.add(date);
+	}
+
 	/* Renvoie la durée d'un chemin */
 	public long tempsChemin(Robot robot, Carte carte) {
 		long temps = this.dates.get(this.getNbDate()-1) - this.dates.get(0);

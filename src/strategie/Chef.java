@@ -150,8 +150,8 @@ public abstract class Chef {
         }
         return false;
     }
-    
-    
+
+
     /* Retourne le nombre d'incendies non affectés */
     protected int nbIncendieNonAffecte() {
     	int total = 0;
@@ -163,7 +163,7 @@ public abstract class Chef {
         }
         return total;
     }
-    
+
     /* Retourne l'incendie non affecté */
     protected Incendie incendieNonAffecte() {
         for (int i=0; i<this.incendies.size(); i++) {
@@ -212,7 +212,7 @@ public abstract class Chef {
         Incendie incendieChoisi = this.incendieNonAffecte();
         Robot robotChoisi = this.choisirRobot(incendieChoisi);
         if (robotChoisi != null && incendieChoisi != null) {
-            // System.out.println("incendie " + incendieChoisi + " affecté à " + robotChoisi);
+            System.out.println("incendie " + incendieChoisi + " affecté à " + robotChoisi);
             this.affectations.put(incendieChoisi, robotChoisi);
             robotChoisi.ordreIntervention(this.sim, incendieChoisi);
         }

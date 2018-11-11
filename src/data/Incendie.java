@@ -19,7 +19,7 @@ public class Incendie {
 	 *
 	 * METHODES DE BASE
 	 */
-	
+
 	/* Affichage */
 	public String toString() {
 		return this.getPosition().getLigne()+" "+this.getPosition().getColonne()+" "+this.getLitrePourEteindre();
@@ -48,15 +48,15 @@ public class Incendie {
 	}
 
 	/* Egalité entre deux incendies */
-    @Override
+    // @Override
     public boolean equals(Object o) {
         Incendie inc = (Incendie)o;
         return this.position.equals(inc.getPosition());
     }
-    
+
     /* Pour une table de hachage */
-    @Override
+    // @Override
     public int hashCode() {
-        return this.position.getPositionAbsolue();
+        return this.position.hashCode();
     }
 }
