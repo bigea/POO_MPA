@@ -25,7 +25,9 @@ public abstract class Robot {
     /**
      * Classe Robot
      * 		Avec hérachie (sous-classes)
+     * 		Contient de nombreux attributs liés aux temps des différentes actions
      */
+
 	private static final long INFINI = 2147483647;
 
     /* [PHILEMON]
@@ -64,6 +66,13 @@ public abstract class Robot {
 
 	/* Affichage */
 	public abstract String toString();
+
+    /* égalité de robots */
+    @Override
+    public boolean equals(Object o) {
+        Robot robot = (Robot)o;
+        return this.position.equals(robot.getPosition()) && this.nature==robot.getNature() && this.capacite==robot.getCapacite() && this.dateDisponibilite==robot.getDateDisponibilite();
+    }
 
 	/* Accesseurs */
 	public Case getPosition() {
@@ -183,11 +192,9 @@ public abstract class Robot {
 	 */
 
 	/* Déplacement du robot vers une case et ajout des évènements au simulateur */
-	public Chemin deplacementCase(Case dest, Simulateur sim) {
+	public Chemin deplacementCase(Case dest, Simulateur sim, long date) {
         if (this.possibleDeplacement(dest)) {
             /* Calcul du plus court chemin */
-            long date = this.getDateDisponibilite();
-			long startTime = System.currentTimeMillis();
     		Chemin chemin = this.plusCourt(dest, date, sim.getDonnees().getCarte());
 			long endTime = System.currentTimeMillis();
 			System.out.println("temps plus court chemin du robot "+this.nature+" de " + this.position +" à"+ dest +" :"+ (endTime-startTime));
@@ -295,10 +302,8 @@ public abstract class Robot {
 		Case noeud = src;
 		/* Tant que l'on a pas parcouru toutes les cases ou atteint la dest */
 		while(!noeuds.isEmpty()) {
-            // System.out.println("Noeuds : " + noeuds);
 			// on récupère la case dont la distance est minimale
 			noeud = TrouveMin(noeuds, poids);
-            // System.out.println("Noeud : " + noeud);
 			// on supprime ce noeud
 			noeuds.remove(noeud);
 			if(noeud.equals(dest)){ //On s'arrête dès qu'on a atteint la destination pour éviter des calculs inutiles
@@ -352,11 +357,11 @@ public abstract class Robot {
      */
 
     public void ordreIntervention(Simulateur sim, Incendie incendie) {
-        long date = this.getDateDisponibilite();
+        long date = sim.getDateSimulation();
         if (this.getPosition() != incendie.getPosition()) {
             if (this.possibleDeplacement(incendie.getPosition())) {
                 /* On se déplace jusqu'à l'incendie */
-                Chemin chemin = this.deplacementCase(incendie.getPosition(), sim);
+                Chemin chemin = this.deplacementCase(incendie.getPosition(), sim, date);
                 /* Date de fin du déplacement */
                 date = date + chemin.tempsChemin(this, sim.getDonnees().getCarte());
 
@@ -380,7 +385,7 @@ public abstract class Robot {
         incendie.setLitrePourEteindre(sauvegardeLitrePourEteindre);
         /* Si reservoir vide, va se remplir */
         if (fautRemplir) {
-            this.ordreRemplissage(sim);
+            this.ordreRemplissage(sim, date);
         }
     }
 
@@ -388,36 +393,40 @@ public abstract class Robot {
     public void intervenir(Simulateur sim, Incendie incendie) {
         /* On déverse l'eau selon la taille de l'incendie et du réservoir */
 		int volInc = incendie.getLitrePourEteindre(); /*on récupère la quantité d'eau nécessaire pour éteindre l'incendie*/
-		int volRbt = this.getVolumeVidageUnitaire(); /*on récupère la quantité d'eau contenue dans le robot*/
+        if (volInc > 0) {
+            int volRbt = this.getVolumeVidageUnitaire(); /*on récupère la quantité d'eau contenue dans le robot*/
 
-		int volEncoreNecessaire = volInc - volRbt;
-		/* Si eau dans réservoir robot insuffisant */
-		if(volEncoreNecessaire > 0) {
-			this.deverserEau(volRbt);
-			incendie.setLitrePourEteindre(volEncoreNecessaire);
-		}
-		/* Si eau dans réservoir robot suffisante */
-		else {
-			this.deverserEau(volRbt);
-			incendie.setLitrePourEteindre(0);
-            /* On supprime l'incendie qu'on vient d'éteindre */
-            sim.getDonnees().supprimerIncendie(incendie);
+    		int volEncoreNecessaire = volInc - volRbt;
+    		/* Si eau dans réservoir robot insuffisant */
+    		if(volEncoreNecessaire > 0) {
+    			this.deverserEau(volRbt);
+    			incendie.setLitrePourEteindre(volEncoreNecessaire);
+    		}
+    		/* Si eau dans réservoir robot suffisante */
+    		else {
+    			this.deverserEau(volRbt);
+    			incendie.setLitrePourEteindre(0);
+                /* On supprime l'incendie qu'on vient d'éteindre */
+                sim.getDonnees().supprimerIncendie(incendie);
 
-            // [PHILEMON]
-            // Remarque : on pourrait faire en sorte qu'on attende this.getTempsVidageUnitaire() avant de supprimer l'incendie
-            // car par exemple pour le cas du drone quand il se vide ca supprime direct l'incendie alors que normalementt,
-            // l'incendie est éteint après trente secondes
-            // Pour implémenter ça on pourrait par exemple créer un evenement DesaffichageIncendie à une date donnée.
-            // Faut choisir si on le fait ou pas.
+                // [PHILEMON]
+                // Remarque : on pourrait faire en sorte qu'on attende this.getTempsVidageUnitaire() avant de supprimer l'incendie
+                // car par exemple pour le cas du drone quand il se vide ca supprime direct l'incendie alors que normalementt,
+                // l'incendie est éteint après trente secondes
+                // Pour implémenter ça on pourrait par exemple créer un evenement DesaffichageIncendie à une date donnée.
+                // Faut choisir si on le fait ou pas.
 
-		}
+    		}
+        } else {
+            this.supprimeSimulateurEvenements(sim, sim.getDateSimulation());
+        }
         HashMap<Incendie,Robot> affectations = this.chef.getAffectations();
         affectations.remove(incendie);
         this.chef.setAffectations(affectations);
+
     }
 
     /* Déverser l'eau */
-    // public abstract void deverserEau(int vol);
     public void deverserEau(int vol) {
 		this.setCapacite(this.getCapacite() - vol);
 	}
@@ -435,13 +444,12 @@ public abstract class Robot {
 
 	/*ordre de remplissage donné au robot*/ /*fonction qui remplacera remplir Reservoir*/
 	/*Cette fonction appelera remplirResevoir une fois le robot arrivé sur la zone d'eau*/
-	public  void ordreRemplissage(Simulateur sim) {
-	    long date = this.getDateDisponibilite(); // Gerer
+	public  void ordreRemplissage(Simulateur sim, long date) {
 	    if (!this.possibleRemplissage(this.getPosition(), sim.getDonnees().getCarte())) {
             /* On recupere la case eau la plus proche en temps */
 	        Case destinationEau = this.choisirCaseEau(sim);
 	        /* On se déplace jusqu'à cette case */
-	        Chemin chemin = this.deplacementCase(destinationEau, sim);
+	        Chemin chemin = this.deplacementCase(destinationEau, sim, date);
 	        /* Date de fin du déplacement */
 	        date = date + chemin.tempsChemin(this, sim.getDonnees().getCarte());
 	    }
@@ -515,9 +523,15 @@ public abstract class Robot {
 
     /* Ajout au simulateur d'une intervention */
     public void ajoutSimulateurIntervention(Simulateur sim, long date, long duree, Incendie incendie) {
-        System.out.println("[" + this.getNature() + "]-" + "Intervention, date : " + date + ", incendie (" + incendie.getPosition().getLigne() + ";" + incendie.getPosition().getColonne() +")");
+        System.out.println("[" + this.getNature() + "]-" + "Intervention, date : " + date + ", incendie " + incendie);
         this.setDateDisponibilite(this.getDateDisponibilite()+duree);
         sim.ajouteEvenement(new Intervention(date, sim, this, incendie));
+    }
+
+    /* Enleve au simulateur les prochains evenements liés à ce robot commencant à partir de date */
+    public void supprimeSimulateurEvenements(Simulateur sim, long date) {
+        sim.supprimeEvenements(this, date);
+        this.setDateDisponibilite(date);
     }
 
 }

@@ -5,6 +5,7 @@
 /TestInvader.class
 /TestLecteurDonnees.class
 /TestSimulateur.class
+/TestStrategieAvancee.class
 /TestStrategieElementaire.class
 /chemin/
 /data/
@@ -14,4 +15,3 @@
 /io/
 /script.sh
 /strategie/
-/TestStrategieAvance.class

@@ -17,7 +17,8 @@ public class Drone extends Robot {
 
     /**
      * Classe Drone
-     * 		Hiérarchie des classes avec Drone => Robot
+     * 	 	Sous-classe de Robot
+	 * 		Contient toutes les méthodes particulières à ce robot
      */
 
 	/*********************************************
@@ -47,24 +48,12 @@ public class Drone extends Robot {
 		}
 	}
 
-
 	@Override
 	public String toString() {
 		return this.getPosition().getLigne()+" "+this.getPosition().getColonne()+" DRONE "+this.getVitesse(this.getPosition().getNature());
 	}
 
-
-	/*********************************************
-	 *
-	 * METHODES D'INTERVENTION
-	 */
-
-	// public void deverserEau(int vol) {
-	// 	// TODO Auto-generated method stub
-    //
-	// }
-
-
+	
 	/*********************************************
 	 *
 	 * METHODES DE REMPLISSAGE
@@ -96,7 +85,6 @@ public class Drone extends Robot {
 		Chemin chemin = new Chemin();
 		/* Tant qu'on a pas atteint la destination */
 		Direction direction = null;
-		System.out.println(src.equals(dest));
 		while(!src.equals(dest)) {
 			/* 	On choisit simplement la direction
 			 * 		qui nous rapproche le plus de la dest

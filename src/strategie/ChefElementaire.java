@@ -4,12 +4,15 @@ import gui2.Simulateur;
 
 /**
  * Classe ChefElementaire
- *    Pemet de définir la stratégie globale
  */
 
 public class ChefElementaire extends Chef {
 
-    
+	/**
+	 * Classe ChefElementaire
+	 *    Pemet de définir la stratégie globale
+	 */
+
     /*********************************************
     *
     * METHODES DE BASE
@@ -33,7 +36,7 @@ public class ChefElementaire extends Chef {
                 this.strategieUnitaire();
             }
         } else {
-            System.out.println("On a fini !");
+            System.out.println("Tous les incendies sont éteints en " + this.sim.getDateSimulation() + " secondes ! Bravo ! ");
         }
     }
 

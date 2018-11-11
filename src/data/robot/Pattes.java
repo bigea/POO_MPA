@@ -14,6 +14,8 @@ public class Pattes extends Robot {
 
 	/**
 	 * Classe Pattes (Robot Terrestre)
+	 * 	 	Sous-classe de Robot
+	 * 		Contient toutes les méthodes particulières à ce robot
 	 */
 
 	/*********************************************
@@ -67,21 +69,10 @@ public class Pattes extends Robot {
 
 	/*********************************************
 	 *
-	 * METHODES D'INTERVENTION
-	 */
-
-	// public void deverserEau(int vol) {
-	// 	// TODO Auto-generated method stub
-	//
-	// }
-
-
-	/*********************************************
-	 *
 	 * METHODES DE REMPLISSAGE : ne se remplit jamais
 	 */
 	 @Override
-	public  void ordreRemplissage(Simulateur sim) {
+	public  void ordreRemplissage(Simulateur sim, long date) {
 		return;
 	}
 	public void remplirReservoir() {

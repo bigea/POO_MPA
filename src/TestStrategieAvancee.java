@@ -12,7 +12,7 @@ import strategie.ChefAvance;
  * TestStratégieAvance (avec chef pompier avancé)
  */
 
-public class TestStrategieAvance {
+public class TestStrategieAvancee {
 
     public static void main(String[] args) {
     	/* TEST EVENEMENT */

@@ -12,10 +12,15 @@ import data.robot.*;
 
 /**
  * Classe Chef
- *    Pemet de définir la stratégie, avec un chef pompier
  */
 
 public abstract class Chef {
+
+	/**
+	 * Classe Chef
+	 *    Pemet de définir la stratégie, avec un chef pompier
+	 *    Possède toutes les données de la carte et une HashMap d'affectation entre les incendies et les robotss
+	 */
 
     protected static final long INFINI = 2147483647;
 
@@ -113,6 +118,18 @@ public abstract class Chef {
         for (int i=0; i<this.getNbRobots(); i++) {
             this.robots[i].setChef(this);
         }
+        for (int j=0; j<this.nbRobots; j++) {
+            Robot robot = this.robots[j];
+            boolean possibleIntervention = false;
+            for (int i=0; i<this.incendies.size(); i++) {
+                if (robot.possibleDeplacement(this.incendies.get(i).getPosition())) {
+                    possibleIntervention = true;
+                }
+            }
+            if (!possibleIntervention) {
+                robot.setDateDisponibilite(INFINI);
+            }
+        }
     }
 
     /*********************************************
@@ -133,7 +150,20 @@ public abstract class Chef {
         }
         return false;
     }
-
+    
+    
+    /* Retourne le nombre d'incendies non affectés */
+    protected int nbIncendieNonAffecte() {
+    	int total = 0;
+        for (int i=0; i<this.incendies.size(); i++) {
+            Incendie inc = this.incendies.get(i);
+            if (this.affectations.get(inc) == null) {
+                total +=1 ;
+            }
+        }
+        return total;
+    }
+    
     /* Retourne l'incendie non affecté */
     protected Incendie incendieNonAffecte() {
         for (int i=0; i<this.incendies.size(); i++) {
@@ -164,13 +194,13 @@ public abstract class Chef {
         long dateCourante = this.sim.getDateSimulation();
         for (int i=0; i<this.nbRobots; i++) {
             Robot robot = this.robots[i];
-            if (robot.possibleDeplacement(incendie.getPosition())) {
-                if (robot.estDisponible(dateCourante)) {
-                    return robot;
-                }
-            } else {
-                robot.setDateDisponibilite(INFINI);
+            // if (robot.possibleDeplacement(incendie.getPosition())) {
+            if (robot.estDisponible(dateCourante) && robot.possibleDeplacement(incendie.getPosition())) {
+                return robot;
             }
+            // } else {
+            //     robot.setDateDisponibilite(INFINI);
+            // }
         }
         return null;
     }

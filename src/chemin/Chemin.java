@@ -14,13 +14,12 @@ public class Chemin {
 	/**
 	* Classe Chemin :
 	* 		Séquence de cases et de dates
+	* 		Contient les méthodes d'ajout de case dans la création du plus court chemin
 	*/
-
 
 	/* Valeur infini */
 	private static final int INFINI = 10000;
 
-	// private long dateSimulation;
 	private int nbCase;
 	private List<Case> chemin;
 	private int nbDate;
@@ -87,12 +86,12 @@ public class Chemin {
 
 	public void ajoutCase(Case cas, long date, Robot rbt, Carte carte) {
 		this.dates.add(date);
-		// System.out.println(this.toStringDate());
 		this.chemin.add(cas);
 		this.nbCase += 1;
 		this.nbDate += 1;
 	}
 
+	/* Renvoie la durée d'un chemin */
 	public long tempsChemin(Robot robot, Carte carte) {
 		long temps = this.dates.get(this.getNbDate()-1) - this.dates.get(0);
 		Case avantDerniereCase;
