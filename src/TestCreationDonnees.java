@@ -16,7 +16,6 @@ public class TestCreationDonnees {
             System.out.println("Syntaxe: java TestCreationDonnees <nomDeFichier>");
             System.exit(1);
         }
-
         try {
         	DonneesSimulation donnees = LecteurDonnees.creeDonnees(args[0]);
         	//Affichage des données

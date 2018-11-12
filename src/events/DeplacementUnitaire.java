@@ -52,8 +52,6 @@ public class DeplacementUnitaire extends Evenement{
 
      /* Exécution de l'évènement */
      public void execute() {
-         /* Le robot va gérer le déplacement vers la case */
-        //  this.getRobot().deplacementCase(this.getCase(), this.getSimulateur());
          this.getRobot().setPosition(this.getDestination());
      }
 }

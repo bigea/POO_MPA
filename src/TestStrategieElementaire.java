@@ -15,19 +15,13 @@ import strategie.ChefElementaire;
 public class TestStrategieElementaire {
 
     public static void main(String[] args) {
-    	/* TEST EVENEMENT */
     	System.out.println("------ TEST STRATEGIE -------");
-
         try {
-        	/* On récupère la carte et les données */
             DonneesSimulation donnees = LecteurDonnees.creeDonnees(args[0]);
-            /* Création d'un simulateur et ajout des évènements */
             Simulateur simulateur = new Simulateur(donnees);
-
             /* TEST STRATEGIE */
             ChefElementaire chef = new ChefElementaire(simulateur);
             chef.commencerStrategie();
-
         } catch (FileNotFoundException e) {
             System.out.println("fichier " + args[0] + " inconnu ou illisible");
         } catch (DataFormatException e) {

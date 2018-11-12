@@ -38,11 +38,8 @@ testLecture:
 testCreationDonnees:
 	javac -d bin -classpath bin/gui.jar -sourcepath src src/TestCreationDonnees.java
 
-testEvenement:
-	javac -d bin -classpath bin/gui.jar -sourcepath src src/TestEvenement.java
-
-testEvenementBis:
-	javac -d bin -classpath bin/gui.jar -sourcepath src src/TestEvenementBis.java
+testDeplacement:
+	javac -d bin -classpath bin/gui.jar -sourcepath src src/TestDeplacement.java
 
 testStrategieElementaire:
 	javac -d bin -classpath bin/gui.jar -sourcepath src src/TestStrategieElementaire.java
@@ -56,27 +53,31 @@ testStrategieAvancee:
 # ou bien lancer l'execution en passant par ce Makefile:
 #   > make exeInvader
 exeInvader:
+	make testInvader
 	java -classpath bin:bin/gui.jar TestInvader
 
 exeSimulateur:
-	java -classpath bin:bin/gui.jar TestSimulateur
+	make testSimulateur
+	java -classpath bin:bin/gui.jar TestSimulateur cartes/carteSujet.map
 
 exeLecture:
+	make testLecture
 	java -classpath bin TestLecteurDonnees cartes/carteSujet.map
 
 exeCreation:
+	make testCreationDonnees
 	java -classpath bin:bin/gui.jar TestCreationDonnees cartes/carteSujet.map
 
-exeEvenement:
-	java -classpath bin:bin/gui.jar TestEvenement cartes/carteSujet.map
-
-exeEvenementBis:
-	java -classpath bin:bin/gui.jar TestEvenementBis cartes/mushroomOfHell-20x20.map
+exeDeplacement:
+	make testDeplacement
+	java -classpath bin:bin/gui.jar TestDeplacement cartes/carteSujet.map
 
 exeStrategieElementaire:
+	make testStrategieElementaire
 	java -classpath bin:bin/gui.jar TestStrategieElementaire cartes/carteSujet.map
 
 exeStrategieAvancee:
+	make testStrategieAvancee
 	java -classpath bin:bin/gui.jar TestStrategieAvancee cartes/carteSujet.map
 
 clean:
