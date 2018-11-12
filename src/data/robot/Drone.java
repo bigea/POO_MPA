@@ -80,7 +80,7 @@ public class Drone extends Robot {
 
 	/* Calcul du plus court chemin */
 	@Override
-	public Chemin plusCourt(Case dest, long date, Carte carte) {
+	protected Chemin Dijkstra(Case dest, long date, Carte carte) {
 		Case src = this.getPosition();
 		Chemin chemin = new Chemin();
 		/* Tant qu'on a pas atteint la destination */

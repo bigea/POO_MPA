@@ -12,9 +12,9 @@ import data.robot.Robot;
  */
 public class Chemin {
 	private int nbCase;
-	private List<Case> chemin;
-	private int nbDate;
-	private List<Long> dates;
+	private ArrayList<Case> chemin;
+	// private int nbDate;
+	private ArrayList<Long> dates;
 
 	/*********************************************
 	 *
@@ -23,20 +23,19 @@ public class Chemin {
 
 	public Chemin() {
 		this.setNbCase(0);
-		this.setNbDate(0);
+		// this.setNbDate(0);
 		this.setChemin();
-		this.setNbDate(0);
 		this.setDates();
 	}
 
 	/* Mutateurs - Accesseurs */
-	public List<Case> getChemin() {
+	public ArrayList<Case> getChemin() {
 		return this.chemin;
 	}
 	public void setChemin() {
 		this.chemin = new ArrayList<Case>();
 	}
-	public List<Long> getDates() {
+	public ArrayList<Long> getDates() {
 		return this.dates;
 	}
 	public void setDates() { //stupide car ce n'est pas un setter
@@ -48,12 +47,12 @@ public class Chemin {
 	public void setNbCase(int nbCase) {
 		this.nbCase = nbCase;
 	}
-	public int getNbDate() {
-		return this.nbDate;
-	}
-	public void setNbDate(int nbDate) {
-		this.nbDate = nbDate;
-	}
+	// public int getNbDate() {
+	// 	return this.nbDate;
+	// }
+	// public void setNbDate(int nbDate) {
+	// 	this.nbDate = nbDate;
+	// }
 
 	@Override
 	public String toString() {
@@ -79,16 +78,17 @@ public class Chemin {
 		this.dates.add(date);
 		this.chemin.add(cas);
 		this.nbCase += 1;
-		this.nbDate += 1;
+		// this.nbDate += 1;
 	}
 
 	public void ajoutDate(long date){
 		this.dates.add(date);
+		// this.nbDate += 1;
 	}
 
 	/* Renvoie la durée d'un chemin */
 	public long tempsChemin(Robot robot, Carte carte) {
-		long temps = this.dates.get(this.getNbDate()-1) - this.dates.get(0);
+		long temps = this.dates.get(this.getNbCase()-1) - this.dates.get(0);
 		Case avantDerniereCase;
 		if (this.getNbCase() > 1) {
 			avantDerniereCase = this.chemin.get(this.nbCase-2);

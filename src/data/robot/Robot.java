@@ -40,13 +40,13 @@ public abstract class Robot {
 	protected double vitesse; //en km/h
 	protected long tempsRemplissageComplet; //temps en seconde
 	protected long tempsVidageComplet; //temps en seconde
-    protected long tempsVidageUnitaire;
-    protected int volumeVidageUnitaire;
+	protected long tempsVidageUnitaire;
+  protected int volumeVidageUnitaire;
 	protected double vitesseRemplissage; //en l/s
 	protected double vitesseVidage; //en l/s
 	protected long dateDisponibilite;
-    protected int capaciteMaximale;
-    protected Chef chef;
+  protected int capaciteMaximale;
+  protected Chef chef;
 	protected HashMap<Tuple<Case, Case>, Chemin> tableauChemins;
 
 	/*********************************************
@@ -59,19 +59,19 @@ public abstract class Robot {
 		this.setPosition(pos);
 		this.setDateDisponibilite(dateDisponibilite);
 		this.nature = nature;
-        this.chef = null;
+    this.chef = null;
 		this.tableauChemins = new HashMap<Tuple<Case, Case>, Chemin>();
 	}
 
 	/* Affichage */
 	public abstract String toString();
 
-    /* égalité de robots */
-    @Override
-    public boolean equals(Object o) {
-        Robot robot = (Robot)o;
-        return this.position.equals(robot.getPosition()) && this.nature==robot.getNature() && this.capacite==robot.getCapacite() && this.dateDisponibilite==robot.getDateDisponibilite();
-    }
+  /* égalité de robots */
+  @Override
+  public boolean equals(Object o) {
+      Robot robot = (Robot)o;
+      return this.position.equals(robot.getPosition()) && this.nature==robot.getNature() && this.capacite==robot.getCapacite() && this.dateDisponibilite==robot.getDateDisponibilite();
+  }
 
 	/* Accesseurs */
 	public Case getPosition() {
@@ -225,6 +225,7 @@ public abstract class Robot {
 			chemin = this.tableauChemins.get(srcDst);
 			/* on modifie les dates du chemin*/
 			long dateCase = date;
+			chemin.setDates();
 			for(int i=0; i<chemin.getNbCase(); i++){
 				chemin.ajoutDate(dateCase);
 				if(i != chemin.getNbCase()-1){
@@ -237,14 +238,16 @@ public abstract class Robot {
 			// remplissageTabPlusCourtChemin(chemin, this.position, dest, carte);
 			this.tableauChemins.put(srcDst, chemin); // On ajoute l'aller
 			Chemin cheminRetour = new Chemin();
-			for(int i=chemin.getNbCase()-1; i>=0; i--){ //On ajoute les cases dans le chemin retour
+			for(int i=chemin.getNbCase()-2; i>=0; i--){ //On ajoute les cases dans le chemin retour
 				cheminRetour.ajoutCase(chemin.getChemin().get(i), chemin.getDates().get(i), this, carte);
 			}
+			cheminRetour.ajoutCase(this.position, date, this, carte);
 			Tuple<Case, Case> dstSrc = new Tuple<Case, Case>(dest, this.position);
 			this.tableauChemins.put(dstSrc, cheminRetour);//On ajoute le retour
 		}
 		return chemin;
 	}
+
 	/* Initialisation du graphe (poids infini) */
 	protected void Initialisation(Carte carte, Case src, HashSet<Case> noeuds, long[][] poids){
 		for(int l=0; l<carte.getNbLignes(); l++) {
@@ -339,7 +342,7 @@ public abstract class Robot {
 	protected Chemin recupPlusCourtChemin(Case[][] predecesseurs, long[][] poids, Case caseFinale, Case caseInitiale, Carte carte, long date){
 		Chemin chemin = new Chemin();
 		Case cas = caseFinale;
-        long dateDebut = date;
+    long dateDebut = date;
 		ArrayList<Case> listeCases = new ArrayList<Case>();
 		while(cas != caseInitiale){
 			listeCases.add(cas);
@@ -394,7 +397,7 @@ public abstract class Robot {
     /* Le robot intervient sur le feu */
     public void intervenir(Simulateur sim, Incendie incendie) {
         /* On déverse l'eau selon la taille de l'incendie et du réservoir */
-		int volInc = incendie.getLitrePourEteindre(); /*on récupère la quantité d'eau nécessaire pour éteindre l'incendie*/
+				int volInc = incendie.getLitrePourEteindre(); /*on récupère la quantité d'eau nécessaire pour éteindre l'incendie*/
         if (volInc > 0) {
             int volRbt = this.getVolumeVidageUnitaire(); /*on récupère la quantité d'eau contenue dans le robot*/
 

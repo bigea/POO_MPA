@@ -78,7 +78,8 @@ exeStrategieElementaire:
 
 exeStrategieAvancee:
 	make testStrategieAvancee
-	java -classpath bin:bin/gui.jar TestStrategieAvancee cartes/spiralOfMadness-50x50.map
+	java -classpath bin:bin/gui.jar TestStrategieAvancee cartes/carteSujet.map
+
 
 clean:
 	find . -name "*.class" -exec rm {}  \;

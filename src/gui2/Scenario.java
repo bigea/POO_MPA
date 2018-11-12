@@ -111,6 +111,7 @@ public class Scenario {
 				this.sequence.trimToSize();
 			}
 		}
+		this.sequence.trimToSize();
 	}
 
 	/* Exécution entre deux dates */

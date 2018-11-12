@@ -16,16 +16,13 @@ public class TestStrategieAvancee {
 
     public static void main(String[] args) {
     	System.out.println("------ TEST STRATEGIE -------");
-        try {
-            DonneesSimulation donnees = LecteurDonnees.creeDonnees(args[0]);
-            Simulateur simulateur = new Simulateur(donnees);
+        	/* On récupère la carte et les données */
+            // DonneesSimulation donnees = LecteurDonnees.creeDonnees(args[0]);
+            /* Création d'un simulateur et ajout des évènements */
+            Simulateur simulateur = new Simulateur(args);
+
             /* TEST STRATEGIE */
             ChefAvance chef = new ChefAvance(simulateur);
             chef.commencerStrategie();
-        } catch (FileNotFoundException e) {
-            System.out.println("fichier " + args[0] + " inconnu ou illisible");
-        } catch (DataFormatException e) {
-            System.out.println("\n\t**format du fichier " + args[0] + " invalide: " + e.getMessage());
-        }
     }
 }
