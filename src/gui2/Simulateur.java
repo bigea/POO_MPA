@@ -118,7 +118,6 @@ public class Simulateur implements Simulable {
 		if (this.chef != null) {
 			this.chef.strategie();
 		}
-		System.out.println("après incrémentation, date est : " + this.dateSimulation);
 	}
 
 	public void restart() {

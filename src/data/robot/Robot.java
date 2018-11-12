@@ -33,12 +33,6 @@ public abstract class Robot {
 
 	private static final long INFINI = 2147483647;
 
-    /* [PHILEMON]
-    * Attention, quelques attributs inutiles (genre vitesseVidage)
-    * Faudra faire le ménage
-    */
-
-
 	/* Attributs */
 	private NatureRobot nature;
 	protected Case position;
@@ -67,7 +61,6 @@ public abstract class Robot {
 		this.nature = nature;
         this.chef = null;
 		this.tableauChemins = new HashMap<Tuple<Case, Case>, Chemin>();
-		System.out.println("je suis passé dans le constructeur robot");
 	}
 
 	/* Affichage */
@@ -114,22 +107,6 @@ public abstract class Robot {
 
 	public long getTempsRemplissageComplet() {
         return this.tempsRemplissageComplet;
-
-        /* [PHILEMON]
-        * Problème dans la version commentée :
-        * en réalité, this.capacite n'est modifié qu'au moment où  l'événement Remplissage
-        * a lieu, et donc ici et pour tous les calculs, this.capacite est encore
-        * égal à this.capaciteMaximale. Ce qui pose problème pour savoir le temps de
-        * remplissage ... On voudrait savoir quelle quantité d'eau il a perdu
-        * Faut peut-être rajouter un paramètre capaciteFictive ou un truc du genre ...
-        */
-
-		// if(this.capacite == 0){
-		// 	return this.tempsRemplissageComplet;
-		// }
-		// else{
-		// 	return (long) (((double)(this.capaciteMaximale - this.capacite)) / this.vitesseRemplissage);
-		// }
 	}
 	public void setTempsRemplissageComplet(long temps){
 		this.tempsRemplissageComplet = temps;
@@ -203,7 +180,6 @@ public abstract class Robot {
             /* Calcul du plus court chemin */
     		Chemin chemin = this.plusCourt(dest, date, sim.getDonnees().getCarte());
 			long endTime = System.currentTimeMillis();
-			// System.out.println("temps plus court chemin du robot "+this.nature+" de " + this.position +" à"+ dest +" :"+ (endTime-startTime));
     		this.ajoutSimulateurDeplacement(sim,chemin);
             this.setPosition(dest);     // En réalité le robot n'est pas affiché à la position dest et ne doit pas l'être.
             // Mais il ne le sera jamais car il y a toujours un evenement qui change sa position avant
@@ -239,35 +215,13 @@ public abstract class Robot {
 	}
 
 
-/*FONCTION UTILE AU CALCUL DU PLUS COURT CHEMIN********************************************/
-
-	/*remplissage du tableau de mémorisation des plus courts chemins*/
-	/*On stocke juste l'aller et le retour dans le tableau et pas les chemins intermédiaires (trop long)*/
-	// protected void remplissageTabPlusCourtChemin(Chemin chemin, Case src, Case dst, Carte carte){
-	// 	Tuple<Case, Case> srcDst = new Tuple<Case, Case>(src, dst);
-	// 	this.tableauChemins.put(srcDst, chemin); // On ajoute l'aller
-	// 	Chemin cheminRetour = new Chemin();
-	// 	for(int i=chemin.getNbCase()-1; i>=0; i--){ //On ajoute les cases dans le chemin retour
-	// 		cheminRetour.ajoutCase(chemin.getChemin().get(i), chemin.getDates().get(i), this, carte);
-	// 	}
-	// 	Tuple<Case, Case> dstSrc = new Tuple<Case, Case>(dst, src);
-	// 	this.tableauChemins.put(dstSrc, cheminRetour);//On ajoute le retour
-	// 	// System.out.println("[DANS LA TABLE] à la clé " + srcDst.toString() + ", il y a : " +this.tableauChemins.get(srcDst));
-	//
-	// }
+/*FONCTIONS UTILES AU CALCUL DU PLUS COURT CHEMIN********************************************/
 
 	/* calcul du plus court chemin */
 	public Chemin plusCourt(Case dest, long date, Carte carte) {
 		Tuple<Case, Case> srcDst = new Tuple<Case, Case>(this.position, dest);
 		Chemin chemin;
-		/**/
-		// System.out.println("Le tableau est vide ? : " + this.tableauChemins.isEmpty());
-		System.out.println("["+ this +"] déplacement demandé de " + this.position + " à " + dest );
-		System.out.println("[TABLE] valeur à la clé ["+ this.tableauChemins.get(srcDst) + "]");
-		// System.out.println("[DANS LA TABLE] à la clé " + srcDst.toString() + ", il y a : " +this.tableauChemins.get(srcDst));
-		/**/
 		if(this.tableauChemins.get(srcDst) != null){
-			System.out.println("Mon changement a SERVIIIIIIIIIIIIIIIIIIIIIII");
 			chemin = this.tableauChemins.get(srcDst);
 			/* on modifie les dates du chemin*/
 			long dateCase = date;
@@ -288,9 +242,6 @@ public abstract class Robot {
 			}
 			Tuple<Case, Case> dstSrc = new Tuple<Case, Case>(dest, this.position);
 			this.tableauChemins.put(dstSrc, cheminRetour);//On ajoute le retour
-			System.out.println("[TABLE] [" + srcDst.toString() + "]" +"--> " +this.tableauChemins.get(srcDst));
-			System.out.println("[TABLE] [" + dstSrc.toString() + "]" +"--> " +this.tableauChemins.get(dstSrc));
-
 		}
 		return chemin;
 	}
@@ -333,25 +284,16 @@ public abstract class Robot {
 	}
 	/*Algorithme qui nous permet de trouver le plus court chemin,*/
 	protected Chemin Dijkstra(Case dest, long date, Carte carte){
-		//hashmap pour tableau prédécesseurs
-		//hashset pour tableau de noeud
-		//hashmap pour les poids
 
-        /* Sauvegarde de la date de début */
-        long dateDebut = date;
+    /* Sauvegarde de la date de début */
+    long dateDebut = date;
 		/*création du tableau des predecesseurs*/
 
 		Case[][] predecesseurs = new Case[carte.getNbColonnes()][carte.getNbLignes()];
 		/*Données nécessaires à l'algorithme*/
 		Case src = this.getPosition();
 
-        // [PHILEMON] Faudrait peut etre avoir un paramètre du genre positionVirtuelle
-        // car par exemple si dans TestEvenementBis on lui dit de faire deplacementCase puis
-        // ordreIntervention, il faut que this.getPosition() ait changé pour le calcul du plus courtChemin
-        // pour l'intervention ...
-
 		/* Ensemble des cases */
-		// ArrayList<Case> noeuds = new ArrayList<Case>();
 		HashSet<Case> noeuds = new HashSet<Case>();
 
 		/* Ensemble des poids */
@@ -468,14 +410,6 @@ public abstract class Robot {
     			incendie.setLitrePourEteindre(0);
                 /* On supprime l'incendie qu'on vient d'éteindre */
                 sim.getDonnees().supprimerIncendie(incendie);
-
-                // [PHILEMON]
-                // Remarque : on pourrait faire en sorte qu'on attende this.getTempsVidageUnitaire() avant de supprimer l'incendie
-                // car par exemple pour le cas du drone quand il se vide ca supprime direct l'incendie alors que normalementt,
-                // l'incendie est éteint après trente secondes
-                // Pour implémenter ça on pourrait par exemple créer un evenement DesaffichageIncendie à une date donnée.
-                // Faut choisir si on le fait ou pas.
-
     		}
         } else {
             this.supprimeSimulateurEvenements(sim, sim.getDateSimulation());
@@ -568,7 +502,6 @@ public abstract class Robot {
             } else {
                 duree = dates.get(0) + chemin.tempsChemin(this, sim.getDonnees().getCarte()) - date;
             }
-            System.out.println("[" + this.getNature() + "]-" + "DeplacementUnitaire, date : " + date + ", case (" + deplacement.getLigne() + ";" + deplacement.getColonne() +")");
 			this.setDateDisponibilite(this.getDateDisponibilite()+duree);
 			sim.ajouteEvenement(new DeplacementUnitaire(date, sim, this, deplacement));
 		}
@@ -577,13 +510,11 @@ public abstract class Robot {
 	/* Ajout au simulateur d'un remplissage */
 	public void ajoutSimulateurRemplissage(Simulateur sim, long date, long duree) {
 		this.setDateDisponibilite(this.getDateDisponibilite()+duree);
-        System.out.println("[" + this.getNature() + "]-" + "Remplissage, date : " + date + " de durée " + duree +"; Et la date de dispo est " + this.getDateDisponibilite());
         sim.ajouteEvenement(new Remplissage(date, sim, this));
 	}
 
     /* Ajout au simulateur d'une intervention */
     public void ajoutSimulateurIntervention(Simulateur sim, long date, long duree, Incendie incendie) {
-        System.out.println("[" + this.getNature() + "]-" + "Intervention, date : " + date + ", incendie " + incendie);
         this.setDateDisponibilite(this.getDateDisponibilite()+duree);
         sim.ajouteEvenement(new Intervention(date, sim, this, incendie));
     }

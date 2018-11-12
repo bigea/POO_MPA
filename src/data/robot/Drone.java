@@ -53,7 +53,7 @@ public class Drone extends Robot {
 		return this.getPosition().getLigne()+" "+this.getPosition().getColonne()+" DRONE "+this.getVitesse(this.getPosition().getNature());
 	}
 
-	
+
 	/*********************************************
 	 *
 	 * METHODES DE REMPLISSAGE
@@ -99,7 +99,6 @@ public class Drone extends Robot {
 			} else if (src.getColonne() > dest.getColonne()) {
 					direction = Direction.OUEST;
 			}
-
 			/* On ajoute le déplacement élémentaire dans le simulateur
 			 * 		La date dépend de la durée du déplacement donc de la vitesse du robot
 			 * 		Temps calculé dans calculTemps() par le Chemin
