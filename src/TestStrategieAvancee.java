@@ -15,7 +15,6 @@ import strategie.ChefAvance;
 public class TestStrategieAvancee {
 
     public static void main(String[] args) {
-    	/* TEST EVENEMENT */
     	System.out.println("------ TEST STRATEGIE -------");
         	/* On récupère la carte et les données */
             // DonneesSimulation donnees = LecteurDonnees.creeDonnees(args[0]);

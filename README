@@ -1,6 +1,24 @@
 Ensimag 2A POO - TP 2018/19
 ============================
+Matthias Bouderbala, Philémon Fieschi et Alexis Bigé
 
+COMPTE-RENDU :
+Pour lire notre compte-rendu, vous trouverez le pdf rendu.pdf dans le dossier principal.
+
+STRATEGIE IMPLEMENTEE:
+Pour lancer nos tests sur la stratégie implémentée :
+- make exeStrategieElementaire : effectue la simulation avec une stratégie élémentaire
+- make exeStrategieAvance : effectue la simulation avec une stratégie avancée
+
+TESTS UNITAIRES:
+Vous trouverez aussi des tests supplémentaires implémentés au fur et à mesure de l'avancement du projet:
+- make exeCreation : test sur la création des données à partir du fichier
+- make exeDeplacement : test du déplacement d'un case du robot
+- make exeSimulateur : test sur l'organisation des évènements dans le simulateur
+
+============================
+INDICATIONS DES ENSEIGNANTS
+============================
 - src: contient les classes fournies par les enseignants
   -> LecteurDonnees.java         : lit tous les elements d'un fichier de description de donnees (cases, incendies et robots) et les affiche.
                                    A vous de MODIFIER cette classe (ou en ecrire une nouvelle) pour creer les objets correspondants à vos propres classes
@@ -14,132 +32,3 @@ Ensimag 2A POO - TP 2018/19
 - doc: la documentation (API) des classes de l'interface graphique contenues dans gui.jar. Point d'entrée: index.html
 
 - Makefile: quelques explications sur la compilation en ligne, notamment la notion de classpath et l'utilisation de gui.jar
-
-
-
-============================
-
-MISE A JOUR 15 octobre
-
-il reste :
-
-- ajouter le makefile (il est passé où mdrrr)
-- bidouiller le gitignore
-
-- PARTIE 1 : 
-	quelques méthodes dans les robots
-	l'interface graphique
-	
-- PARTIE 2 :
-	tester si les évènements fonctionnent
-	en ajouter ?
-
-- PARTIE 3 :
-	calcul du plus court chemin pour les autres robots que le drone
-	prise en compte si besoin de remplissage ou pas selon le type d'incendie
-
-- PARTIE 4 :
-	comprendre le principe du scénario : faire une classe avec une liste d'évènements déjà préécrits et qui seront éxécutés dans le simulateur avec next ?
-	
-	
-//// PACKAGE DATA :
-
-	- classes Données principales : CARTE, CASE, DONNEESSIMULATION (classe des données lues dans le fichier d'entrée), INCENDIE
-	
-	- classes ROBOTS
-			- sous classes selon type de robots
-			- quelques méthodes encore à implémenter
-			- gèrent leurs déplacements
-			
-	- classes ENUMERATE :
-			- Direction
-			- NatureTerrain
-
-
-//// PACKAGE GUI
-
-	- classes GRAPHICAL ELEMENTS (TEXT, RECTANGLE)
-			- sous classes selon le type d'objets graphiques, on pourrait en rajouter (ARBRE...)
-			- à implémenter !
-			
-	- classes GUISIMULATOR - SIMULABLE : 
-			- gestion de l'interface graphique et de l'intéraction avec l'utilisateur (next...)
-			- à implémenter !
-			
-	- classe SIMULATEUR
-			- passerelle entre l'interface graphique et les évènements à simuler
-			- normalement déjà complète
-
-
-//// PACKAGE CHEMIN
-
-	- classes CHEMIN
-			- une classe pour chaque type de drone
-			- séquence de déplacements élémentaires (uniquement d'une case à son voisin, en supposant que le robot ne change pas de décision)
-			- calcul le plus court chemin à partir du temps de déplacement
-						!! Temps de déplacement dépend de la nature du terrain de la case avant et de la case après
-						d'où Temps total = temps case1 + temps case2
-						avec temps case1 = temps pour parcourir la moitié de la case1
-						avec temps case2 = temps pour parcourir la moitié de la case2
-			- uniquement fait sur le drone pour l'instant
-
-//// PACKAGE EVENTS
-
-	- classes EVENEMENTS
-			- sous-classes selon le type d'évènement, en particulier le déplacement
-			- PRINCIPE : 
-					le simulateur possède une liste d'évènements, ordonnés par date, et une date de simulation (seconde? minute ?)
-					A chaque next, le simulateur incrémente la date de simulation et exécute les évènements qui sont entre l'ancienne et la nouvelle date
-					
-					exemple:
-						on veut déplacer le robot de la case 2,2 à 5,8 = évènement DEPLACEMENTCASE
-						lors de execute, l'évènement va dire au robot de gérer direct son déplacement
-						celui-ci va faire appel à un chemin, pour calculer le plus court chemin
-						ce chemin va lui pondre une liste de déplacements unitaires avec une date (calculée selon le temps de déplacement)
-						ensuite il ajoute les déplacements unitaires dans le simulateur
-						le simulateur les exécutera petit à petit, sachant qu'ils sont classés par date et il peut y avoir d'autres évents au milieu
-
-=================================
-
-
-RMQ DE BIGE
-
-Etapes du projet :
-
-1) Lire les données du fichier et les rentrer dans un objet de classe DonneesSimulation (Carte, Robots, Incendies)
-
-- choisir le choix des données et compléter DonneesSimulation, je propose des tableaux pour les robots et incendies :
-		=> la Carte : un objet de classe Carte
-		=> les Robots : un tableau d'objets de classe Robot (avec sous-classe si aérien ou terrestre)
-		=> les incendies : un tableau d'objets de classe Incendie
-		
-- compléter le fichier test TestDonneesSimulation pour pouvoir tester au fur et à mesure que l'on écrive nos classes
-
-- compléter les méthodes/attributs des classes de données :
-		=> Carte
-		=> Case
-		=> Incendie
-		=> Robot : - terrestre (3 types)
-				   - aérien
-				 
-
-	(j'ai créé des enum pour NatureTerrain et Direction, il faudra peut-être leur ajouter des méthodes)
-
-!!!! A CE STADE : on aura un objet de classe DonneesSimulation avec toutes les données du fichier map
-
-2) Comprendre l'histoire du simulateur (dossier GUI) j'ai pas tout compris, j'ai juste créé les classes selon la doc qu'ils donnaient
-- compléter les classes GUISimulator, Simulable, Simulateur, Text, Rectangle, GraphicalElement
-
-3) Simulation de scénarios
-- ajout d'un gestionnaire d'évènements au simulateur
-- créer des fichiers de test avec la méthode main
-
-!!!! Il est pas demandé d'avoir une couverture de tests fonctionnels :D
-
-4) Calcul du plus court chemin
-- calcul
-- traduire cela en évènement de déplacement
-- inclure dans le simulateur
-
-5) Résolution du problème
-

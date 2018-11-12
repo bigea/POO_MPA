@@ -3,6 +3,8 @@ package data.robot;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 
 import chemin.Chemin;
 import data.Carte;
@@ -296,7 +298,7 @@ public abstract class Robot {
 	}
 
 	/* Initialisation du graphe (poids infini) */
-	protected void Initialisation(Carte carte, Case src, ArrayList<Case> noeuds, long[][] poids){
+	protected void Initialisation(Carte carte, Case src, HashSet<Case> noeuds, long[][] poids){
 		for(int l=0; l<carte.getNbLignes(); l++) {
 			for(int c=0; c<carte.getNbColonnes(); c++) {
 				poids[l][c] = INFINI;
@@ -306,10 +308,15 @@ public abstract class Robot {
 		poids[src.getColonne()][src.getLigne()] = 0;
 	}
 	/*Trouve le noeud de poids minimum parmis tous les noeuds*/
-	protected Case TrouveMin(List<Case> noeuds, long[][] poids){
+	protected Case TrouveMin(HashSet<Case> noeuds, long[][] poids){
 		long min = INFINI;
         Case noeudChoisi = null;
-		for(Case noeud : noeuds){
+		Case noeud;
+		Iterator<Case> iterNoeuds = noeuds.iterator();
+		// for(Case noeud : noeuds)
+
+		while(iterNoeuds.hasNext()){
+			noeud = iterNoeuds.next();
 			if(poids[noeud.getColonne()][noeud.getLigne()] < min){
 				min = poids[noeud.getColonne()][noeud.getLigne()];
 				noeudChoisi = noeud;
@@ -347,7 +354,8 @@ public abstract class Robot {
         // pour l'intervention ...
 
 		/* Ensemble des cases */
-		ArrayList<Case> noeuds = new ArrayList<Case>();
+		// ArrayList<Case> noeuds = new ArrayList<Case>();
+		HashSet<Case> noeuds = new HashSet<Case>();
 
 		/* Ensemble des poids */
 		long[][] poids = new long[carte.getNbColonnes()][carte.getNbLignes()];
