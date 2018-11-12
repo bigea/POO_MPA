@@ -115,6 +115,13 @@ public abstract class Chef {
 
     /* Le Chef est le chef de tous les robots */
     private void initChef() {
+        this.setDonnees(sim.getDonnees());
+        this.setCarte(sim.getDonnees().getCarte());
+        this.setIncendies(sim.getDonnees().getIncendies());
+        this.setNbIncendies(sim.getDonnees().getNbIncendies());
+        this.setRobots(sim.getDonnees().getRobots());
+        this.setNbRobots(sim.getDonnees().getNbRobots());
+        this.initAffectations();
         for (int i=0; i<this.getNbRobots(); i++) {
             this.robots[i].setChef(this);
         }

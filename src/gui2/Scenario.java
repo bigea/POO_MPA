@@ -104,7 +104,7 @@ public class Scenario {
 
 	/* Enlève tous les evenements liés au robot commencant à partir de date */
 	public void supprimeEvenements(Robot robot, long date) {
-		System.out.println("On supprime des evenements ! pour robot " + robot.getNature() + " à partir de date " + date);
+		System.out.println("On supprime des evenements ! pour " + robot + " à partir de date " + date);
 		int nbEvents = this.sequence.size();
 		for (int i=0; i< nbEvents; i++) {
 			if (this.sequence.get(i).getDate() >= date && this.sequence.get(i).getRobot().equals(robot)) {
@@ -112,6 +112,7 @@ public class Scenario {
 				this.sequence.trimToSize();
 			}
 		}
+		this.sequence.trimToSize();
 	}
 
 	/* Exécution entre deux dates */

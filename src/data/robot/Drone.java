@@ -53,7 +53,7 @@ public class Drone extends Robot {
 		return this.getPosition().getLigne()+" "+this.getPosition().getColonne()+" DRONE "+this.getVitesse(this.getPosition().getNature());
 	}
 
-	
+
 	/*********************************************
 	 *
 	 * METHODES DE REMPLISSAGE
@@ -80,7 +80,7 @@ public class Drone extends Robot {
 
 	/* Calcul du plus court chemin */
 	@Override
-	public Chemin plusCourt(Case dest, long date, Carte carte) {
+	protected Chemin Dijkstra(Case dest, long date, Carte carte) {
 		Case src = this.getPosition();
 		Chemin chemin = new Chemin();
 		/* Tant qu'on a pas atteint la destination */

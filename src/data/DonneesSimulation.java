@@ -27,7 +27,7 @@ public class DonneesSimulation {
 	 *
 	 * METHODES DE BASE
 	 */
-	
+
 	/* Constructeur */
 	public DonneesSimulation(Carte carte, int nbIncendies, int nbRobots, int nbEaux) {
 		this.carte = carte;

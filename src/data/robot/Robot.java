@@ -44,13 +44,13 @@ public abstract class Robot {
 	protected double vitesse; //en km/h
 	protected long tempsRemplissageComplet; //temps en seconde
 	protected long tempsVidageComplet; //temps en seconde
-    protected long tempsVidageUnitaire;
-    protected int volumeVidageUnitaire;
+	protected long tempsVidageUnitaire;
+  protected int volumeVidageUnitaire;
 	protected double vitesseRemplissage; //en l/s
 	protected double vitesseVidage; //en l/s
 	protected long dateDisponibilite;
-    protected int capaciteMaximale;
-    protected Chef chef;
+  protected int capaciteMaximale;
+  protected Chef chef;
 	protected HashMap<Tuple<Case, Case>, Chemin> tableauChemins;
 
 	/*********************************************
@@ -63,7 +63,7 @@ public abstract class Robot {
 		this.setPosition(pos);
 		this.setDateDisponibilite(dateDisponibilite);
 		this.nature = nature;
-        this.chef = null;
+    this.chef = null;
 		this.tableauChemins = new HashMap<Tuple<Case, Case>, Chemin>();
 		System.out.println("je suis passé dans le constructeur robot");
 	}
@@ -71,12 +71,12 @@ public abstract class Robot {
 	/* Affichage */
 	public abstract String toString();
 
-    /* égalité de robots */
-    @Override
-    public boolean equals(Object o) {
-        Robot robot = (Robot)o;
-        return this.position.equals(robot.getPosition()) && this.nature==robot.getNature() && this.capacite==robot.getCapacite() && this.dateDisponibilite==robot.getDateDisponibilite();
-    }
+  /* égalité de robots */
+  @Override
+  public boolean equals(Object o) {
+      Robot robot = (Robot)o;
+      return this.position.equals(robot.getPosition()) && this.nature==robot.getNature() && this.capacite==robot.getCapacite() && this.dateDisponibilite==robot.getDateDisponibilite();
+  }
 
 	/* Accesseurs */
 	public Case getPosition() {
@@ -260,15 +260,16 @@ public abstract class Robot {
 		Chemin chemin;
 		/**/
 		// System.out.println("Le tableau est vide ? : " + this.tableauChemins.isEmpty());
-		System.out.println("["+ this +"] déplacement demandé de " + this.position + " à " + dest );
-		System.out.println("[TABLE] valeur à la clé ["+ this.tableauChemins.get(srcDst) + "]");
+		// System.out.println("["+ this +"] déplacement demandé de " + this.position + " à " + dest );
+		// System.out.println("[TABLE] valeur à la clé ["+ this.tableauChemins.get(srcDst) + "]");
 		// System.out.println("[DANS LA TABLE] à la clé " + srcDst.toString() + ", il y a : " +this.tableauChemins.get(srcDst));
 		/**/
 		if(this.tableauChemins.get(srcDst) != null){
-			System.out.println("Mon changement a SERVIIIIIIIIIIIIIIIIIIIIIII");
+			// System.out.println("Mon changement a SERVIIIIIIIIIIIIIIIIIIIIIII");
 			chemin = this.tableauChemins.get(srcDst);
 			/* on modifie les dates du chemin*/
 			long dateCase = date;
+			chemin.setDates();
 			for(int i=0; i<chemin.getNbCase(); i++){
 				chemin.ajoutDate(dateCase);
 				if(i != chemin.getNbCase()-1){
@@ -281,17 +282,19 @@ public abstract class Robot {
 			// remplissageTabPlusCourtChemin(chemin, this.position, dest, carte);
 			this.tableauChemins.put(srcDst, chemin); // On ajoute l'aller
 			Chemin cheminRetour = new Chemin();
-			for(int i=chemin.getNbCase()-1; i>=0; i--){ //On ajoute les cases dans le chemin retour
+			for(int i=chemin.getNbCase()-2; i>=0; i--){ //On ajoute les cases dans le chemin retour
 				cheminRetour.ajoutCase(chemin.getChemin().get(i), chemin.getDates().get(i), this, carte);
 			}
+			cheminRetour.ajoutCase(this.position, date, this, carte);
 			Tuple<Case, Case> dstSrc = new Tuple<Case, Case>(dest, this.position);
 			this.tableauChemins.put(dstSrc, cheminRetour);//On ajoute le retour
-			System.out.println("[TABLE] [" + srcDst.toString() + "]" +"--> " +this.tableauChemins.get(srcDst));
-			System.out.println("[TABLE] [" + dstSrc.toString() + "]" +"--> " +this.tableauChemins.get(dstSrc));
+			// System.out.println("[TABLE] [" + srcDst.toString() + "]" +"--> " +this.tableauChemins.get(srcDst));
+			// System.out.println("[TABLE] [" + dstSrc.toString() + "]" +"--> " +this.tableauChemins.get(dstSrc));
 
 		}
 		return chemin;
 	}
+
 	/* Initialisation du graphe (poids infini) */
 	protected void Initialisation(Carte carte, Case src, ArrayList<Case> noeuds, long[][] poids){
 		for(int l=0; l<carte.getNbLignes(); l++) {
@@ -389,7 +392,7 @@ public abstract class Robot {
 	protected Chemin recupPlusCourtChemin(Case[][] predecesseurs, long[][] poids, Case caseFinale, Case caseInitiale, Carte carte, long date){
 		Chemin chemin = new Chemin();
 		Case cas = caseFinale;
-        long dateDebut = date;
+    long dateDebut = date;
 		ArrayList<Case> listeCases = new ArrayList<Case>();
 		while(cas != caseInitiale){
 			listeCases.add(cas);
@@ -444,7 +447,7 @@ public abstract class Robot {
     /* Le robot intervient sur le feu */
     public void intervenir(Simulateur sim, Incendie incendie) {
         /* On déverse l'eau selon la taille de l'incendie et du réservoir */
-		int volInc = incendie.getLitrePourEteindre(); /*on récupère la quantité d'eau nécessaire pour éteindre l'incendie*/
+				int volInc = incendie.getLitrePourEteindre(); /*on récupère la quantité d'eau nécessaire pour éteindre l'incendie*/
         if (volInc > 0) {
             int volRbt = this.getVolumeVidageUnitaire(); /*on récupère la quantité d'eau contenue dans le robot*/
 
@@ -560,7 +563,7 @@ public abstract class Robot {
             } else {
                 duree = dates.get(0) + chemin.tempsChemin(this, sim.getDonnees().getCarte()) - date;
             }
-            System.out.println("[" + this.getNature() + "]-" + "DeplacementUnitaire, date : " + date + ", case (" + deplacement.getLigne() + ";" + deplacement.getColonne() +")");
+            System.out.println("[" + this + "]-" + "DeplacementUnitaire, date : " + date + ", case (" + deplacement.getLigne() + ";" + deplacement.getColonne() +")");
 			this.setDateDisponibilite(this.getDateDisponibilite()+duree);
 			sim.ajouteEvenement(new DeplacementUnitaire(date, sim, this, deplacement));
 		}
@@ -569,13 +572,13 @@ public abstract class Robot {
 	/* Ajout au simulateur d'un remplissage */
 	public void ajoutSimulateurRemplissage(Simulateur sim, long date, long duree) {
 		this.setDateDisponibilite(this.getDateDisponibilite()+duree);
-        System.out.println("[" + this.getNature() + "]-" + "Remplissage, date : " + date + " de durée " + duree +"; Et la date de dispo est " + this.getDateDisponibilite());
+        System.out.println("[" + this + "]-" + "Remplissage, date : " + date + " de durée " + duree +"; Et la date de dispo est " + this.getDateDisponibilite());
         sim.ajouteEvenement(new Remplissage(date, sim, this));
 	}
 
     /* Ajout au simulateur d'une intervention */
     public void ajoutSimulateurIntervention(Simulateur sim, long date, long duree, Incendie incendie) {
-        System.out.println("[" + this.getNature() + "]-" + "Intervention, date : " + date + ", incendie " + incendie);
+        System.out.println("[" + this + "]-" + "Intervention, date : " + date + ", incendie " + incendie);
         this.setDateDisponibilite(this.getDateDisponibilite()+duree);
         sim.ajouteEvenement(new Intervention(date, sim, this, incendie));
     }

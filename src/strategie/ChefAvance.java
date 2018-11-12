@@ -35,7 +35,7 @@ public class ChefAvance extends Chef {
     	long dateMin;
     	/* pour tous les incendies non affectés*/
         if (this.incendies.size()>0) {
-        	while(this.resteIncendiePasAffecte() && this.resteRobotPasAffecte()) {
+        	while(this.resteRobotPasAffecte()) {       // this.resteIncendiePasAffecte() &&
             	long dateCourante = this.getSimulateur().getDateSimulation();
             	for(int i=0; i<this.getNbRobots();i++) {
             		Robot rbt = this.getRobots()[i];
@@ -45,15 +45,15 @@ public class ChefAvance extends Chef {
                 		for(int j=0; j<this.getIncendies().size();j++) {
                 			Incendie inc = this.getIncendies().get(j);
                 			Case dest = inc.getPosition();
-                			if(this.affectations.get(inc) == null && rbt.possibleDeplacement(dest)) {
+                			if(rbt.possibleDeplacement(dest)) {    // this.affectations.get(inc) == null &&
                 				Chemin chemin = rbt.plusCourt(dest, dateCourante, carte);
                 				int ind = chemin.getNbCase();
-                                long dateFin;
-                                if (ind>0) {
-                                    dateFin = chemin.getDates().get(ind-1);
-                                } else {
-                                    dateFin = dateCourante;
-                                }
+                        long dateFin;
+                        if (ind>0) {
+                          dateFin = chemin.getDates().get(ind-1);
+                        } else {
+                          dateFin = dateCourante;
+                        }
                 				/* On garde seulement le temps minimum */
                 				if(dateFin < dateMin) {
                 					dateMin = dateFin;
@@ -64,10 +64,12 @@ public class ChefAvance extends Chef {
             		}
             		if(incPlusProche != null) {
             			/* on affecte l'incendie le plus proche au robot */
-                		this.affectations.put(incPlusProche, rbt);
-                		/* on lui demande d'intervenir */
-                        rbt.ordreIntervention(this.sim, incPlusProche);
-            		}
+                	this.affectations.put(incPlusProche, rbt);
+                	/* on lui demande d'intervenir */
+                  rbt.ordreIntervention(this.sim, incPlusProche);
+            		} else if (rbt.estDisponible(dateCourante)){
+                  System.out.println(rbt + "est un gros suceur de sarce veineux\n\n\n\n\n\n\n");
+                }
 
             	}
             }
