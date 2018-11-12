@@ -78,7 +78,8 @@ exeStrategieElementaire:
 
 exeStrategieAvancee:
 	make testStrategieAvancee
-	java -classpath bin:bin/gui.jar TestStrategieAvancee cartes/desertOfDeath-20x20.map
+	java -classpath bin:bin/gui.jar TestStrategieAvancee cartes/carteSujet.map
+
 
 clean:
 	find . -name "*.class" -exec rm {}  \;
