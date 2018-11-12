@@ -312,7 +312,6 @@ public class LecteurDonnees {
         ignorerCommentaires();
         try {
             String chaineNature = scanner.next();
-            System.out.println(chaineNature);
             verifieLigneTerminee();
             NatureTerrain nature = NatureTerrain.valueOf(chaineNature);
             int posAbs = lig * nbColonnes + col;
